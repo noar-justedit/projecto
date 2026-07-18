@@ -1,0 +1,33 @@
+{
+  "name": "projecto",
+  "version": "1.5.1",
+  "description": "Project Structure Restorer",
+  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noar-justedit/projecto.git"
+  },
+  "homepage": "https://github.com/noar-justedit/projecto",
+  "bugs": {
+    "url": "https://github.com/noar-justedit/projecto/issues"
+  },
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder --config electron-builder.yml --mac --arm64",
+    "build:dmg": "electron-builder --mac dmg",
+    "pack": "electron-builder --dir",
+    "build:universal": "electron-builder --config electron-builder.yml --mac",
+    "build:win": "electron-builder --config electron-builder.yml --win --x64",
+    "build:all": "electron-builder --config electron-builder.yml --mac --arm64 && electron-builder --config electron-builder.yml --win --x64"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1"
+  },
+  "author": "just edit"
+}

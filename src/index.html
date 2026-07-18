@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<!--
+  projecto — Restore a full project folder structure from a ZIP template.
+  Copyright (C) 2026 just edit
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  SPDX-License-Identifier: GPL-3.0-or-later
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;">
+<title>projecto</title>
+<style>
+@font-face{font-family:'Poppins';font-style:normal;font-weight:600;src:url('data:font/truetype;base64,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') format('truetype');font-display:swap}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* Palette INGESTO exacte */
+  --bg:#0e0e10;--bg2:#131315;--bg3:#191920;--bg4:#1f1f23;--bg5:#252529;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.13);--border3:rgba(255,255,255,0.2);
+  --text:#dcdcd8;--text2:#808078;--text3:#4a4a46;
+  --green:#3dff6e;--green-dim:rgba(61,255,110,0.13);--green-dim2:rgba(61,255,110,0.07);
+  --red:#ff4d4d;--red-dim:rgba(255,77,77,0.12);--red-border:rgba(255,77,77,0.32);
+  --gold:#d4a84a;--gold-dim:rgba(212,168,74,0.12);
+  --mono:'SF Mono','Fira Code',monospace;
+  --font:'SF Pro Display',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+html,body{height:100%;overflow:hidden;min-height:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.app{display:flex;flex-direction:column;height:100vh}
+
+/* TOPBAR — INGESTO style */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 80px;height:42px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;-webkit-app-region:drag}
+.topbar *{-webkit-app-region:no-drag}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(61,255,110,0.6);flex-shrink:0}
+.logo-name{font-family:'Poppins',var(--font);font-size:18px;font-weight:600;letter-spacing:0.02em;color:var(--text);text-transform:lowercase}
+.logo-name::after{content:'.';color:var(--green)}
+.logo-ver{font-family:var(--font);font-size:13px;color:var(--text2);margin-left:8px;letter-spacing:0.05em}
+.topbar-right{font-size:12px;color:var(--text3);letter-spacing:0.07em}
+
+/* LAYOUT */
+.body{display:flex;flex:1;overflow:hidden}
+.left-col{width:272px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;flex-shrink:0}
+.right-col{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;background:var(--bg)}
+
+/* SECTION — INGESTO style */
+.sec{border-bottom:1px solid var(--border)}
+.sec-head{display:flex;align-items:center;gap:6px;padding:6px 12px 4px}
+.sec-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sec-dot.green{background:var(--green);box-shadow:0 0 5px rgba(61,255,110,0.5)}
+.sec-dot.red{background:var(--red);box-shadow:0 0 5px rgba(224,85,85,0.5)}
+.sec-dot.dim{background:var(--text3)}
+.sec-label{font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;flex:1}
+.sec-label.green{color:var(--green)}
+.sec-label.red{color:var(--red)}
+.sec-label.dim{color:var(--text2)}
+.badge{font-size:11px;padding:1px 6px;border-radius:2px;letter-spacing:0.05em;font-weight:600}
+.badge-green{background:var(--green-dim);color:var(--green)}
+.badge-red{background:var(--red-dim);color:var(--red)}
+.badge-dim{background:rgba(255,255,255,0.06);color:var(--text3)}
+.badge-gold{background:var(--gold-dim);color:var(--gold)}
+.sec-body{padding:0 12px 8px}
+/* OTHER ZIPS LIST */
+.other-zips-wrap{margin-top:4px;display:none}
+.other-zips-wrap.visible{display:block}
+.other-zips-lbl{font-size:12px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;flex:1}
+.other-zips-header{display:flex;align-items:center;gap:4px;margin-bottom:3px}
+.btn-refresh-zips{background:none;border:1px solid var(--border2);border-radius:2px;cursor:pointer;color:var(--text3);width:16px;height:16px;padding:0;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.12s}
+.btn-refresh-zips:hover{border-color:var(--green);color:var(--green)}
+.btn-refresh-zips svg{width:9px;height:9px}
+.btn-show-finder{background:none;border:1px solid var(--border2);border-radius:2px;cursor:pointer;color:var(--text3);width:16px;height:16px;padding:0;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.12s}
+.btn-show-finder:hover{border-color:var(--gold);color:var(--gold)}
+.btn-show-finder svg{width:9px;height:9px}
+.other-zips-list{max-height:calc(5 * 34px);overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.other-zip-item{display:flex;align-items:center;gap:7px;padding:7px 9px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:all 0.12s;min-width:0}
+.other-zip-item:hover{border-color:rgba(61,255,110,0.3);background:var(--green-dim2)}
+.other-zip-item.active{border-color:var(--green);background:var(--green-dim)}
+.other-zip-icon{color:var(--text3);flex-shrink:0;font-size:12px}
+.other-zip-item.active .other-zip-icon{color:var(--green)}
+.other-zip-name{font-family:var(--mono);font-size:13px;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.other-zip-item.active .other-zip-name{color:var(--green)}
+.other-zips-list::-webkit-scrollbar{width:2px}
+.other-zips-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* SOURCE DROP — INGESTO style */
+.drop-zip{border:1px dashed var(--border3);border-radius:2px;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.15s;background:var(--bg3);position:relative}
+.drop-zip:hover,.drop-zip.over{border-color:var(--green);background:var(--green-dim2)}
+.drop-zip input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-icon{color:var(--text3);flex-shrink:0;transition:color 0.15s}
+.drop-zip.has-file .dz-icon,.drop-zip.over .dz-icon{color:var(--green)}
+.dz-text{flex:1;min-width:0}
+.dz-main{font-size:15px;font-weight:600;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drop-zip.has-file .dz-main{color:var(--green);letter-spacing:0.02em}
+.dz-sub{font-size:12px;color:var(--text3);margin-top:1px}
+
+/* DESTINATION */
+.dest-row{display:flex;gap:5px;align-items:stretch}
+.dest-path-box{font-family:var(--mono);flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:2px;padding:6px 9px;font-size:14px;font-weight:600;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;display:flex;align-items:center;gap:4px}
+.dest-path-box.active{color:var(--text);border-color:var(--red-border)}
+.dest-path-box.session{border-style:dashed;color:var(--text2)}
+.dest-path-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dest-clear{background:none;border:none;cursor:pointer;color:var(--text3);font-size:12px;padding:0;flex-shrink:0;line-height:1;display:none}
+.dest-clear:hover{color:var(--red)}
+.btn-browse-dest{font-family:var(--font);font-size:12px;padding:5px 10px;background:var(--red-dim);border:1px solid var(--red-border);border-radius:2px;color:var(--red);cursor:pointer;transition:all 0.12s;white-space:nowrap;flex-shrink:0}
+.btn-browse-dest:hover{background:rgba(224,85,85,0.22)}
+
+/* FIELDS */
+.field{margin-bottom:4px}
+.field-lbl{font-size:12px;letter-spacing:0.13em;color:var(--text3);text-transform:uppercase;margin-bottom:3px}
+.field-inp{background:var(--bg4);border:1px solid var(--border2);border-radius:2px;color:var(--text);font-family:var(--font);font-size:13px;padding:5px 8px;outline:none;transition:border-color 0.12s;width:100%}
+.field-inp:focus{border-color:var(--green)}
+.field-inp.err{border-color:var(--red)}
+.field-inp::placeholder{color:var(--text3)}
+.err-msg{font-size:12px;color:var(--red);margin-top:2px;display:none}
+.err-msg.on{display:block}
+
+/* SEP */
+.sep-row{display:flex;gap:4px}
+.sep-opt{font-family:var(--font);font-size:12px;padding:4px 16px;background:var(--bg4);border:1px solid var(--border2);border-radius:2px;color:var(--text2);cursor:pointer;transition:all 0.12s}
+.sep-opt.active{background:var(--green-dim);border-color:rgba(61,255,110,0.3);color:var(--green)}
+.sep-opt:hover:not(.active){border-color:var(--border3);color:var(--text)}
+
+/* TOGGLES ROW */
+.toggles-row{display:flex;flex-direction:column;gap:4px}
+.toggle-item{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
+.toggle-track{width:28px;height:15px;border-radius:8px;background:var(--bg4);border:1px solid var(--border2);position:relative;transition:all 0.18s;flex-shrink:0}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:9px;height:9px;border-radius:50%;background:var(--text3);transition:all 0.18s}
+.toggle-item.on .toggle-track{background:var(--green-dim);border-color:rgba(61,255,110,0.35)}
+.toggle-item.on .toggle-thumb{left:15px;background:var(--green)}
+.toggle-lbl{font-size:12px;color:var(--text2);flex:1}
+.toggle-item.on .toggle-lbl{color:var(--green)}
+.toggle-hint{font-size:12px;color:var(--text3)}
+
+/* FOLDER PREVIEW */
+.folder-preview-wrap{margin-top:3px}
+.folder-preview-lbl{font-size:12px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px}
+.folder-preview{font-family:var(--mono);background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:6px 9px;font-size:13px;color:var(--green);word-break:break-all;min-height:24px;display:flex;align-items:center}
+.folder-preview.empty{color:var(--text3);font-style:italic;font-size:11px}
+
+/* RIGHT */
+.right-top{padding:10px 14px 8px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg2)}
+.rtitle{font-size:12px;letter-spacing:0.16em;color:var(--text3);text-transform:uppercase;margin-bottom:5px}
+.stat-row{display:flex;gap:12px;flex-wrap:wrap}
+.stat{display:flex;align-items:center;gap:4px}
+.stat-dot{width:4px;height:4px;border-radius:50%;background:var(--bg4);flex-shrink:0}
+.stat-dot.ok{background:var(--green)}.stat-dot.warn{background:var(--gold)}.stat-dot.err{background:var(--red)}
+.stat-lbl{font-size:12px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase}
+.stat-val{font-size:12px;color:var(--text2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.right-body{flex:1;padding:9px 13px;overflow:hidden;display:flex;flex-direction:column;gap:7px;min-height:0}
+
+/* TREE — with selection & exclusion */
+.tree-box{background:var(--bg2);border:1px solid var(--border);border-radius:2px;display:flex;flex-direction:column;flex:1;min-height:0;outline:none}
+.tree-head{padding:5px 9px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;flex-shrink:0}
+.tree-head-lbl{font-size:12px;letter-spacing:0.14em;color:var(--text3);text-transform:uppercase;flex:1}
+.tree-hint{font-size:12px;color:var(--text3);font-style:italic}
+.tree-body{padding:4px 0;overflow-y:auto;flex:1;font-size:12px;line-height:1;outline:none}
+
+.tree-row{display:flex;align-items:center;gap:0;padding:1px 9px;cursor:pointer;border-radius:0;transition:background 0.08s;user-select:none;position:relative}
+.tree-row:hover{background:rgba(255,255,255,0.03)}
+.tree-row.selected{background:rgba(61,255,110,0.08)}
+.tree-row.excluded{opacity:0.35}
+.tree-row.excluded .t-dn,.tree-row.excluded .t-fn{text-decoration:line-through;color:var(--text3)}
+
+.tree-ind{color:rgba(255,255,255,0.07);white-space:pre;flex-shrink:0;font-size:11px;line-height:2}
+.tree-icon{flex-shrink:0;width:14px;font-size:12px;line-height:2;color:var(--text3)}
+.tree-row:not(.excluded) .tree-icon.dir{color:var(--green)}
+.tree-name{font-family:var(--mono);font-size:12px;line-height:2;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tree-row:not(.excluded) .tree-name.dir{color:var(--text)}
+.tree-name.file{color:var(--text2)}
+.excl-badge{margin-left:6px;font-size:10px;padding:0 4px;border-radius:2px;background:var(--red-dim);border:1px solid var(--red-border);color:var(--red);flex-shrink:0;line-height:1.8}
+
+.tree-empty{color:var(--text3);font-style:italic;padding:12px 9px;font-size:12px}
+
+/* Context menu */
+.ctx-menu{position:fixed;background:var(--bg3);border:1px solid var(--border3);border-radius:3px;padding:3px 0;z-index:999;min-width:150px;box-shadow:0 4px 16px rgba(0,0,0,0.5)}
+.ctx-item{padding:6px 14px;font-size:12px;cursor:pointer;color:var(--text2);letter-spacing:0.04em;display:flex;align-items:center;gap:7px;transition:background 0.1s}
+.ctx-item:hover{background:rgba(255,255,255,0.06);color:var(--text)}
+.ctx-item.danger:hover{background:var(--red-dim);color:var(--red)}
+.ctx-sep{height:1px;background:var(--border);margin:3px 0}
+
+.info-g{display:grid;grid-template-columns:1fr 1fr;gap:5px;flex-shrink:0}
+.info-c{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:5px 9px}
+.info-c-lbl{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1px}
+.info-c-val{font-size:18px;color:var(--text);font-weight:500}
+
+/* ALERT */
+.alert{padding:8px 10px;border-radius:2px;font-size:12px;line-height:1.6;display:flex;gap:6px;align-items:flex-start;flex-shrink:0}
+.alert-err{background:var(--red-dim);border:1px solid var(--red-border);color:#e07a6a}
+.alert-ok{background:var(--green-dim);border:1px solid rgba(61,255,110,0.2);color:var(--green)}
+.alert-warn{background:var(--gold-dim);border:1px solid rgba(212,168,74,0.2);color:var(--gold)}
+.alert-ico{flex-shrink:0;font-size:12px}
+.alert-txt{flex:1;word-break:break-word}
+.alert-txt strong{display:block;margin-bottom:2px}
+.alert-detail{margin-top:4px;font-size:10px;opacity:0.85;line-height:1.8}
+
+/* EXCL SUMMARY */
+.excl-summary{flex-shrink:0;background:var(--bg3);border:1px solid var(--red-border);border-radius:2px;padding:5px 9px;font-size:12px;color:var(--red);display:none}
+.excl-summary.visible{display:flex;align-items:center;gap:6px}
+.excl-clear-all{background:none;border:none;cursor:pointer;color:var(--red);font-family:var(--font);font-size:10px;text-decoration:underline;padding:0}
+
+/* BOTTOM */
+/* BOTTOM BAR — INGESTO style: full-width green button */
+.bottom-bar{padding:10px 14px;border-top:1px solid var(--border);display:flex;align-items:center;background:var(--bg2);flex-shrink:0;position:relative;gap:10px}
+.btn-go{font-family:var(--font);font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;padding:10px 0;background:var(--green);color:#050506;border:none;border-radius:2px;cursor:pointer;transition:all 0.12s;flex:1;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-go::before{content:"▶";font-size:12px}
+.btn-go:hover{background:#5fffaa}
+.btn-go:disabled{background:var(--bg5);color:var(--text3);cursor:not-allowed}
+.btn-go:disabled::before{content:"▶"}
+.btn-reset{width:30px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--red-dim);border:1px solid var(--red-border);border-radius:2px;cursor:pointer;color:var(--red);flex-shrink:0}
+.btn-reset:hover{background:rgba(224,85,85,0.22)}
+.btn-reset svg{width:13px;height:13px}
+.prog-bar-wrap{height:2px;background:var(--bg5);flex-shrink:0}
+.prog-fill{height:100%;background:var(--green);transition:width 0.4s;width:0%}
+
+::-webkit-scrollbar{width:2px;height:2px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.left-col{scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+.footer{padding:8px 14px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+.footer-left{display:flex;align-items:center;gap:10px}
+.footer-ver{font-size:12px;color:var(--text3);letter-spacing:0.05em}
+.footer-link{font-size:12px;color:var(--text3);letter-spacing:0.06em;text-decoration:none;cursor:pointer;transition:color 0.12s}
+.footer-link:hover{color:var(--green)}
+.footer-right{font-size:12px;color:var(--text3);letter-spacing:0.04em}
+
+/* UPDATE — overlay façon INGESTO */
+#update-ov{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:2000}
+#update-ov .upd-card{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:22px 24px;max-width:360px;box-shadow:0 12px 40px rgba(0,0,0,0.55)}
+#update-ov .upd-h{font-size:17px;font-weight:700;color:var(--text);margin-bottom:5px}
+#update-ov .upd-sub{font-size:14px;color:var(--text2);line-height:1.5;margin-bottom:18px}
+#update-ov .upd-actions{display:flex;gap:10px;justify-content:flex-end}
+#update-ov .upd-btn{font-family:var(--font);font-size:15px;padding:8px 16px;border-radius:6px;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);transition:all 0.12s}
+#update-ov .upd-btn:hover{border-color:var(--border3);color:var(--text)}
+#update-ov .upd-btn.upd-go{background:var(--green);border-color:var(--green);color:#050506;font-weight:700}
+#update-ov .upd-btn.upd-go:hover{background:#5fffaa}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="topbar">
+  <div class="logo">
+    <span class="logo-dot"></span>
+    <span class="logo-name">projecto</span>
+  </div>
+  <span class="topbar-right">project structure restorer</span>
+</div>
+
+<div class="body">
+<div class="left-col">
+
+  <!-- SOURCE -->
+  <div class="sec">
+    <div class="sec-head">
+      <span class="sec-dot green"></span><span class="sec-label green">Sources</span>
+      <span class="badge badge-dim" id="src-badge">WAITING</span>
+    </div>
+    <div class="sec-body">
+      <div class="drop-zip" id="drop-zip">
+        <input type="file" id="file-inp" accept=".zip">
+        <svg class="dz-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="2" width="12" height="16" rx="1" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M11 2V7H16" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M11 2L16 7V18H2" stroke="currentColor" stroke-width="1.2"/>
+          <text x="3.5" y="16.5" font-size="4" fill="currentColor" font-family="monospace" font-weight="600">ZIP</text>
+        </svg>
+        <div class="dz-text">
+          <div class="dz-main" id="dz-main">Drop a ZIP file here</div>
+          <div class="dz-sub" id="dz-sub">or click to browse · .zip only</div>
+        </div>
+      </div>
+      <!-- Inline list of other ZIPs in same folder -->
+      <div class="other-zips-wrap" id="other-zips-wrap">
+        <div class="other-zips-header">
+          <span class="other-zips-lbl">Found Templates in Folder</span>
+          <button class="btn-refresh-zips" onclick="refreshOtherZipsList()" title="Refresh list">
+            <svg viewBox="0 0 9 9" fill="none"><path d="M1.3 4.5A3.2 3.2 0 1 0 4.5 1.3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M4.5 1.3L3.1 2.6M4.5 1.3L3.1 0" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="btn-show-finder" onclick="openSourceInFinder()" title="Show folder in Finder">
+            <svg viewBox="0 0 9 9" fill="none"><rect x="0.5" y="2" width="8" height="6.5" rx="0.7" stroke="currentColor" stroke-width="1"/><path d="M0.5 3.8H8.5" stroke="currentColor" stroke-width="1"/><rect x="1" y="0.5" width="3" height="2" rx="0.4" stroke="currentColor" stroke-width="1"/></svg>
+          </button>
+        </div>
+        <div class="other-zips-list" id="other-zips-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESTINATION -->
+  <div class="sec">
+    <div class="sec-head">
+      <span class="sec-dot red"></span><span class="sec-label red">Destination</span>
+      <span class="badge badge-dim" id="dest-badge">NONE</span>
+    </div>
+    <div class="sec-body">
+      <div class="dest-row">
+        <div class="dest-path-box" id="dest-path-box">
+          <span class="dest-path-text" id="dest-path-text">Not set</span>
+          <button class="dest-clear" id="dest-clear" onclick="clearDest()">×</button>
+        </div>
+        <button class="btn-browse-dest" onclick="browseDest()">Browse</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOLDER NAME -->
+  <div class="sec">
+    <div class="sec-head"><span class="sec-dot dim"></span><span class="sec-label dim">Folder Name</span></div>
+    <div class="sec-body">
+
+      <div class="field">
+        <div class="field-lbl">Project</div>
+        <input class="field-inp" type="text" id="v-name" placeholder="MyProject" maxlength="40" spellcheck="false" oninput="onVar(this,'e-name')">
+        <div class="err-msg" id="e-name">No special characters</div>
+      </div>
+
+      <div class="field">
+        <div class="field-lbl">Client</div>
+        <input class="field-inp" type="text" id="v-client" placeholder="ClientName" maxlength="40" spellcheck="false" oninput="onVar(this,'e-client')">
+        <div class="err-msg" id="e-client">No special characters</div>
+      </div>
+
+      <div class="field">
+        <div class="field-lbl">Separator</div>
+        <div class="sep-row">
+          <button class="sep-opt active" data-sep="_" onclick="setSep('_',this)">_</button>
+          <button class="sep-opt" data-sep="-" onclick="setSep('-',this)">-</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-lbl">Options</div>
+        <div class="toggles-row">
+          <div class="toggle-item on" id="tog-date" onclick="toggleOpt('useDate')">
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            <span class="toggle-lbl">Include date</span>
+            <span class="toggle-hint" id="date-hint"></span>
+          </div>
+          <div class="toggle-item" id="tog-caps" onclick="toggleOpt('useCaps')">
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            <span class="toggle-lbl">FULL CAPS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="folder-preview-wrap">
+        <div class="folder-preview-lbl">Output folder</div>
+        <div class="folder-preview empty" id="folder-preview">—</div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /left -->
+
+<!-- RIGHT -->
+<div class="right-col">
+  <div class="right-top">
+    <div class="rtitle">Structure Preview</div>
+    <div class="stat-row">
+      <div class="stat"><span class="stat-dot" id="d-src"></span><span class="stat-lbl">Source</span><span class="stat-val" id="l-src">—</span></div>
+      <div class="stat"><span class="stat-dot" id="d-dest"></span><span class="stat-lbl">Dest</span><span class="stat-val" id="l-dest">—</span></div>
+      <div class="stat"><span class="stat-dot" id="d-folder"></span><span class="stat-lbl">Folder</span><span class="stat-val" id="l-folder">—</span></div>
+    </div>
+  </div>
+
+  <div class="right-body">
+    <div id="alert-area"></div>
+
+    <!-- Exclusion summary bar -->
+    <div class="excl-summary" id="excl-summary">
+      <span id="excl-count-label"></span>
+      <button class="excl-clear-all" onclick="clearAllExclusions()">Clear all</button>
+    </div>
+
+    <div class="tree-box" id="tree-box" tabindex="0">
+      <div class="tree-head">
+        <span class="tree-head-lbl">ZIP Contents</span>
+        <span class="badge badge-dim" id="tree-count">0 items</span>
+        <span class="tree-hint">Space / right-click to exclude</span>
+      </div>
+      <div class="tree-body" id="tree-body"><div class="tree-empty">No source loaded</div></div>
+    </div>
+
+    <div class="info-g" id="info-g" style="display:none">
+      <div class="info-c"><div class="info-c-lbl">Folders</div><div class="info-c-val" id="cnt-dirs">0</div></div>
+      <div class="info-c"><div class="info-c-lbl">Files</div><div class="info-c-val" id="cnt-files">0</div></div>
+    </div>
+  </div>
+
+  <div class="prog-bar-wrap"><div class="prog-fill" id="prog-fill"></div></div>
+  <div class="bottom-bar">
+    <button class="btn-go" id="btn-go" onclick="doRestore()" disabled>RESTORE</button>
+    <button class="btn-reset" onclick="doReset()" title="Reset">
+      <svg viewBox="0 0 13 13" fill="none">
+        <path d="M2 6.5A4.5 4.5 0 1 0 6.5 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M6.5 2L4.5 4M6.5 2L4.5 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+</div><!-- /body -->
+<div class="footer">
+  <span class="footer-left"><span class="footer-ver" id="app-ver"></span><a class="footer-link" id="gh-link">github</a></span>
+  <span class="footer-right">© 2026</span>
+</div><!-- /app -->
+
+<!-- CONTEXT MENU -->
+<div class="ctx-menu" id="ctx-menu" style="display:none">
+  <div class="ctx-item danger" id="ctx-exclude" onclick="ctxExclude()">
+    <span>⊘</span><span>Exclude folder</span>
+  </div>
+  <div class="ctx-item" id="ctx-include" onclick="ctxInclude()" style="display:none">
+    <span>✓</span><span>Re-include folder</span>
+  </div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" onclick="clearAllExclusions();hideCtx()">
+    <span>↺</span><span>Clear all exclusions</span>
+  </div>
+</div>
+
+<script src="./vendor/jszip.min.js"></script>
+<script>
+// ── PERSISTENCE ───────────────────────────────────────────────────────────
+const PREFS_KEY = 'projecto_v06';
+function savePrefs(){
+  try{
+    localStorage.setItem(PREFS_KEY, JSON.stringify({
+      sep:     S.sep,
+      useDate: S.useDate,
+      useCaps: S.useCaps,
+      destPath:S.destPath,
+      destFromSession:S.destFromSession,
+      zipPath: S.zipPath,
+      zipName: S.zipName,
+      project: document.getElementById('v-name').value,
+      client:  document.getElementById('v-client').value,
+    }));
+  }catch(e){}
+}
+async function loadPrefs(){
+  try{
+    const raw=localStorage.getItem(PREFS_KEY); if(!raw)return;
+    const p=JSON.parse(raw);
+    if(p.sep)                  setSepSilent(p.sep);
+    if(typeof p.useDate==='boolean'){ S.useDate=p.useDate; renderToggles(); }
+    if(typeof p.useCaps==='boolean'){ S.useCaps=p.useCaps; renderToggles(); }
+    if(p.project) document.getElementById('v-name').value=p.project;
+    if(p.client)  document.getElementById('v-client').value=p.client;
+    if(p.destPath){ S.destPath=p.destPath; S.destFromSession=true; S.destFromBrowse=false; setDestDisplay(p.destPath,true); }
+    if(p.zipPath&&p.zipName){
+      S.zipPath=p.zipPath; S.zipName=p.zipName;
+      document.getElementById('dz-main').textContent=p.zipName;
+      document.getElementById('dz-sub').textContent='Remembered · click to change';
+      document.getElementById('drop-zip').classList.add('has-file');
+      try{
+        const buf=await window.electronAPI.readFile(p.zipPath);
+        if(buf && Array.isArray(buf) && buf.length){ await processZipBuffer(new Uint8Array(buf).buffer); }
+        refreshOtherZipsList();
+      }catch(e){}
+    }
+  }catch(e){}
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+const S={
+  zipFile:null,zipPath:null,zipName:null,zipEntries:[],
+  destPath:'',destFromSession:false,destFromBrowse:false,
+  restoring:false,
+  sep:'_',useDate:true,useCaps:false,
+  excluded:new Set(),   // set of stripped paths (dirs only) that are excluded
+  selectedPath:null,    // currently highlighted tree row path
+};
+
+const BAD=/[^a-zA-Z0-9\-_]/;
+function sanitize(v){return !BAD.test(v)}
+function fmtDate(){const d=new Date();return String(d.getFullYear()).slice(-2)+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')}
+function fmtSize(b){if(b<1024)return b+' B';if(b<1048576)return (b/1024).toFixed(1)+' KB';return (b/1048576).toFixed(1)+' MB'}
+function delay(ms){return new Promise(r=>setTimeout(r,ms))}
+function isMacOSEntry(p){return p.split('/').some(s=>s==='__MACOSX'||s.startsWith('._'))}
+function getStrip(entries){const top=new Set(entries.filter(e=>e.path.trim()).map(e=>e.path.split('/')[0]).filter(Boolean));return top.size===1?[...top][0]+'/':''}
+function stripEntries(entries,strip){return entries.map(e=>{let p=e.path;if(strip&&p.startsWith(strip))p=p.slice(strip.length);return {...e,path:p}}).filter(e=>e.path&&e.path!=='/')}
+
+// Is this path excluded (itself or an ancestor)?
+function isExcluded(path){
+  if(S.excluded.has(path)) return true;
+  for(const ex of S.excluded){
+    const exd=ex.endsWith('/')?ex:ex+'/';
+    if(path.startsWith(exd)) return true;
+  }
+  return false;
+}
+
+// ── FOLDER NAME ───────────────────────────────────────────────────────────
+function buildFolderName(){
+  const project=document.getElementById('v-name').value.trim();
+  const client =document.getElementById('v-client').value.trim();
+  const parts=[project,client].filter(Boolean);
+  if(S.useDate) parts.unshift(fmtDate());
+  let name=parts.join(S.sep);
+  if(S.useCaps) name=name.toUpperCase();
+  return name;
+}
+
+// ── SEPARATOR ─────────────────────────────────────────────────────────────
+function setSepSilent(val){S.sep=val;document.querySelectorAll('.sep-opt').forEach(b=>b.classList.toggle('active',b.dataset.sep===val))}
+function setSep(val,btn){setSepSilent(val);refreshAll();savePrefs()}
+
+// ── TOGGLES ───────────────────────────────────────────────────────────────
+function toggleOpt(key){S[key]=!S[key];renderToggles();refreshAll();savePrefs()}
+function renderToggles(){
+  document.getElementById('tog-date').classList.toggle('on',S.useDate);
+  document.getElementById('tog-caps').classList.toggle('on',S.useCaps);
+  document.getElementById('date-hint').textContent=S.useDate?fmtDate():'';
+}
+
+// ── DESTINATION ───────────────────────────────────────────────────────────
+function setDestDisplay(path,fromSession){
+  const box=document.getElementById('dest-path-box');
+  document.getElementById('dest-path-text').textContent=path;
+  box.className='dest-path-box active'+(fromSession?' session':'');
+  document.getElementById('dest-clear').style.display='block';
+  document.getElementById('dest-badge').textContent=fromSession?'LAST SESSION':'SET';
+  document.getElementById('dest-badge').className=fromSession?'badge badge-dim':'badge badge-red';
+  document.getElementById('d-dest').className='stat-dot ok';
+  document.getElementById('l-dest').textContent=path;
+}
+function clearDest(){
+  S.destPath='';S.destFromSession=false;S.destFromBrowse=false;
+  document.getElementById('dest-path-text').textContent='Not set';
+  document.getElementById('dest-path-box').className='dest-path-box';
+  document.getElementById('dest-clear').style.display='none';
+  document.getElementById('dest-badge').textContent='NONE';
+  document.getElementById('dest-badge').className='badge badge-dim';
+  document.getElementById('d-dest').className='stat-dot';
+  document.getElementById('l-dest').textContent='—';
+  refreshAll();savePrefs();
+}
+async function browseDest(){
+  try{const p=await window.electronAPI.openFolder();if(!p)return;S.destPath=p;S.destFromBrowse=true;S.destFromSession=false;setDestDisplay(p,false);refreshAll();savePrefs()}catch(e){}
+}
+
+// ── TREE RENDERING ────────────────────────────────────────────────────────
+function renderTree(entries){
+  const tb=document.getElementById('tree-body');
+  if(!entries||!entries.length){tb.innerHTML='<div class="tree-empty">No source loaded</div>';return}
+
+  let h='';
+  entries.slice(0,300).forEach(e=>{
+    const parts=e.path.replace(/\/$/,'').split('/');
+    const depth=parts.length-1;
+    const name=parts[parts.length-1]; if(!name)return;
+    const pathNorm=e.isDir?(e.path.endsWith('/')?e.path:e.path+'/'):e.path;
+    const excl=isExcluded(e.path)||isExcluded(pathNorm);
+    const isSel=S.selectedPath&&(S.selectedPath===e.path||S.selectedPath===pathNorm);
+    const ind='│ '.repeat(depth);
+    const pre=depth>0?'├ ':'';
+    const selCls=isSel?' selected':'';
+    const exclCls=excl?' excluded':'';
+    const exclBadge=excl&&e.isDir?'<span class="excl-badge">EXCL</span>':'';
+
+    if(e.isDir){
+      h+=`<div class="tree-row${selCls}${exclCls}" data-path="${e.path}" data-isdir="1" onmousedown="selectRow(event,this)" oncontextmenu="showCtx(event,this)">
+        <span class="tree-ind">${ind}${pre}</span>
+        <span class="tree-icon dir">▶</span>
+        <span class="tree-name dir">${name}/</span>${exclBadge}
+      </div>`;
+    }else{
+      h+=`<div class="tree-row${selCls}${exclCls}" data-path="${e.path}" data-isdir="0" onmousedown="selectRow(event,this)">
+        <span class="tree-ind">${ind}${pre}</span>
+        <span class="tree-icon">·</span>
+        <span class="tree-name file">${name}</span>
+      </div>`;
+    }
+  });
+  if(entries.length>300) h+=`<div class="tree-empty">… +${entries.length-300} more items</div>`;
+  tb.innerHTML=h;
+  updateExclSummary();
+}
+
+function selectRow(e,el){
+  if(e.button!==0&&e.button!==2)return;
+  S.selectedPath=el.dataset.path;
+  document.querySelectorAll('.tree-row').forEach(r=>r.classList.toggle('selected',r===el));
+}
+
+// Space to toggle exclusion on selected dir
+document.getElementById('tree-box').addEventListener('keydown',e=>{
+  if(e.code==='Space'&&S.selectedPath){
+    e.preventDefault();
+    const el=document.querySelector(`.tree-row[data-path="${CSS.escape(S.selectedPath)}"]`);
+    if(el&&el.dataset.isdir==='1') toggleExclusion(S.selectedPath);
+  }
+});
+
+// ── CONTEXT MENU ─────────────────────────────────────────────────────────
+let ctxTargetPath=null;
+function showCtx(e,el){
+  e.preventDefault();
+  if(el.dataset.isdir!=='1') return; // only dirs
+  selectRow(e,el);
+  ctxTargetPath=el.dataset.path;
+  const excl=isExcluded(ctxTargetPath);
+  document.getElementById('ctx-exclude').style.display=excl?'none':'flex';
+  document.getElementById('ctx-include').style.display=excl?'flex':'none';
+  const m=document.getElementById('ctx-menu');
+  m.style.display='block';
+  m.style.left=Math.min(e.clientX, window.innerWidth-170)+'px';
+  m.style.top=Math.min(e.clientY, window.innerHeight-100)+'px';
+}
+function hideCtx(){document.getElementById('ctx-menu').style.display='none';ctxTargetPath=null}
+document.addEventListener('mousedown',e=>{if(!document.getElementById('ctx-menu').contains(e.target))hideCtx()});
+function ctxExclude(){if(ctxTargetPath){toggleExclusion(ctxTargetPath,true);}hideCtx()}
+function ctxInclude(){if(ctxTargetPath){toggleExclusion(ctxTargetPath,false);}hideCtx()}
+
+// ── EXCLUSION LOGIC ───────────────────────────────────────────────────────
+function toggleExclusion(path, forceState){
+  const norm=path.endsWith('/')?path:path+'/';
+  // If this path or norm is already excluded
+  const alreadyExcl=S.excluded.has(path)||S.excluded.has(norm);
+  const shouldExclude= forceState!==undefined ? forceState : !alreadyExcl;
+
+  if(shouldExclude){
+    // Remove any child exclusions subsumed by this one
+    for(const ex of [...S.excluded]){
+      const exN=ex.endsWith('/')?ex:ex+'/';
+      if(exN.startsWith(norm)||norm.startsWith(exN)) S.excluded.delete(ex);
+    }
+    S.excluded.add(path);
+  }else{
+    S.excluded.delete(path);
+    S.excluded.delete(norm);
+  }
+  renderTree(S.zipEntries);
+  updateExclSummary();
+}
+
+function clearAllExclusions(){S.excluded.clear();renderTree(S.zipEntries);updateExclSummary()}
+
+function updateExclSummary(){
+  const bar=document.getElementById('excl-summary');
+  const n=S.excluded.size;
+  if(n>0){
+    bar.classList.add('visible');
+    document.getElementById('excl-count-label').textContent=`${n} folder${n>1?'s':''} excluded from restore`;
+  }else{
+    bar.classList.remove('visible');
+  }
+  // Recompute active (non-excluded) counts
+  const allDirs  = S.zipEntries.filter(e=>e.isDir);
+  const allFiles = S.zipEntries.filter(e=>!e.isDir);
+  const activeDirs  = allDirs.filter(e=>!isExcluded(e.path));
+  const activeFiles = allFiles.filter(e=>!isExcluded(e.path));
+  // Update info-g cards
+  const infoG=document.getElementById('info-g');
+  if(S.zipEntries.length){
+    infoG.style.display='grid';
+    if(n>0){
+      document.getElementById('cnt-dirs').textContent=activeDirs.length+'/'+allDirs.length;
+      document.getElementById('cnt-files').textContent=activeFiles.length+'/'+allFiles.length;
+    }else{
+      document.getElementById('cnt-dirs').textContent=allDirs.length;
+      document.getElementById('cnt-files').textContent=allFiles.length;
+    }
+  }
+  // Update tree-count badge
+  const total=S.zipEntries.length;
+  const activeTotal=activeDirs.length+activeFiles.length;
+  const badge=document.getElementById('tree-count');
+  if(n>0){badge.textContent=activeTotal+'/'+total+' items';badge.className='badge badge-gold';}
+  else{badge.textContent=total+' items';badge.className=total?'badge badge-green':'badge badge-dim';}
+}
+
+// ── ZIP LOAD ──────────────────────────────────────────────────────────────
+const dropZip=document.getElementById('drop-zip');
+const fileInp=document.getElementById('file-inp');
+dropZip.addEventListener('dragover',e=>{e.preventDefault();dropZip.classList.add('over')});
+dropZip.addEventListener('dragleave',()=>dropZip.classList.remove('over'));
+dropZip.addEventListener('drop',e=>{e.preventDefault();dropZip.classList.remove('over');const f=e.dataTransfer.files[0];if(f)loadZip(f,f.path||null)});
+fileInp.addEventListener('change',()=>{if(fileInp.files[0])loadZip(fileInp.files[0],fileInp.files[0].path||null)});
+
+async function loadZip(file,fsPath){
+  clearAlert();
+  if(!file.name.toLowerCase().endsWith('.zip')){showAlert('err','Invalid format','Only .zip files are accepted.');return}
+  // Normalize path separators (Windows may use backslashes)
+  const normPath = fsPath ? fsPath.replace(/\\/g,'/') : null;
+  S.zipFile=file;S.zipPath=normPath;S.zipName=file.name;S.excluded.clear();
+  document.getElementById('dz-main').textContent=file.name+' · '+fmtSize(file.size);
+  document.getElementById('dz-sub').textContent='Loaded · click to change';
+  dropZip.classList.add('has-file');
+  try{
+    const buf=await file.arrayBuffer();
+    await processZipBuffer(buf);
+  }catch(e){
+    showAlert('err','Read error','Could not read ZIP: '+e.message);
+    S.zipFile=null;S.zipPath=null;S.zipName=null;dropZip.classList.remove('has-file');
+    document.getElementById('dz-main').textContent='Drop a ZIP file here';
+    document.getElementById('dz-sub').textContent='or click to browse · .zip only';
+  }
+  // Show "browse other ZIPs" button if we have a native path
+  refreshOtherZipsList();
+  refreshAll();savePrefs();
+}
+
+// Map index→path to avoid backslash/escaping issues in HTML onclick attributes (Windows)
+const _zipPathMap = new Map();
+
+async function refreshOtherZipsList(){
+  const wrap=document.getElementById('other-zips-wrap');
+  const list=document.getElementById('other-zips-list');
+  _zipPathMap.clear();
+  if(!S.zipPath){ wrap.classList.remove('visible'); list.innerHTML=''; return; }
+  try{
+    const all = await window.electronAPI.listZipsInFolder(S.zipPath);
+    // Show ALL zips (including active one) — mark active with class
+    if(!all||!all.length){ wrap.classList.remove('visible'); list.innerHTML=''; return; }
+    wrap.classList.add('visible');
+    list.innerHTML = all.map((p,i)=>{
+      _zipPathMap.set(i,p);
+      const name=p.split(/[\/\\]/).pop();
+      const isActive = S.zipPath && (p===S.zipPath || p.replace(/\\/g,'/')===S.zipPath.replace(/\\/g,'/'));
+      return `<div class="other-zip-item${isActive?' active':''}" data-idx="${i}" title="${name}"
+        onclick="_selectByIdx(${i})"
+        oncontextmenu="_ctxByIdx(event,${i})">
+        <span class="other-zip-icon">${isActive?'▶':'⬡'}</span>
+        <span class="other-zip-name">${name}</span>
+      </div>`;
+    }).join('');
+  }catch(e){ wrap.classList.remove('visible'); }
+}
+
+function _selectByIdx(i){ selectOtherZip(_zipPathMap.get(i)); }
+function _ctxByIdx(e,i){ if(_zipPathMap.has(i)) showZipCtx(e,_zipPathMap.get(i)); }
+
+async function selectOtherZip(zipPath){
+  try{
+    const result = await window.electronAPI.readFile(zipPath);
+    // result is Array (success), null (old path miss), or {error,code} (failure detail)
+    if(!result){ showAlert('err','Read error','File not found: '+zipPath); return; }
+    if(!Array.isArray(result)){
+      showAlert('err','Read error','Could not read file — '+( result.error||'unknown error')+' ('+zipPath+')'); return;
+    }
+    if(!result.length){ showAlert('err','Read error','File is empty: '+zipPath); return; }
+    const buf = new Uint8Array(result).buffer;
+    S.zipPath=zipPath; S.zipName=zipPath.split(/[\/\\]/).pop(); S.zipFile=null; S.excluded.clear();
+    document.getElementById('dz-main').textContent=S.zipName;
+    document.getElementById('dz-sub').textContent='Loaded · click to change';
+    document.getElementById('drop-zip').classList.add('has-file');
+    await processZipBuffer(buf);
+    // Auto-refresh list — updates active state immediately, no manual refresh needed
+    await refreshOtherZipsList();
+    refreshAll(); savePrefs();
+  }catch(e){ showAlert('err','Error',e.message||String(e)); }
+}
+
+async function processZipBuffer(buf){
+  const zip=await JSZip.loadAsync(buf);
+  const entries=[];
+  zip.forEach((p,e)=>{if(!isMacOSEntry(p))entries.push({path:p,isDir:e.dir})});
+  entries.sort((a,b)=>a.path.localeCompare(b.path));
+  const strip=getStrip(entries);
+  const display=stripEntries(entries,strip);
+  S.zipEntries=display;
+  renderTree(display);
+  const dirs=display.filter(e=>e.isDir).length,files=display.filter(e=>!e.isDir).length;
+  document.getElementById('tree-count').textContent=display.length+' items';
+  document.getElementById('tree-count').className='badge badge-green';
+  document.getElementById('cnt-dirs').textContent=dirs;
+  document.getElementById('cnt-files').textContent=files;
+  document.getElementById('info-g').style.display='grid';
+  document.getElementById('src-badge').textContent='LOADED';
+  document.getElementById('src-badge').className='badge badge-green';
+}
+
+// ── REFRESH ───────────────────────────────────────────────────────────────
+function refreshAll(){
+  renderToggles();
+  const fn=buildFolderName();
+  const hasSource=!!(S.zipFile||S.zipPath);
+
+  if(hasSource){document.getElementById('d-src').className='stat-dot ok';document.getElementById('l-src').textContent=S.zipName||'—';}
+  else{document.getElementById('d-src').className='stat-dot';document.getElementById('l-src').textContent='—';document.getElementById('src-badge').textContent='WAITING';document.getElementById('src-badge').className='badge badge-dim';}
+
+  const pv=document.getElementById('folder-preview');
+  if(fn){pv.textContent=fn;pv.className='folder-preview';}
+  else{pv.textContent='—';pv.className='folder-preview empty';}
+
+  if(fn){document.getElementById('d-folder').className='stat-dot warn';document.getElementById('l-folder').textContent=fn;}
+  else{document.getElementById('d-folder').className='stat-dot';document.getElementById('l-folder').textContent='—';}
+
+  checkReady();
+}
+
+function checkReady(){
+  const ok=!!(S.zipFile||S.zipPath)&&!!buildFolderName()&&!document.querySelector('.err-msg.on')&&!S.restoring;
+  document.getElementById('btn-go').disabled=!ok;
+}
+
+function onVar(inp,errId){
+  const v=inp.value.trim();const err=document.getElementById(errId);
+  if(v&&!sanitize(v)){inp.classList.add('err');err.classList.add('on');}
+  else{inp.classList.remove('err');err.classList.remove('on');}
+  refreshAll();savePrefs();
+}
+
+// ── ALERTS ────────────────────────────────────────────────────────────────
+function showAlert(type,title,body,detail){
+  const icons={err:'⊘',ok:'✓',warn:'⚠'};
+  const cls={err:'alert-err',ok:'alert-ok',warn:'alert-warn'};
+  const detailHtml=detail?`<div class="alert-detail">${detail}</div>`:'';
+  document.getElementById('alert-area').innerHTML=
+    `<div class="alert ${cls[type]}"><span class="alert-ico">${icons[type]}</span><div class="alert-txt"><strong>${title}</strong>${body?'<br>'+body:''}${detailHtml}</div></div>`;
+}
+function clearAlert(){document.getElementById('alert-area').innerHTML=''}
+function setProgress(pct){document.getElementById('prog-fill').style.width=pct+'%'}
+
+// ── RESTORE ───────────────────────────────────────────────────────────────
+async function doRestore(){
+  clearAlert();
+  const fn=buildFolderName();
+  if(!fn||(!S.zipFile&&!S.zipPath))return;
+
+  // Determine destination
+  let dest=S.destPath;
+  const needAsk=!dest||(S.destFromSession&&!S.destFromBrowse);
+  if(needAsk){
+    try{
+      const chosen=await window.electronAPI.openFolder();
+      if(!chosen)return;
+      dest=chosen;S.destPath=chosen;S.destFromBrowse=true;S.destFromSession=false;
+      setDestDisplay(chosen,false);savePrefs();
+    }catch(e){if(!dest){showAlert('err','No destination','Please select a destination folder.');return}}
+  }
+
+  const finalPath=dest.replace(/\/$/,'')+'/'+fn;
+  S.restoring=true;checkReady();setProgress(5);
+
+  let exists=false;
+  try{exists=await window.electronAPI.folderExists(finalPath);}catch(e){}
+  if(exists){
+    showAlert('err','Folder already exists',`"${fn}" already exists at destination.`,'Rename your project, client, or choose another destination.');
+    playSound('error');
+    S.restoring=false;checkReady();setProgress(0);return;
+  }
+
+  setProgress(30);
+
+  const excludedList=[...S.excluded];
+  let dirs=0,files=0,errors=[];
+
+  if(S.zipPath){
+    let result;
+    try{result=await window.electronAPI.restoreZip({zipPath:S.zipPath,destPath:dest,folderName:fn,excludedPaths:excludedList});}
+    catch(e){result={success:false,error:e.message}}
+    if(!result.success){showAlert('err','Restore failed',result.error||'Unknown error');playSound('error');S.restoring=false;checkReady();setProgress(0);return}
+    dirs=result.results.filter(r=>r.type==='dir').length;
+    files=result.results.filter(r=>r.type==='file').length;
+    errors=result.results.filter(r=>r.error).map(r=>r.path+': '+r.error);
+  }else{
+    // Simulation
+    const zip=await JSZip.loadAsync(S.zipFile);
+    const entries=[];zip.forEach((p,e)=>{if(!isMacOSEntry(p))entries.push({p,e})});
+    const active=entries.filter(({p})=>{
+      const stripped=p.replace(getStrip(entries.map(x=>({path:x.p}))),'');
+      return !excludedList.some(ex=>{const exN=ex.endsWith('/')?ex:ex+'/';return stripped===ex||stripped.startsWith(exN)});
+    });
+    dirs=active.filter(x=>x.e.dir).length;files=active.filter(x=>!x.e.dir).length;
+    let i=0;for(const x of active){setProgress(30+Math.round((i/Math.max(active.length,1))*65));i++;await delay(8)}
+  }
+
+  setProgress(100);setTimeout(()=>setProgress(0),2500);
+
+  // ── COMPLETION MESSAGE ────────────────────────────────────────────────
+  const hasExclusions=S.excluded.size>0;
+  const exclNote=hasExclusions?`⊘ ${S.excluded.size} folder${S.excluded.size>1?'s':''} excluded`:'';
+  const detail=[
+    `📁 ${fn}`,
+    `📍 ${dest}`,
+    `📂 ${dirs} folders · 📄 ${files} files`,
+    S.useDate?`📅 ${fmtDate()}`:'',
+    errors.length?`⚠ ${errors.length} error(s)`:'✓ No errors',
+    exclNote,
+  ].filter(Boolean).join('<br>');
+
+  const type=errors.length?'warn':'ok';
+  const title=errors.length?'Restore complete with errors':'Restore complete';
+  showAlert(type,title,null,detail);
+  playSound(errors.length?'error':'success');
+  S.restoring=false;checkReady();
+
+  // ── ASK ABOUT ZIP UPDATE if exclusions were made ──────────────────────
+  if(hasExclusions&&S.zipPath){
+    await askUpdateZip(excludedList);
+  }
+}
+
+async function askUpdateZip(excludedList){
+  try{
+    const result=await window.electronAPI.showMessageBox({
+      type:'question',
+      title:'Update ZIP Archive',
+      message:`You excluded ${S.excluded.size} folder${S.excluded.size>1?'s':''} from the restore.\nWould you like to update the ZIP archive?`,
+      detail:'This removes the excluded folders from the ZIP permanently.',
+      buttons:['Update existing ZIP','Save as new ZIP…','Keep original'],
+      defaultId:1,cancelId:2,
+    });
+    if(result.response===2)return; // keep original
+
+    const mode=result.response===0?'update':'new';
+
+    // If new ZIP, ask for a custom name
+    let customName=null;
+    if(mode==='new'){
+      const nameResult=await window.electronAPI.showInputBox({
+        title:'New ZIP name',
+        message:'Enter a name for the new ZIP file:',
+        defaultValue: S.zipName.replace(/\.zip$/i,'')+'_filtered',
+        placeholder:'my_template_filtered',
+      });
+      if(!nameResult||!nameResult.trim()) return; // cancelled or empty
+      customName=nameResult.trim().replace(/\.zip$/i,'')+'.zip';
+    }
+
+    const r=await window.electronAPI.updateZip({zipPath:S.zipPath,excludedPaths:excludedList,mode,customName});
+    if(r.success){
+      if(mode==='update'){ S.zipPath=r.path; S.zipName=r.path.split('/').pop(); savePrefs(); }
+      showAlert('ok','ZIP saved',null,`📦 ${r.path.split('/').pop()}<br>Excluded paths removed.`);
+    }else{
+      showAlert('err','ZIP update failed',r.error);
+    }
+  }catch(e){/* Electron not available */}
+}
+
+// ── RESET ─────────────────────────────────────────────────────────────────
+function doReset(){
+  S.zipFile=null;S.zipPath=null;S.zipName=null;S.zipEntries=[];S.restoring=false;S.excluded.clear();S.selectedPath=null;
+  document.getElementById('dz-main').textContent='Drop a ZIP file here';
+  document.getElementById('dz-sub').textContent='or click to browse · .zip only';
+  document.getElementById('drop-zip').classList.remove('has-file');
+  document.getElementById('v-name').value='';
+  document.getElementById('v-client').value='';
+  document.getElementById('tree-body').innerHTML='<div class="tree-empty">No source loaded</div>';
+  document.getElementById('tree-count').textContent='0 items';document.getElementById('tree-count').className='badge badge-dim';
+  document.getElementById('info-g').style.display='none';
+  document.getElementById('excl-summary').classList.remove('visible');
+  document.querySelectorAll('.err-msg').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.field-inp').forEach(e=>e.classList.remove('err'));
+  clearAlert();setProgress(0);
+  savePrefs();refreshAll();
+}
+
+// ── OPEN SOURCE FOLDER IN FINDER ─────────────────────────────────────────
+async function openSourceInFinder(){
+  if(!S.zipPath) return;
+  try{ await window.electronAPI.showInFinder(S.zipPath); }
+  catch(e){}
+}
+
+// ── SOUND NOTIFICATIONS ──────────────────────────────────────────────────
+// new Audio() créé à la volée (pas de balise <audio> dans le DOM) — pas de prompt micro
+function playSound(type){
+  try{
+    const name = (type === 'error') ? 'error' : 'success';
+    const audio = new Audio();
+    audio.src = `./assets/${name}.wav`;
+    audio.play().catch(()=>{});
+  }catch(e){}
+}
+
+// ── MISE À JOUR ────────────────────────────────────────────────────────────
+// Bandeau affiché si le NAS annonce une version plus récente. Anti-nag via
+// localStorage (même mécanisme que les prefs de l'app) : une version refusée
+// n'est plus reproposée. Aucune donnée dynamique injectée en HTML.
+const UPD_DISMISS_KEY = 'projecto_upd_dismissed';
+function showUpdateNotice({ version, url }){
+  try{ if(localStorage.getItem(UPD_DISMISS_KEY) === String(version)) return; }catch(e){}
+  if(document.getElementById('update-ov')) return;
+  const ov = document.createElement('div');
+  ov.id = 'update-ov';
+  const card = document.createElement('div'); card.className = 'upd-card';
+  const h = document.createElement('div'); h.className = 'upd-h'; h.textContent = 'New version available';
+  const sub = document.createElement('div'); sub.className = 'upd-sub';
+  sub.textContent = 'projecto ' + version + ' is available. You\'re on version ' + (S.appVersion || '') + '.';
+  const actions = document.createElement('div'); actions.className = 'upd-actions';
+  const later = document.createElement('button'); later.className = 'upd-btn'; later.textContent = 'Later';
+  const go = document.createElement('button'); go.className = 'upd-btn upd-go'; go.textContent = 'Get it';
+  actions.appendChild(later); actions.appendChild(go);
+  card.appendChild(h); card.appendChild(sub); card.appendChild(actions);
+  ov.appendChild(card); document.body.appendChild(ov);
+  const dismiss = () => { try{ localStorage.setItem(UPD_DISMISS_KEY, String(version)); }catch(e){} ov.remove(); };
+  later.onclick = dismiss;
+  go.onclick = () => { try{ window.electronAPI.openExternal(url); }catch(e){} dismiss(); };
+  ov.onclick = (e) => { if(e.target === ov) dismiss(); };
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+(async()=>{
+  await loadPrefs();
+  refreshAll();
+  try{ S.appVersion = await window.electronAPI.getVersion(); }catch(e){ S.appVersion = ''; }
+  try{
+    const av = document.getElementById('app-ver');
+    if(av && S.appVersion) av.textContent = 'v' + S.appVersion;
+    const gh = document.getElementById('gh-link');
+    if(gh) gh.onclick = () => { try{ window.electronAPI.openExternal('https://github.com/noar-justedit/projecto'); }catch(e){} };
+  }catch(e){}
+  try{ window.electronAPI.onUpdateAvailable(showUpdateNotice); }catch(e){}
+})();
+</script>
+</body>
+</html>
