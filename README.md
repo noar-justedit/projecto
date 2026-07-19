@@ -2,6 +2,8 @@
 
 Restore a full project folder structure from a ZIP template in seconds. Define your tree once, reuse it forever.
 
+![projecto](docs/screenshot.png)
+
 **Project Structure Restorer.** Folder naming: `YYMMDD_Project_Client`
 
 ---

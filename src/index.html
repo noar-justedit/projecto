@@ -27,223 +27,231 @@
 @font-face{font-family:'Poppins';font-style:normal;font-weight:600;src:url('data:font/truetype;base64,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') format('truetype');font-display:swap}
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* Palette INGESTO exacte */
-  --bg:#0e0e10;--bg2:#131315;--bg3:#191920;--bg4:#1f1f23;--bg5:#252529;
-  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.13);--border3:rgba(255,255,255,0.2);
-  --text:#dcdcd8;--text2:#808078;--text3:#4a4a46;
-  --green:#3dff6e;--green-dim:rgba(61,255,110,0.13);--green-dim2:rgba(61,255,110,0.07);
-  --red:#ff4d4d;--red-dim:rgba(255,77,77,0.12);--red-border:rgba(255,77,77,0.32);
-  --gold:#d4a84a;--gold-dim:rgba(212,168,74,0.12);
-  --mono:'SF Mono','Fira Code',monospace;
-  --font:'SF Pro Display',-apple-system,BlinkMacSystemFont,sans-serif;
+--bg:#0c0c0e;--bg2:#141416;--bg3:#1c1c20;--bg4:#252528;--bg5:#2f2f34;
+--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);--border3:rgba(255,255,255,0.22);
+--text:#f2f2f5;--text2:#a8a8c0;--text3:#78788e;
+--green:#00e676;--green-d:rgba(0,230,118,0.10);--green-g:rgba(0,230,118,0.28);
+--green-dim:rgba(0,230,118,0.14);--green-dim2:rgba(0,230,118,0.05);
+--red:#ff3b3b;--red-d:rgba(255,59,59,0.10);--red-g:rgba(255,59,59,0.28);--red-dim:rgba(255,59,59,0.14);--red-border:rgba(255,59,59,0.30);
+--gold:#ff9500;--gold-dim:rgba(255,149,0,0.14);
+--blue:#3b9eff;
+--r:10px;--rs:6px;
+--font:'SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+--mono:'SF Mono','Fira Code',ui-monospace,monospace;
+--font-logo:'Poppins','SF Pro Display',sans-serif;
 }
-html,body{height:100%;overflow:hidden;min-height:0}
-body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
-.app{display:flex;flex-direction:column;height:100vh}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;-webkit-font-smoothing:antialiased;overflow:hidden}
+.app{height:100vh;display:flex;flex-direction:column}
+::selection{background:var(--green-dim);color:var(--text)}
 
-/* TOPBAR — INGESTO style */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 80px;height:42px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;-webkit-app-region:drag}
-.topbar *{-webkit-app-region:no-drag}
-.logo{display:flex;align-items:center;gap:8px}
-.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(61,255,110,0.6);flex-shrink:0}
-.logo-name{font-family:'Poppins',var(--font);font-size:18px;font-weight:600;letter-spacing:0.02em;color:var(--text);text-transform:lowercase}
-.logo-name::after{content:'.';color:var(--green)}
-.logo-ver{font-family:var(--font);font-size:13px;color:var(--text2);margin-left:8px;letter-spacing:0.05em}
-.topbar-right{font-size:12px;color:var(--text3);letter-spacing:0.07em}
+/* TITLEBAR */
+.titlebar{height:52px;flex-shrink:0;display:flex;align-items:center;gap:12px;padding:0 20px;border-bottom:1px solid var(--border);-webkit-app-region:drag}
+.is-mac .titlebar{padding-left:80px}
+.t-logo{display:flex;align-items:center;gap:9px;-webkit-app-region:no-drag}
+.t-dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green-g)}
+.logo-name{font-family:var(--font-logo);font-size:24px;font-weight:600;letter-spacing:.01em;text-transform:lowercase;color:var(--text)}
+.t-spacer{flex:1}
+.t-tag{font-size:13px;color:var(--text3);letter-spacing:.14em;text-transform:uppercase}
 
-/* LAYOUT */
-.body{display:flex;flex:1;overflow:hidden}
-.left-col{width:272px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;flex-shrink:0}
-.right-col{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;background:var(--bg)}
+/* MAIN / PANELS */
+.main{flex:1;display:flex;min-height:0}
+.panel{display:flex;flex-direction:column;overflow:hidden;min-height:0}
+.panel-left{width:44%;border-right:1px solid var(--border)}
+.panel-right{flex:1}
+.panel-hd{padding:14px 16px 11px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;flex-shrink:0}
+.p-dot{width:7px;height:7px;border-radius:50%}
+.dot-green{background:var(--green)}.dot-red{background:var(--red)}
+.panel-hd h2{font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.h-green{color:var(--green)}.h-red{color:var(--red)}
+.panel-scroll{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px}
+.panel-scroll::-webkit-scrollbar{width:3px}.panel-scroll::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
 
-/* SECTION — INGESTO style */
-.sec{border-bottom:1px solid var(--border)}
-.sec-head{display:flex;align-items:center;gap:6px;padding:6px 12px 4px}
-.sec-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.sec-dot.green{background:var(--green);box-shadow:0 0 5px rgba(61,255,110,0.5)}
-.sec-dot.red{background:var(--red);box-shadow:0 0 5px rgba(224,85,85,0.5)}
-.sec-dot.dim{background:var(--text3)}
-.sec-label{font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;flex:1}
-.sec-label.green{color:var(--green)}
-.sec-label.red{color:var(--red)}
-.sec-label.dim{color:var(--text2)}
-.badge{font-size:11px;padding:1px 6px;border-radius:2px;letter-spacing:0.05em;font-weight:600}
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.card-hd{display:flex;align-items:center;justify-content:space-between;padding:11px 13px 9px}
+.card-lbl{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
+.card-lbl.red{color:var(--red)}.card-lbl.green{color:var(--green)}
+.card-bd{padding:0 13px 13px;display:flex;flex-direction:column;gap:11px}
+
+/* BADGE */
+.badge{font-size:10px;font-weight:600;letter-spacing:.08em;padding:2px 8px;border-radius:20px;text-transform:uppercase}
+.badge-dim{background:rgba(255,255,255,0.06);color:var(--text3)}
 .badge-green{background:var(--green-dim);color:var(--green)}
 .badge-red{background:var(--red-dim);color:var(--red)}
-.badge-dim{background:rgba(255,255,255,0.06);color:var(--text3)}
 .badge-gold{background:var(--gold-dim);color:var(--gold)}
-.sec-body{padding:0 12px 8px}
-/* OTHER ZIPS LIST */
-.other-zips-wrap{margin-top:4px;display:none}
-.other-zips-wrap.visible{display:block}
-.other-zips-lbl{font-size:12px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;flex:1}
-.other-zips-header{display:flex;align-items:center;gap:4px;margin-bottom:3px}
-.btn-refresh-zips{background:none;border:1px solid var(--border2);border-radius:2px;cursor:pointer;color:var(--text3);width:16px;height:16px;padding:0;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.12s}
-.btn-refresh-zips:hover{border-color:var(--green);color:var(--green)}
-.btn-refresh-zips svg{width:9px;height:9px}
-.btn-show-finder{background:none;border:1px solid var(--border2);border-radius:2px;cursor:pointer;color:var(--text3);width:16px;height:16px;padding:0;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.12s}
-.btn-show-finder:hover{border-color:var(--gold);color:var(--gold)}
-.btn-show-finder svg{width:9px;height:9px}
-.other-zips-list{max-height:calc(5 * 34px);overflow-y:auto;display:flex;flex-direction:column;gap:2px}
-.other-zip-item{display:flex;align-items:center;gap:7px;padding:7px 9px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:all 0.12s;min-width:0}
-.other-zip-item:hover{border-color:rgba(61,255,110,0.3);background:var(--green-dim2)}
-.other-zip-item.active{border-color:var(--green);background:var(--green-dim)}
-.other-zip-icon{color:var(--text3);flex-shrink:0;font-size:12px}
-.other-zip-item.active .other-zip-icon{color:var(--green)}
-.other-zip-name{font-family:var(--mono);font-size:13px;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.other-zip-item.active .other-zip-name{color:var(--green)}
-.other-zips-list::-webkit-scrollbar{width:2px}
-.other-zips-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 
-/* SOURCE DROP — INGESTO style */
-.drop-zip{border:1px dashed var(--border3);border-radius:2px;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.15s;background:var(--bg3);position:relative}
-.drop-zip:hover,.drop-zip.over{border-color:var(--green);background:var(--green-dim2)}
+/* DROP ZIP (source) */
+.drop-zip{position:relative;border:1.5px dashed var(--border2);border-radius:var(--rs);padding:13px 14px;min-height:56px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .2s;background:rgba(255,59,59,0.02);border-color:rgba(255,59,59,0.22)}
 .drop-zip input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.dz-icon{color:var(--text3);flex-shrink:0;transition:color 0.15s}
+.drop-zip .dz-icon{color:var(--text3);flex-shrink:0;transition:color .2s}
+.drop-zip:hover{border-color:var(--red);background:var(--red-d)}
+.drop-zip.over{border-color:var(--red);background:var(--red-d);box-shadow:0 0 14px var(--red-g)}
+.drop-zip.has-file{border-style:solid;border-color:rgba(0,230,118,.35);background:rgba(0,230,118,.05)}
 .drop-zip.has-file .dz-icon,.drop-zip.over .dz-icon{color:var(--green)}
-.dz-text{flex:1;min-width:0}
-.dz-main{font-size:15px;font-weight:600;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.drop-zip.has-file .dz-main{color:var(--green);letter-spacing:0.02em}
-.dz-sub{font-size:12px;color:var(--text3);margin-top:1px}
+.dz-text{min-width:0}
+.dz-main{font-size:15px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drop-zip.has-file .dz-main{color:var(--green);font-family:var(--mono);font-size:13px;letter-spacing:.01em}
+.dz-sub{font-size:12px;color:var(--text3);margin-top:2px}
+
+/* OTHER ZIPS */
+.other-zips-wrap{display:none}
+.other-zips-wrap.visible{display:block;margin-top:2px}
+.other-zips-header{display:flex;align-items:center;gap:7px;padding:2px 2px 6px}
+.other-zips-lbl{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);flex:1}
+.btn-mini{width:20px;height:20px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text3);cursor:pointer;transition:all .12s;padding:0}
+.btn-mini svg{width:10px;height:10px}
+.btn-mini:hover{color:var(--text);border-color:var(--border2)}
+.other-zips-list{display:flex;flex-direction:column;gap:3px}
+.other-zip-item{display:flex;align-items:center;gap:8px;padding:6px 9px;border-radius:var(--rs);background:var(--bg3);border:1px solid transparent;cursor:pointer;transition:all .12s}
+.other-zip-item:hover{border-color:var(--border2)}
+.other-zip-item.active{background:var(--green-dim2);border-color:rgba(0,230,118,.4)}
+.other-zip-icon{font-size:11px;color:var(--text3);flex-shrink:0}
+.other-zip-item.active .other-zip-icon{color:var(--green)}
+.other-zip-name{font-family:var(--mono);font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.other-zip-item.active .other-zip-name{color:var(--text)}
 
 /* DESTINATION */
-.dest-row{display:flex;gap:5px;align-items:stretch}
-.dest-path-box{font-family:var(--mono);flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:2px;padding:6px 9px;font-size:14px;font-weight:600;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;display:flex;align-items:center;gap:4px}
-.dest-path-box.active{color:var(--text);border-color:var(--red-border)}
-.dest-path-box.session{border-style:dashed;color:var(--text2)}
-.dest-path-text{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dest-clear{background:none;border:none;cursor:pointer;color:var(--text3);font-size:12px;padding:0;flex-shrink:0;line-height:1;display:none}
-.dest-clear:hover{color:var(--red)}
-.btn-browse-dest{font-family:var(--font);font-size:12px;padding:5px 10px;background:var(--red-dim);border:1px solid var(--red-border);border-radius:2px;color:var(--red);cursor:pointer;transition:all 0.12s;white-space:nowrap;flex-shrink:0}
-.btn-browse-dest:hover{background:rgba(224,85,85,0.22)}
+.dest-row{display:flex;gap:9px;align-items:stretch}
+.dest-path-box{flex:1;display:flex;align-items:center;gap:6px;min-width:0;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:8px 11px}
+.dest-path-text{font-family:var(--mono);font-size:13px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.dest-clear{display:none;width:18px;height:18px;border-radius:4px;border:none;background:transparent;color:var(--text3);cursor:pointer;font-size:15px;line-height:1;flex-shrink:0}
+.dest-clear:hover{color:var(--red);background:var(--red-dim)}
+.dest-path-box.active{border-color:rgba(0,230,118,.4)}
+.dest-path-box.active .dest-path-text{color:var(--green)}
+.dest-path-box.session{border-style:dashed}
+.browse-btn{font-size:14px;color:var(--text2);border:1px solid var(--border);border-radius:5px;padding:0 14px;cursor:pointer;background:var(--bg3);font-family:var(--font);transition:all .15s;white-space:nowrap;flex-shrink:0}
+.browse-btn:hover{color:var(--green);border-color:rgba(0,230,118,.4);background:var(--green-dim2)}
 
 /* FIELDS */
-.field{margin-bottom:4px}
-.field-lbl{font-size:12px;letter-spacing:0.13em;color:var(--text3);text-transform:uppercase;margin-bottom:3px}
-.field-inp{background:var(--bg4);border:1px solid var(--border2);border-radius:2px;color:var(--text);font-family:var(--font);font-size:13px;padding:5px 8px;outline:none;transition:border-color 0.12s;width:100%}
-.field-inp:focus{border-color:var(--green)}
-.field-inp.err{border-color:var(--red)}
+.row2{display:flex;gap:11px}.row2 .field{flex:1;min-width:0}
+.field{display:flex;flex-direction:column;gap:5px}
+.field-lbl{font-size:11px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase}
+.field-inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:8px 11px;color:var(--text);font-size:15px;font-family:var(--font);outline:none;transition:border-color .15s;-webkit-user-select:text;user-select:text}
+.field-inp:focus{border-color:var(--border2)}
 .field-inp::placeholder{color:var(--text3)}
-.err-msg{font-size:12px;color:var(--red);margin-top:2px;display:none}
+.field-inp.err{border-color:var(--red)}
+.err-msg{font-size:11px;color:var(--red);display:none}
 .err-msg.on{display:block}
 
-/* SEP */
-.sep-row{display:flex;gap:4px}
-.sep-opt{font-family:var(--font);font-size:12px;padding:4px 16px;background:var(--bg4);border:1px solid var(--border2);border-radius:2px;color:var(--text2);cursor:pointer;transition:all 0.12s}
-.sep-opt.active{background:var(--green-dim);border-color:rgba(61,255,110,0.3);color:var(--green)}
-.sep-opt:hover:not(.active){border-color:var(--border3);color:var(--text)}
+/* CHIPS / SEPARATOR */
+.chips{display:flex;gap:7px}
+.chip{font-size:14px;font-weight:600;padding:7px 16px;border-radius:6px;border:1px solid var(--border);color:var(--text2);cursor:pointer;background:var(--bg3);font-family:var(--mono);transition:all .15s}
+.chip:hover{border-color:var(--border2)}
+.sep-opt.active{border-color:var(--green);color:var(--green);background:var(--green-dim2)}
 
-/* TOGGLES ROW */
-.toggles-row{display:flex;flex-direction:column;gap:4px}
-.toggle-item{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
-.toggle-track{width:28px;height:15px;border-radius:8px;background:var(--bg4);border:1px solid var(--border2);position:relative;transition:all 0.18s;flex-shrink:0}
-.toggle-thumb{position:absolute;top:2px;left:2px;width:9px;height:9px;border-radius:50%;background:var(--text3);transition:all 0.18s}
-.toggle-item.on .toggle-track{background:var(--green-dim);border-color:rgba(61,255,110,0.35)}
-.toggle-item.on .toggle-thumb{left:15px;background:var(--green)}
-.toggle-lbl{font-size:12px;color:var(--text2);flex:1}
-.toggle-item.on .toggle-lbl{color:var(--green)}
-.toggle-hint{font-size:12px;color:var(--text3)}
+/* TOGGLES */
+.opts{display:flex;flex-direction:column;gap:9px}
+.toggle-item{display:flex;align-items:center;gap:8px;cursor:pointer}
+.toggle-lbl{font-size:14px;color:var(--text2)}
+.toggle-hint{font-size:12px;color:var(--text3);font-family:var(--mono)}
+.toggle-track{margin-left:auto;position:relative;width:34px;height:19px;border-radius:20px;background:var(--bg4);border:1px solid var(--border);flex-shrink:0;transition:all .15s}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--text3);transition:all .15s}
+.toggle-item.on .toggle-track{background:rgba(0,230,118,.22);border-color:rgba(0,230,118,.5)}
+.toggle-item.on .toggle-thumb{transform:translateX(15px);background:var(--green)}
+.toggle-item.on .toggle-lbl{color:var(--text)}
 
-/* FOLDER PREVIEW */
-.folder-preview-wrap{margin-top:3px}
-.folder-preview-lbl{font-size:12px;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3px}
-.folder-preview{font-family:var(--mono);background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:6px 9px;font-size:13px;color:var(--green);word-break:break-all;min-height:24px;display:flex;align-items:center}
-.folder-preview.empty{color:var(--text3);font-style:italic;font-size:11px}
+/* SROW (output) */
+.srow{background:var(--bg3);border-radius:var(--rs);padding:9px 12px}
+.sr-lbl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.sr-val{font-size:18px;font-weight:600;margin-top:3px;font-family:var(--mono);color:var(--green);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.folder-preview{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--green);margin-top:3px;word-break:break-all}
+.folder-preview.empty{color:var(--text3);font-weight:400;font-size:14px}
 
-/* RIGHT */
-.right-top{padding:10px 14px 8px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg2)}
-.rtitle{font-size:12px;letter-spacing:0.16em;color:var(--text3);text-transform:uppercase;margin-bottom:5px}
-.stat-row{display:flex;gap:12px;flex-wrap:wrap}
-.stat{display:flex;align-items:center;gap:4px}
-.stat-dot{width:4px;height:4px;border-radius:50%;background:var(--bg4);flex-shrink:0}
+/* CRUMB */
+.crumb{display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--border);flex-shrink:0;flex-wrap:wrap}
+.cstat{display:flex;align-items:center;gap:6px}
+.stat-dot{width:6px;height:6px;border-radius:50%;background:var(--bg4);flex-shrink:0}
 .stat-dot.ok{background:var(--green)}.stat-dot.warn{background:var(--gold)}.stat-dot.err{background:var(--red)}
-.stat-lbl{font-size:12px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase}
-.stat-val{font-size:12px;color:var(--text2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cstat-l{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.cstat-v{font-size:12px;color:var(--text2);font-family:var(--mono);max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cstat-v.cur{color:var(--green)}
+.csep{color:var(--text3);opacity:.5}
 
-.right-body{flex:1;padding:9px 13px;overflow:hidden;display:flex;flex-direction:column;gap:7px;min-height:0}
+/* RIGHT BODY */
+.right-body{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;padding:12px 14px 4px}
+#alert-area:empty{display:none}
+.alert{display:flex;gap:9px;padding:10px 12px;border-radius:var(--rs);font-size:13px;line-height:1.5;flex-shrink:0}
+.alert-ico{flex-shrink:0;font-size:14px}
+.alert-txt strong{font-weight:600}
+.alert-detail{margin-top:5px;font-family:var(--mono);font-size:11px;color:var(--text3);white-space:pre-wrap}
+.alert-ok{background:var(--green-dim2);border:1px solid rgba(0,230,118,.25);color:var(--text2)}.alert-ok .alert-ico{color:var(--green)}
+.alert-err{background:var(--red-d);border:1px solid var(--red-border);color:var(--text2)}.alert-err .alert-ico{color:var(--red)}
+.alert-warn{background:var(--gold-dim);border:1px solid rgba(255,149,0,.3);color:var(--text2)}.alert-warn .alert-ico{color:var(--gold)}
 
-/* TREE — with selection & exclusion */
-.tree-box{background:var(--bg2);border:1px solid var(--border);border-radius:2px;display:flex;flex-direction:column;flex:1;min-height:0;outline:none}
-.tree-head{padding:5px 9px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;flex-shrink:0}
-.tree-head-lbl{font-size:12px;letter-spacing:0.14em;color:var(--text3);text-transform:uppercase;flex:1}
-.tree-hint{font-size:12px;color:var(--text3);font-style:italic}
-.tree-body{padding:4px 0;overflow-y:auto;flex:1;font-size:12px;line-height:1;outline:none}
+/* EXCLUSION SUMMARY */
+.excl-summary{flex-shrink:0;display:none;background:var(--red-d);border:1px solid var(--red-border);border-radius:var(--rs);padding:7px 11px;font-size:12px;color:var(--red)}
+.excl-summary.visible{display:flex;align-items:center;gap:8px}
+#excl-count-label{flex:1}
+.excl-clear-all{font-size:11px;color:var(--text3);background:transparent;border:1px solid var(--border);border-radius:4px;padding:3px 9px;cursor:pointer;font-family:var(--font);transition:all .12s}
+.excl-clear-all:hover{color:var(--text);border-color:var(--border2)}
 
-.tree-row{display:flex;align-items:center;gap:0;padding:1px 9px;cursor:pointer;border-radius:0;transition:background 0.08s;user-select:none;position:relative}
-.tree-row:hover{background:rgba(255,255,255,0.03)}
-.tree-row.selected{background:rgba(61,255,110,0.08)}
-.tree-row.excluded{opacity:0.35}
-.tree-row.excluded .t-dn,.tree-row.excluded .t-fn{text-decoration:line-through;color:var(--text3)}
+/* TREE */
+.tree-box{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.tree-box:focus{outline:none;border-color:var(--border2)}
+.tree-head{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.tree-head-lbl{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text2)}
+.tree-hint{font-size:11px;color:var(--text3);margin-left:auto}
+.tree-body{flex:1;overflow-y:auto;padding:6px 6px 10px}
+.tree-body::-webkit-scrollbar{width:3px}.tree-body::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
+.tree-empty{padding:24px 12px;text-align:center;color:var(--text3);font-size:13px}
+.tree-row{display:flex;align-items:center;gap:2px;padding:4px 8px;border-radius:5px;cursor:default;white-space:nowrap}
+.tree-row:hover{background:var(--bg3)}
+.tree-row.selected{background:var(--green-dim);}
+.tree-row.selected .tree-name{color:var(--green)}
+.tree-row.excluded{opacity:.45}
+.tree-row.excluded .tree-name{text-decoration:line-through}
+.tree-ind{font-family:var(--mono);font-size:12px;color:var(--bg5);white-space:pre;flex-shrink:0}
+.tree-icon{font-family:var(--mono);font-size:10px;color:var(--text3);width:14px;text-align:center;flex-shrink:0}
+.tree-icon.dir{color:var(--green)}
+.tree-name{font-family:var(--mono);font-size:13px;color:var(--text2)}
+.tree-name.dir{color:var(--text)}
+.tree-name.file{color:var(--text3)}
+.excl-badge{font-size:9px;font-weight:600;color:var(--red);background:var(--red-dim);border-radius:3px;padding:1px 5px;margin-left:6px;letter-spacing:.05em}
 
-.tree-ind{color:rgba(255,255,255,0.07);white-space:pre;flex-shrink:0;font-size:11px;line-height:2}
-.tree-icon{flex-shrink:0;width:14px;font-size:12px;line-height:2;color:var(--text3)}
-.tree-row:not(.excluded) .tree-icon.dir{color:var(--green)}
-.tree-name{font-family:var(--mono);font-size:12px;line-height:2;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tree-row:not(.excluded) .tree-name.dir{color:var(--text)}
-.tree-name.file{color:var(--text2)}
-.excl-badge{margin-left:6px;font-size:10px;padding:0 4px;border-radius:2px;background:var(--red-dim);border:1px solid var(--red-border);color:var(--red);flex-shrink:0;line-height:1.8}
+/* INFO COUNTS */
+.info-g{display:none;grid-template-columns:1fr 1fr;gap:10px;flex-shrink:0}
+.info-c{flex:1;background:var(--bg3);border-radius:var(--rs);padding:8px 12px}
+.info-c-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.info-c-val{font-size:20px;font-weight:600;font-family:var(--mono);color:var(--text);margin-top:2px}
 
-.tree-empty{color:var(--text3);font-style:italic;padding:12px 9px;font-size:12px}
-
-/* Context menu */
-.ctx-menu{position:fixed;background:var(--bg3);border:1px solid var(--border3);border-radius:3px;padding:3px 0;z-index:999;min-width:150px;box-shadow:0 4px 16px rgba(0,0,0,0.5)}
-.ctx-item{padding:6px 14px;font-size:12px;cursor:pointer;color:var(--text2);letter-spacing:0.04em;display:flex;align-items:center;gap:7px;transition:background 0.1s}
-.ctx-item:hover{background:rgba(255,255,255,0.06);color:var(--text)}
-.ctx-item.danger:hover{background:var(--red-dim);color:var(--red)}
-.ctx-sep{height:1px;background:var(--border);margin:3px 0}
-
-.info-g{display:grid;grid-template-columns:1fr 1fr;gap:5px;flex-shrink:0}
-.info-c{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:5px 9px}
-.info-c-lbl{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1px}
-.info-c-val{font-size:18px;color:var(--text);font-weight:500}
-
-/* ALERT */
-.alert{padding:8px 10px;border-radius:2px;font-size:12px;line-height:1.6;display:flex;gap:6px;align-items:flex-start;flex-shrink:0}
-.alert-err{background:var(--red-dim);border:1px solid var(--red-border);color:#e07a6a}
-.alert-ok{background:var(--green-dim);border:1px solid rgba(61,255,110,0.2);color:var(--green)}
-.alert-warn{background:var(--gold-dim);border:1px solid rgba(212,168,74,0.2);color:var(--gold)}
-.alert-ico{flex-shrink:0;font-size:12px}
-.alert-txt{flex:1;word-break:break-word}
-.alert-txt strong{display:block;margin-bottom:2px}
-.alert-detail{margin-top:4px;font-size:10px;opacity:0.85;line-height:1.8}
-
-/* EXCL SUMMARY */
-.excl-summary{flex-shrink:0;background:var(--bg3);border:1px solid var(--red-border);border-radius:2px;padding:5px 9px;font-size:12px;color:var(--red);display:none}
-.excl-summary.visible{display:flex;align-items:center;gap:6px}
-.excl-clear-all{background:none;border:none;cursor:pointer;color:var(--red);font-family:var(--font);font-size:10px;text-decoration:underline;padding:0}
-
-/* BOTTOM */
-/* BOTTOM BAR — INGESTO style: full-width green button */
-.bottom-bar{padding:10px 14px;border-top:1px solid var(--border);display:flex;align-items:center;background:var(--bg2);flex-shrink:0;position:relative;gap:10px}
-.btn-go{font-family:var(--font);font-size:15px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;padding:10px 0;background:var(--green);color:#050506;border:none;border-radius:2px;cursor:pointer;transition:all 0.12s;flex:1;display:flex;align-items:center;justify-content:center;gap:8px}
+/* PROGRESS + LAUNCH */
+.prog-bar-wrap{height:2px;background:var(--bg3);flex-shrink:0;overflow:hidden}
+.prog-fill{height:100%;width:0;background:var(--green);transition:width .2s;box-shadow:0 0 8px var(--green-g)}
+.launch{display:flex;gap:9px;padding:13px 15px 15px;border-top:1px solid var(--border);flex-shrink:0}
+.btn-go{flex:1;padding:15px;border-radius:var(--r);border:none;font-family:var(--font);font-size:17px;font-weight:700;letter-spacing:.06em;cursor:pointer;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:9px;background:var(--green);color:#000;box-shadow:0 0 22px rgba(0,230,118,.30),0 4px 12px rgba(0,0,0,.3);transition:all .2s}
 .btn-go::before{content:"▶";font-size:12px}
-.btn-go:hover{background:#5fffaa}
-.btn-go:disabled{background:var(--bg5);color:var(--text3);cursor:not-allowed}
-.btn-go:disabled::before{content:"▶"}
-.btn-reset{width:30px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--red-dim);border:1px solid var(--red-border);border-radius:2px;cursor:pointer;color:var(--red);flex-shrink:0}
-.btn-reset:hover{background:rgba(224,85,85,0.22)}
-.btn-reset svg{width:13px;height:13px}
-.prog-bar-wrap{height:2px;background:var(--bg5);flex-shrink:0}
-.prog-fill{height:100%;background:var(--green);transition:width 0.4s;width:0%}
+.btn-go:hover:not(:disabled){background:#00ff85;transform:translateY(-1px)}
+.btn-go:active:not(:disabled){transform:translateY(0)}
+.btn-go:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;box-shadow:none}
+.btn-go.danger:not(:disabled){background:var(--red);color:#fff;box-shadow:0 0 22px rgba(255,59,59,.3),0 4px 12px rgba(0,0,0,.3)}
+.btn-reset{width:50px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.btn-reset svg{width:14px;height:14px}
+.btn-reset:hover{color:var(--text);border-color:var(--border2)}
 
-::-webkit-scrollbar{width:2px;height:2px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-.left-col{scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
-.footer{padding:8px 14px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+/* FOOTER */
+.footer{height:34px;flex-shrink:0;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:var(--bg2)}
 .footer-left{display:flex;align-items:center;gap:10px}
-.footer-ver{font-size:12px;color:var(--text3);letter-spacing:0.05em}
-.footer-link{font-size:12px;color:var(--text3);letter-spacing:0.06em;text-decoration:none;cursor:pointer;transition:color 0.12s}
+.footer-ver{font-size:12px;color:var(--text3);letter-spacing:.05em}
+.footer-link{font-size:12px;color:var(--text3);cursor:pointer;text-decoration:none;transition:color .12s}
 .footer-link:hover{color:var(--green)}
-.footer-right{font-size:12px;color:var(--text3);letter-spacing:0.04em}
+.footer-right{font-size:12px;color:var(--text3)}
 
-/* UPDATE — overlay façon INGESTO */
+/* CONTEXT MENU */
+.ctx-menu{position:fixed;z-index:1000;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rs);padding:4px;min-width:170px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.ctx-item{display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:5px;font-size:13px;color:var(--text2);cursor:pointer}
+.ctx-item:hover{background:var(--bg4);color:var(--text)}
+.ctx-item.danger:hover{background:var(--red-d);color:var(--red)}
+.ctx-item span:first-child{width:14px;text-align:center;color:var(--text3)}
+.ctx-sep{height:1px;background:var(--border);margin:4px 0}
+
+/* UPDATE OVERLAY */
 #update-ov{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:2000}
 #update-ov .upd-card{background:var(--bg2);border:1px solid var(--border2);border-radius:8px;padding:22px 24px;max-width:360px;box-shadow:0 12px 40px rgba(0,0,0,0.55)}
 #update-ov .upd-h{font-size:17px;font-weight:700;color:var(--text);margin-bottom:5px}
-#update-ov .upd-sub{font-size:14px;color:var(--text2);line-height:1.5;margin-bottom:18px}
+#update-ov .upd-sub{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:18px}
 #update-ov .upd-actions{display:flex;gap:10px;justify-content:flex-end}
-#update-ov .upd-btn{font-family:var(--font);font-size:15px;padding:8px 16px;border-radius:6px;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);transition:all 0.12s}
+#update-ov .upd-btn{font-family:var(--font);font-size:14px;padding:8px 16px;border-radius:6px;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);transition:all 0.12s}
 #update-ov .upd-btn:hover{border-color:var(--border3);color:var(--text)}
 #update-ov .upd-btn.upd-go{background:var(--green);border-color:var(--green);color:#050506;font-weight:700}
 #update-ov .upd-btn.upd-go:hover{background:#5fffaa}
@@ -252,135 +260,126 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:17
 <body>
 <div class="app">
 
-<div class="topbar">
-  <div class="logo">
-    <span class="logo-dot"></span>
-    <span class="logo-name">projecto</span>
-  </div>
-  <span class="topbar-right">project structure restorer</span>
+<div class="titlebar">
+  <div class="t-logo"><span class="t-dot"></span><span class="logo-name">projecto</span></div>
+  <div class="t-spacer"></div>
+  <span class="t-tag">project structure restorer</span>
 </div>
 
-<div class="body">
-<div class="left-col">
+<div class="main">
 
-  <!-- SOURCE -->
-  <div class="sec">
-    <div class="sec-head">
-      <span class="sec-dot green"></span><span class="sec-label green">Sources</span>
-      <span class="badge badge-dim" id="src-badge">WAITING</span>
-    </div>
-    <div class="sec-body">
-      <div class="drop-zip" id="drop-zip">
-        <input type="file" id="file-inp" accept=".zip">
-        <svg class="dz-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
-          <rect x="2" y="2" width="12" height="16" rx="1" stroke="currentColor" stroke-width="1.2"/>
-          <path d="M11 2V7H16" stroke="currentColor" stroke-width="1.2"/>
-          <path d="M11 2L16 7V18H2" stroke="currentColor" stroke-width="1.2"/>
-          <text x="3.5" y="16.5" font-size="4" fill="currentColor" font-family="monospace" font-weight="600">ZIP</text>
-        </svg>
-        <div class="dz-text">
-          <div class="dz-main" id="dz-main">Drop a ZIP file here</div>
-          <div class="dz-sub" id="dz-sub">or click to browse · .zip only</div>
+<!-- LEFT PANEL -->
+<div class="panel panel-left">
+  <div class="panel-hd"><span class="p-dot dot-green"></span><h2 class="h-green">Setup</h2></div>
+  <div class="panel-scroll">
+
+    <!-- SOURCE -->
+    <div class="card">
+      <div class="card-hd"><span class="card-lbl red">Source</span><span class="badge badge-dim" id="src-badge">WAITING</span></div>
+      <div class="card-bd">
+        <div class="drop-zip" id="drop-zip">
+          <input type="file" id="file-inp" accept=".zip">
+          <svg class="dz-icon" width="18" height="18" viewBox="0 0 20 20" fill="none">
+            <path d="M11 2L16 7V18H2V2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M11 2V7H16" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <text x="3.5" y="16.5" font-size="4" fill="currentColor" font-family="monospace" font-weight="600">ZIP</text>
+          </svg>
+          <div class="dz-text">
+            <div class="dz-main" id="dz-main">Drop a ZIP file here</div>
+            <div class="dz-sub" id="dz-sub">or click to browse · .zip only</div>
+          </div>
+        </div>
+        <div class="other-zips-wrap" id="other-zips-wrap">
+          <div class="other-zips-header">
+            <span class="other-zips-lbl">Templates in folder</span>
+            <button class="btn-mini" onclick="refreshOtherZipsList()" title="Refresh list">
+              <svg viewBox="0 0 9 9" fill="none"><path d="M1.3 4.5A3.2 3.2 0 1 0 4.5 1.3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M4.5 0.2L4.5 2.2L2.6 1.3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="btn-mini" onclick="openSourceInFinder()" title="Show folder in Finder">
+              <svg viewBox="0 0 9 9" fill="none"><rect x="0.5" y="2" width="8" height="6.5" rx="0.7" stroke="currentColor" stroke-width="1"/><path d="M0.5 3.2H3.3L4.1 2H8.5" stroke="currentColor" stroke-width="1"/></svg>
+            </button>
+          </div>
+          <div class="other-zips-list" id="other-zips-list"></div>
         </div>
       </div>
-      <!-- Inline list of other ZIPs in same folder -->
-      <div class="other-zips-wrap" id="other-zips-wrap">
-        <div class="other-zips-header">
-          <span class="other-zips-lbl">Found Templates in Folder</span>
-          <button class="btn-refresh-zips" onclick="refreshOtherZipsList()" title="Refresh list">
-            <svg viewBox="0 0 9 9" fill="none"><path d="M1.3 4.5A3.2 3.2 0 1 0 4.5 1.3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M4.5 1.3L3.1 2.6M4.5 1.3L3.1 0" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="btn-show-finder" onclick="openSourceInFinder()" title="Show folder in Finder">
-            <svg viewBox="0 0 9 9" fill="none"><rect x="0.5" y="2" width="8" height="6.5" rx="0.7" stroke="currentColor" stroke-width="1"/><path d="M0.5 3.8H8.5" stroke="currentColor" stroke-width="1"/><rect x="1" y="0.5" width="3" height="2" rx="0.4" stroke="currentColor" stroke-width="1"/></svg>
-          </button>
-        </div>
-        <div class="other-zips-list" id="other-zips-list"></div>
-      </div>
     </div>
-  </div>
 
-  <!-- DESTINATION -->
-  <div class="sec">
-    <div class="sec-head">
-      <span class="sec-dot red"></span><span class="sec-label red">Destination</span>
-      <span class="badge badge-dim" id="dest-badge">NONE</span>
-    </div>
-    <div class="sec-body">
-      <div class="dest-row">
-        <div class="dest-path-box" id="dest-path-box">
-          <span class="dest-path-text" id="dest-path-text">Not set</span>
-          <button class="dest-clear" id="dest-clear" onclick="clearDest()">×</button>
-        </div>
-        <button class="btn-browse-dest" onclick="browseDest()">Browse</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- FOLDER NAME -->
-  <div class="sec">
-    <div class="sec-head"><span class="sec-dot dim"></span><span class="sec-label dim">Folder Name</span></div>
-    <div class="sec-body">
-
-      <div class="field">
-        <div class="field-lbl">Project</div>
-        <input class="field-inp" type="text" id="v-name" placeholder="MyProject" maxlength="40" spellcheck="false" oninput="onVar(this,'e-name')">
-        <div class="err-msg" id="e-name">No special characters</div>
-      </div>
-
-      <div class="field">
-        <div class="field-lbl">Client</div>
-        <input class="field-inp" type="text" id="v-client" placeholder="ClientName" maxlength="40" spellcheck="false" oninput="onVar(this,'e-client')">
-        <div class="err-msg" id="e-client">No special characters</div>
-      </div>
-
-      <div class="field">
-        <div class="field-lbl">Separator</div>
-        <div class="sep-row">
-          <button class="sep-opt active" data-sep="_" onclick="setSep('_',this)">_</button>
-          <button class="sep-opt" data-sep="-" onclick="setSep('-',this)">-</button>
+    <!-- DESTINATION -->
+    <div class="card">
+      <div class="card-hd"><span class="card-lbl green">Destination</span><span class="badge badge-dim" id="dest-badge">NONE</span></div>
+      <div class="card-bd">
+        <div class="dest-row">
+          <div class="dest-path-box" id="dest-path-box">
+            <span class="dest-path-text" id="dest-path-text">Not set</span>
+            <button class="dest-clear" id="dest-clear" onclick="clearDest()">×</button>
+          </div>
+          <button class="browse-btn" onclick="browseDest()">Browse</button>
         </div>
       </div>
+    </div>
 
-      <div class="field">
-        <div class="field-lbl">Options</div>
-        <div class="toggles-row">
+    <!-- FOLDER NAME -->
+    <div class="card">
+      <div class="card-hd"><span class="card-lbl">Folder name</span></div>
+      <div class="card-bd">
+        <div class="row2">
+          <div class="field">
+            <div class="field-lbl">Project</div>
+            <input class="field-inp" type="text" id="v-name" placeholder="MyProject" maxlength="40" spellcheck="false" oninput="onVar(this,'e-name')">
+            <div class="err-msg" id="e-name">No special characters</div>
+          </div>
+          <div class="field">
+            <div class="field-lbl">Client</div>
+            <input class="field-inp" type="text" id="v-client" placeholder="ClientName" maxlength="40" spellcheck="false" oninput="onVar(this,'e-client')">
+            <div class="err-msg" id="e-client">No special characters</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-lbl">Separator</div>
+          <div class="chips sep-row">
+            <button class="chip sep-opt active" data-sep="_" onclick="setSep('_',this)">_</button>
+            <button class="chip sep-opt" data-sep="-" onclick="setSep('-',this)">-</button>
+          </div>
+        </div>
+
+        <div class="opts">
           <div class="toggle-item on" id="tog-date" onclick="toggleOpt('useDate')">
-            <div class="toggle-track"><div class="toggle-thumb"></div></div>
             <span class="toggle-lbl">Include date</span>
             <span class="toggle-hint" id="date-hint"></span>
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
           </div>
           <div class="toggle-item" id="tog-caps" onclick="toggleOpt('useCaps')">
-            <div class="toggle-track"><div class="toggle-thumb"></div></div>
-            <span class="toggle-lbl">FULL CAPS</span>
+            <span class="toggle-lbl">Full caps</span>
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
           </div>
         </div>
-      </div>
 
-      <div class="folder-preview-wrap">
-        <div class="folder-preview-lbl">Output folder</div>
-        <div class="folder-preview empty" id="folder-preview">—</div>
+        <div class="srow">
+          <div class="sr-lbl">Output folder</div>
+          <div class="folder-preview empty" id="folder-preview">—</div>
+        </div>
       </div>
-
     </div>
+
   </div>
+</div>
 
-</div><!-- /left -->
+<!-- RIGHT PANEL -->
+<div class="panel panel-right">
+  <div class="panel-hd"><span class="p-dot dot-green"></span><h2 class="h-green">Structure</h2></div>
 
-<!-- RIGHT -->
-<div class="right-col">
-  <div class="right-top">
-    <div class="rtitle">Structure Preview</div>
-    <div class="stat-row">
-      <div class="stat"><span class="stat-dot" id="d-src"></span><span class="stat-lbl">Source</span><span class="stat-val" id="l-src">—</span></div>
-      <div class="stat"><span class="stat-dot" id="d-dest"></span><span class="stat-lbl">Dest</span><span class="stat-val" id="l-dest">—</span></div>
-      <div class="stat"><span class="stat-dot" id="d-folder"></span><span class="stat-lbl">Folder</span><span class="stat-val" id="l-folder">—</span></div>
-    </div>
+  <div class="crumb">
+    <span class="cstat"><span class="stat-dot" id="d-src"></span><span class="cstat-l">Source</span><span class="cstat-v" id="l-src">—</span></span>
+    <span class="csep">→</span>
+    <span class="cstat"><span class="stat-dot" id="d-dest"></span><span class="cstat-l">Dest</span><span class="cstat-v" id="l-dest">—</span></span>
+    <span class="csep">→</span>
+    <span class="cstat"><span class="stat-dot" id="d-folder"></span><span class="cstat-l">Folder</span><span class="cstat-v cur" id="l-folder">—</span></span>
   </div>
 
   <div class="right-body">
     <div id="alert-area"></div>
 
-    <!-- Exclusion summary bar -->
     <div class="excl-summary" id="excl-summary">
       <span id="excl-count-label"></span>
       <button class="excl-clear-all" onclick="clearAllExclusions()">Clear all</button>
@@ -388,7 +387,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:17
 
     <div class="tree-box" id="tree-box" tabindex="0">
       <div class="tree-head">
-        <span class="tree-head-lbl">ZIP Contents</span>
+        <span class="tree-head-lbl">ZIP contents</span>
         <span class="badge badge-dim" id="tree-count">0 items</span>
         <span class="tree-hint">Space / right-click to exclude</span>
       </div>
@@ -402,8 +401,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:17
   </div>
 
   <div class="prog-bar-wrap"><div class="prog-fill" id="prog-fill"></div></div>
-  <div class="bottom-bar">
-    <button class="btn-go" id="btn-go" onclick="doRestore()" disabled>RESTORE</button>
+  <div class="launch">
+    <button class="btn-go" id="btn-go" onclick="doRestore()" disabled>Restore structure</button>
     <button class="btn-reset" onclick="doReset()" title="Reset">
       <svg viewBox="0 0 13 13" fill="none">
         <path d="M2 6.5A4.5 4.5 0 1 0 6.5 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
@@ -413,28 +412,27 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:17
   </div>
 </div>
 
-</div><!-- /body -->
+</div><!-- /main -->
+
 <div class="footer">
   <span class="footer-left"><span class="footer-ver" id="app-ver"></span><a class="footer-link" id="gh-link">github</a></span>
   <span class="footer-right">© 2026</span>
-</div><!-- /app -->
+</div>
 
 <!-- CONTEXT MENU -->
 <div class="ctx-menu" id="ctx-menu" style="display:none">
-  <div class="ctx-item danger" id="ctx-exclude" onclick="ctxExclude()">
-    <span>⊘</span><span>Exclude folder</span>
-  </div>
-  <div class="ctx-item" id="ctx-include" onclick="ctxInclude()" style="display:none">
-    <span>✓</span><span>Re-include folder</span>
-  </div>
+  <div class="ctx-item danger" id="ctx-exclude" onclick="ctxExclude()"><span>⊘</span><span>Exclude folder</span></div>
+  <div class="ctx-item" id="ctx-include" onclick="ctxInclude()" style="display:none"><span>✓</span><span>Re-include folder</span></div>
   <div class="ctx-sep"></div>
-  <div class="ctx-item" onclick="clearAllExclusions();hideCtx()">
-    <span>↺</span><span>Clear all exclusions</span>
-  </div>
+  <div class="ctx-item" onclick="clearAllExclusions();hideCtx()"><span>↺</span><span>Clear all exclusions</span></div>
 </div>
+
+</div><!-- /app -->
 
 <script src="./vendor/jszip.min.js"></script>
 <script>
+// Réserve la place des boutons fenêtre macOS (titleBarStyle hiddenInset)
+if(/Mac/i.test(navigator.userAgent)) document.body.classList.add('is-mac');
 // ── PERSISTENCE ───────────────────────────────────────────────────────────
 const PREFS_KEY = 'projecto_v06';
 function savePrefs(){
