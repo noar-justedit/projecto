@@ -8,10 +8,6 @@ directories:
 files:
   - src/**/*
   - package.json
-  - build-resources/*.ico
-  - build-resources/*.icns
-  - build-resources/*.plist
-  - "READ ME FIRST.txt"
 
 mac:
   category: public.app-category.productivity

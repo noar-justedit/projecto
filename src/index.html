@@ -433,6 +433,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15
 <script>
 // Réserve la place des boutons fenêtre macOS (titleBarStyle hiddenInset)
 if(/Mac/i.test(navigator.userAgent)) document.body.classList.add('is-mac');
+// HTML-escape — applied to ANY data (file names, paths, error messages) inserted into innerHTML
+function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 // ── PERSISTENCE ───────────────────────────────────────────────────────────
 const PREFS_KEY = 'projecto_v06';
 function savePrefs(){
@@ -466,12 +468,20 @@ async function loadPrefs(){
       document.getElementById('dz-sub').textContent='Remembered · click to change';
       document.getElementById('drop-zip').classList.add('has-file');
       try{
-        const buf=await window.electronAPI.readFile(p.zipPath);
-        if(buf && Array.isArray(buf) && buf.length){ await processZipBuffer(new Uint8Array(buf).buffer); }
-        refreshOtherZipsList();
-      }catch(e){}
+        const r=await window.electronAPI.readFile(p.zipPath);
+        if(r && r.ok && r.data && r.data.byteLength){ await processZipBuffer(r.data.buffer||r.data); refreshOtherZipsList(); }
+        else{ resetSourceUI(); } // 7) remembered ZIP missing/unreadable -> clean state, no ghost
+      }catch(e){ resetSourceUI(); }
     }
   }catch(e){}
+}
+
+function resetSourceUI(){
+  S.zipFile=null;S.zipPath=null;S.zipName=null;S.zipEntries=[];
+  document.getElementById('dz-main').textContent='Drop a ZIP file here';
+  document.getElementById('dz-sub').textContent='or click to browse · .zip only';
+  document.getElementById('drop-zip').classList.remove('has-file');
+  savePrefs();
 }
 
 // ── STATE ─────────────────────────────────────────────────────────────────
@@ -572,16 +582,16 @@ function renderTree(entries){
     const exclBadge=excl&&e.isDir?'<span class="excl-badge">EXCL</span>':'';
 
     if(e.isDir){
-      h+=`<div class="tree-row${selCls}${exclCls}" data-path="${e.path}" data-isdir="1" onmousedown="selectRow(event,this)" oncontextmenu="showCtx(event,this)">
+      h+=`<div class="tree-row${selCls}${exclCls}" data-path="${esc(e.path)}" data-isdir="1" onmousedown="selectRow(event,this)" oncontextmenu="showCtx(event,this)">
         <span class="tree-ind">${ind}${pre}</span>
         <span class="tree-icon dir">▶</span>
-        <span class="tree-name dir">${name}/</span>${exclBadge}
+        <span class="tree-name dir">${esc(name)}/</span>${exclBadge}
       </div>`;
     }else{
-      h+=`<div class="tree-row${selCls}${exclCls}" data-path="${e.path}" data-isdir="0" onmousedown="selectRow(event,this)">
+      h+=`<div class="tree-row${selCls}${exclCls}" data-path="${esc(e.path)}" data-isdir="0" onmousedown="selectRow(event,this)">
         <span class="tree-ind">${ind}${pre}</span>
         <span class="tree-icon">·</span>
-        <span class="tree-name file">${name}</span>
+        <span class="tree-name file">${esc(name)}</span>
       </div>`;
     }
   });
@@ -688,12 +698,13 @@ const dropZip=document.getElementById('drop-zip');
 const fileInp=document.getElementById('file-inp');
 dropZip.addEventListener('dragover',e=>{e.preventDefault();dropZip.classList.add('over')});
 dropZip.addEventListener('dragleave',()=>dropZip.classList.remove('over'));
-dropZip.addEventListener('drop',e=>{e.preventDefault();dropZip.classList.remove('over');const f=e.dataTransfer.files[0];if(f)loadZip(f,f.path||null)});
-fileInp.addEventListener('change',()=>{if(fileInp.files[0])loadZip(fileInp.files[0],fileInp.files[0].path||null)});
+dropZip.addEventListener('drop',e=>{e.preventDefault();dropZip.classList.remove('over');const f=e.dataTransfer.files[0];if(f)loadZip(f,window.electronAPI.getFilePath(f))});
+fileInp.addEventListener('change',()=>{if(fileInp.files[0])loadZip(fileInp.files[0],window.electronAPI.getFilePath(fileInp.files[0]))});
 
 async function loadZip(file,fsPath){
   clearAlert();
   if(!file.name.toLowerCase().endsWith('.zip')){showAlert('err','Invalid format','Only .zip files are accepted.');return}
+  if(!fsPath){showAlert('err','Cannot locate file','The file path could not be determined. Please use the Browse button instead of drag & drop.');return}
   // Normalize path separators (Windows may use backslashes)
   const normPath = fsPath ? fsPath.replace(/\\/g,'/') : null;
   S.zipFile=file;S.zipPath=normPath;S.zipName=file.name;S.excluded.clear();
@@ -731,11 +742,11 @@ async function refreshOtherZipsList(){
       _zipPathMap.set(i,p);
       const name=p.split(/[\/\\]/).pop();
       const isActive = S.zipPath && (p===S.zipPath || p.replace(/\\/g,'/')===S.zipPath.replace(/\\/g,'/'));
-      return `<div class="other-zip-item${isActive?' active':''}" data-idx="${i}" title="${name}"
+      return `<div class="other-zip-item${isActive?' active':''}" data-idx="${i}" title="${esc(name)}"
         onclick="_selectByIdx(${i})"
         oncontextmenu="_ctxByIdx(event,${i})">
         <span class="other-zip-icon">${isActive?'▶':'⬡'}</span>
-        <span class="other-zip-name">${name}</span>
+        <span class="other-zip-name">${esc(name)}</span>
       </div>`;
     }).join('');
   }catch(e){ wrap.classList.remove('visible'); }
@@ -747,13 +758,9 @@ function _ctxByIdx(e,i){ if(_zipPathMap.has(i)) showZipCtx(e,_zipPathMap.get(i))
 async function selectOtherZip(zipPath){
   try{
     const result = await window.electronAPI.readFile(zipPath);
-    // result is Array (success), null (old path miss), or {error,code} (failure detail)
-    if(!result){ showAlert('err','Read error','File not found: '+zipPath); return; }
-    if(!Array.isArray(result)){
-      showAlert('err','Read error','Could not read file — '+( result.error||'unknown error')+' ('+zipPath+')'); return;
-    }
-    if(!result.length){ showAlert('err','Read error','File is empty: '+zipPath); return; }
-    const buf = new Uint8Array(result).buffer;
+    if(!result || !result.ok){ showAlert('err','Read error','Could not read file — '+((result&&result.error)||'unknown error')+' ('+zipPath+')'); return; }
+    if(!result.data || !result.data.byteLength){ showAlert('err','Read error','File is empty: '+zipPath); return; }
+    const buf = result.data.buffer || result.data;
     S.zipPath=zipPath; S.zipName=zipPath.split(/[\/\\]/).pop(); S.zipFile=null; S.excluded.clear();
     document.getElementById('dz-main').textContent=S.zipName;
     document.getElementById('dz-sub').textContent='Loaded · click to change';
@@ -804,7 +811,7 @@ function refreshAll(){
 }
 
 function checkReady(){
-  const ok=!!(S.zipFile||S.zipPath)&&!!buildFolderName()&&!document.querySelector('.err-msg.on')&&!S.restoring;
+  const ok=!!S.zipPath&&!!buildFolderName()&&!document.querySelector('.err-msg.on')&&!S.restoring;
   document.getElementById('btn-go').disabled=!ok;
 }
 
@@ -819,9 +826,9 @@ function onVar(inp,errId){
 function showAlert(type,title,body,detail){
   const icons={err:'⊘',ok:'✓',warn:'⚠'};
   const cls={err:'alert-err',ok:'alert-ok',warn:'alert-warn'};
-  const detailHtml=detail?`<div class="alert-detail">${detail}</div>`:'';
+  const detailHtml=detail?`<div class="alert-detail">${detail}</div>`:''; // detail: callers esc() their data
   document.getElementById('alert-area').innerHTML=
-    `<div class="alert ${cls[type]}"><span class="alert-ico">${icons[type]}</span><div class="alert-txt"><strong>${title}</strong>${body?'<br>'+body:''}${detailHtml}</div></div>`;
+    `<div class="alert ${cls[type]}"><span class="alert-ico">${icons[type]}</span><div class="alert-txt"><strong>${esc(title)}</strong>${body?'<br>'+esc(body):''}${detailHtml}</div></div>`;
 }
 function clearAlert(){document.getElementById('alert-area').innerHTML=''}
 function setProgress(pct){document.getElementById('prog-fill').style.width=pct+'%'}
@@ -830,7 +837,7 @@ function setProgress(pct){document.getElementById('prog-fill').style.width=pct+'
 async function doRestore(){
   clearAlert();
   const fn=buildFolderName();
-  if(!fn||(!S.zipFile&&!S.zipPath))return;
+  if(!fn||!S.zipPath)return;
 
   // Determine destination
   let dest=S.destPath;
@@ -850,7 +857,7 @@ async function doRestore(){
   let exists=false;
   try{exists=await window.electronAPI.folderExists(finalPath);}catch(e){}
   if(exists){
-    showAlert('err','Folder already exists',`"${fn}" already exists at destination.`,'Rename your project, client, or choose another destination.');
+    showAlert('err','Folder already exists','"'+fn+'" already exists at destination.','Rename your project, client, or choose another destination.');
     playSound('error');
     S.restoring=false;checkReady();setProgress(0);return;
   }
@@ -867,17 +874,10 @@ async function doRestore(){
     if(!result.success){showAlert('err','Restore failed',result.error||'Unknown error');playSound('error');S.restoring=false;checkReady();setProgress(0);return}
     dirs=result.results.filter(r=>r.type==='dir').length;
     files=result.results.filter(r=>r.type==='file').length;
-    errors=result.results.filter(r=>r.error).map(r=>r.path+': '+r.error);
+    errors=result.results.filter(r=>r.error).map(r=>esc(r.path)+': '+esc(r.error));
   }else{
-    // Simulation
-    const zip=await JSZip.loadAsync(S.zipFile);
-    const entries=[];zip.forEach((p,e)=>{if(!isMacOSEntry(p))entries.push({p,e})});
-    const active=entries.filter(({p})=>{
-      const stripped=p.replace(getStrip(entries.map(x=>({path:x.p}))),'');
-      return !excludedList.some(ex=>{const exN=ex.endsWith('/')?ex:ex+'/';return stripped===ex||stripped.startsWith(exN)});
-    });
-    dirs=active.filter(x=>x.e.dir).length;files=active.filter(x=>!x.e.dir).length;
-    let i=0;for(const x of active){setProgress(30+Math.round((i/Math.max(active.length,1))*65));i++;await delay(8)}
+    showAlert('err','Restore failed','The ZIP file path is unavailable. Reload the ZIP and try again.');
+    playSound('error');S.restoring=false;checkReady();setProgress(0);return;
   }
 
   setProgress(100);setTimeout(()=>setProgress(0),2500);
@@ -886,8 +886,8 @@ async function doRestore(){
   const hasExclusions=S.excluded.size>0;
   const exclNote=hasExclusions?`⊘ ${S.excluded.size} folder${S.excluded.size>1?'s':''} excluded`:'';
   const detail=[
-    `📁 ${fn}`,
-    `📍 ${dest}`,
+    `📁 ${esc(fn)}`,
+    `📍 ${esc(dest)}`,
     `📂 ${dirs} folders · 📄 ${files} files`,
     S.useDate?`📅 ${fmtDate()}`:'',
     errors.length?`⚠ ${errors.length} error(s)`:'✓ No errors',
@@ -936,7 +936,7 @@ async function askUpdateZip(excludedList){
     const r=await window.electronAPI.updateZip({zipPath:S.zipPath,excludedPaths:excludedList,mode,customName});
     if(r.success){
       if(mode==='update'){ S.zipPath=r.path; S.zipName=r.path.split('/').pop(); savePrefs(); }
-      showAlert('ok','ZIP saved',null,`📦 ${r.path.split('/').pop()}<br>Excluded paths removed.`);
+      showAlert('ok','ZIP saved',null,`📦 ${esc(r.path.split('/').pop())}<br>Excluded paths removed.`);
     }else{
       showAlert('err','ZIP update failed',r.error);
     }

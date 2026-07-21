@@ -84,7 +84,7 @@ function createWindow() {
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
     },
-    icon: path.join(__dirname, '..', 'build', 'icon.icns')
+    icon: path.join(__dirname, '..', 'build-resources', 'icon.icns')
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
@@ -133,13 +133,15 @@ ipcMain.handle('fs:restoreZip', async (event, { zipPath, destPath, folderName, e
     const zipData = fs.readFileSync(zipPath);
     const zip = await JSZip.loadAsync(zipData);
 
-    // ── Collect all paths, ignoring __MACOSX and hidden dot-files ───────
+    // ── Collect all paths, ignoring __MACOSX, hidden dot-files and traversal ──
     const allPaths = [];
     zip.forEach((relPath) => {
       const parts = relPath.split('/');
       // Ignore __MACOSX anywhere in path, and ._ prefixed files (macOS metadata)
       const isMacOS = parts.some(p => p === '__MACOSX' || p.startsWith('._'));
-      if (!isMacOS) allPaths.push(relPath);
+      // Zip Slip guard: reject any entry containing traversal or absolute segments
+      const isUnsafe = parts.some(p => p === '..') || relPath.startsWith('/') || /^[a-zA-Z]:/.test(relPath);
+      if (!isMacOS && !isUnsafe) allPaths.push(relPath);
     });
 
     // ── Detect single root folder to strip ──────────────────────────────
@@ -183,6 +185,11 @@ ipcMain.handle('fs:restoreZip', async (event, { zipPath, destPath, folderName, e
 
       const fullDest = path.join(targetRoot, destRel);
 
+      // Zip Slip guard (defense in depth): the resolved path MUST stay under targetRoot
+      const rootResolved = path.resolve(targetRoot);
+      const destResolved = path.resolve(fullDest);
+      if (destResolved !== rootResolved && !destResolved.startsWith(rootResolved + path.sep)) continue;
+
       if (entry.dir) {
         fs.mkdirSync(fullDest, { recursive: true });
         results.push({ type: 'dir', path: destRel });
@@ -206,8 +213,8 @@ ipcMain.handle('fs:readFile', async (event, filePath) => {
     // Normalize path: on Windows, paths may use mixed slashes
     const p = require('path').normalize(filePath);
     const data = fs.readFileSync(p);
-    // Return plain Array — serialises cleanly through contextBridge on all platforms
-    return Array.from(data);
+    // Buffer crosses IPC via structured clone (arrives as Uint8Array) — no per-byte Array copy
+    return { ok: true, data };
   } catch (err) {
     // Return error details so the renderer can show a meaningful message
     return { error: err.message, code: err.code };
@@ -309,6 +316,12 @@ ipcMain.handle('fs:listZipsInFolder', async (event, filePath) => {
 });
 
 // ── IPC: Show input box (custom text prompt) ──────────────────────────────
+// HTML-escape all interpolated values (title/message can derive from file names)
+function escHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
 ipcMain.handle('dialog:showInputBox', async (event, { title, message, defaultValue, placeholder }) => {
   // Electron doesn't have a native input dialog, so we use a custom BrowserWindow
   return new Promise((resolve) => {
@@ -322,36 +335,40 @@ ipcMain.handle('dialog:showInputBox', async (event, { title, message, defaultVal
       parent: mainWindow,
       backgroundColor: '#141416',
       titleBarStyle: 'hiddenInset',
-      webPreferences: { nodeIntegration: true, contextIsolation: false }
+      webPreferences: {
+        nodeIntegration: false,
+        contextIsolation: true,
+        preload: path.join(__dirname, 'preload-input.js')
+      }
     });
 
     const html = `<!DOCTYPE html>
 <html><head><meta charset="UTF-8">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'IBM Plex Mono', monospace; background: #141416; color: #d4d4d0; padding: 20px 16px 16px; -webkit-font-smoothing: antialiased; }
-.title { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; margin-bottom: 6px; }
-.msg { font-size: 9px; color: #909088; margin-bottom: 10px; }
-input { width: 100%; background: #202024; border: 1px solid rgba(61,255,110,0.3); border-radius: 3px; color: #d4d4d0; font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 6px 8px; outline: none; }
-.btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
-button { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 6px 16px; border-radius: 2px; cursor: pointer; border: 1px solid; letter-spacing: 0.06em; }
-.ok { background: #3dff6e; color: #0a0a0b; border-color: #3dff6e; font-weight: 600; }
-.cancel { background: transparent; color: #909088; border-color: rgba(255,255,255,0.1); }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #141416; color: #f2f2f5; padding: 22px 16px 16px; -webkit-font-smoothing: antialiased; }
+.title { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; margin-bottom: 5px; }
+.msg { font-size: 12px; color: #78788e; margin-bottom: 12px; }
+input { width: 100%; background: #1c1c20; border: 1px solid rgba(0,230,118,0.35); border-radius: 5px; color: #f2f2f5; font-family: 'SF Mono','Fira Code',monospace; font-size: 12px; padding: 8px 10px; outline: none; }
+.btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+button { font-family: inherit; font-size: 12px; padding: 7px 16px; border-radius: 5px; cursor: pointer; border: 1px solid; letter-spacing: 0.03em; }
+.ok { background: #00e676; color: #000; border-color: #00e676; font-weight: 600; }
+.cancel { background: transparent; color: #78788e; border-color: rgba(255,255,255,0.12); }
 </style></head>
 <body>
-<div class="title">${title}</div>
-<div class="msg">${message}</div>
-<input id="inp" type="text" value="${defaultValue||''}" placeholder="${placeholder||''}">
+<div class="title">${escHtml(title)}</div>
+<div class="msg">${escHtml(message)}</div>
+<input id="inp" type="text" value="${escHtml(defaultValue)}" placeholder="${escHtml(placeholder)}">
 <div class="btns">
-  <button class="cancel" onclick="require('electron').ipcRenderer.send('input-result', null)">Cancel</button>
-  <button class="ok" onclick="require('electron').ipcRenderer.send('input-result', document.getElementById('inp').value)">Save</button>
+  <button class="cancel" onclick="window.inputAPI.submit(null)">Cancel</button>
+  <button class="ok" onclick="window.inputAPI.submit(document.getElementById('inp').value)">Save</button>
 </div>
 <script>
   const inp = document.getElementById('inp');
   inp.focus(); inp.select();
   inp.addEventListener('keydown', e => {
-    if (e.key === 'Enter') require('electron').ipcRenderer.send('input-result', inp.value);
-    if (e.key === 'Escape') require('electron').ipcRenderer.send('input-result', null);
+    if (e.key === 'Enter') window.inputAPI.submit(inp.value);
+    if (e.key === 'Escape') window.inputAPI.submit(null);
   });
 </script>
 </body></html>`;
@@ -371,30 +388,3 @@ ipcMain.handle('shell:showInFinder', async (event, filePath) => {
   return true;
 });
 
-// ── IPC: Play sound — no microphone permission ────────────────────────────
-// Uses OS-native audio playback (afplay on macOS, PowerShell on Windows)
-// Does NOT use Web Audio API — zero microphone permission prompt
-ipcMain.handle('sound:play', async (event, soundName) => {
-  try {
-    const { execFile } = require('child_process');
-
-    // In packaged app: Resources/app/src/assets/
-    // In dev:          src/assets/
-    // app.getAppPath() always returns the correct root in both modes
-    const { app } = require('electron');
-    const appRoot = app.getAppPath();
-    const soundFile = path.join(appRoot, 'src', 'assets', soundName + '.wav');
-
-    if (!fs.existsSync(soundFile)) {
-      console.error('[sound] File not found:', soundFile);
-      return;
-    }
-
-    if (process.platform === 'darwin') {
-      execFile('/usr/bin/afplay', [soundFile]);
-    } else if (process.platform === 'win32') {
-      const cmd = `(New-Object Media.SoundPlayer "${soundFile.replace(/\\/g, '\\\\')}").PlaySync()`;
-      execFile('powershell', ['-NoProfile', '-NonInteractive', '-Command', cmd]);
-    }
-  } catch(e) { console.error('[sound] Error:', e.message); }
-});

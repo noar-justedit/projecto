@@ -19,6 +19,11 @@
 */
 const { contextBridge, ipcRenderer } = require('electron');
 
+// webUtils.getPathForFile exists from Electron 29+; File.path is removed in 32+.
+// Support both so upgrading Electron later cannot silently break drag & drop.
+let webUtils = null;
+try { webUtils = require('electron').webUtils || null; } catch (e) {}
+
 contextBridge.exposeInMainWorld('electronAPI', {
   openFolder:       ()     => ipcRenderer.invoke('dialog:openFolder'),
   folderExists:     (p)    => ipcRenderer.invoke('fs:folderExists', p),
@@ -29,8 +34,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   listZipsInFolder: (p)    => ipcRenderer.invoke('fs:listZipsInFolder', p),
   showInputBox:     (opts) => ipcRenderer.invoke('dialog:showInputBox', opts),
   showInFinder:     (p)    => ipcRenderer.invoke('shell:showInFinder', p),
-  playSound:        (name) => ipcRenderer.invoke('sound:play', name),
   openExternal:     (url)  => ipcRenderer.invoke('open-external', url),
   getVersion:       ()     => ipcRenderer.invoke('get-version'),
+  getFilePath:      (file) => {
+    try { if (webUtils && webUtils.getPathForFile) return webUtils.getPathForFile(file) || null; } catch (e) {}
+    return (file && file.path) || null;
+  },
   onUpdateAvailable:(cb)   => { ipcRenderer.on('update-available', (_, d) => cb(d)); },
 });
