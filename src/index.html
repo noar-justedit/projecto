@@ -469,7 +469,9 @@ async function loadPrefs(){
       document.getElementById('drop-zip').classList.add('has-file');
       try{
         const r=await window.electronAPI.readFile(p.zipPath);
-        if(r && r.ok && r.data && r.data.byteLength){ await processZipBuffer(r.data.buffer||r.data); refreshOtherZipsList(); }
+        // On passe la vue Uint8Array telle quelle : .buffer peut contenir des
+        // octets en trop (offset du Buffer Node transmis par IPC).
+        if(r && r.ok && r.data && r.data.byteLength){ await processZipBuffer(r.data); refreshOtherZipsList(); }
         else{ resetSourceUI(); } // 7) remembered ZIP missing/unreadable -> clean state, no ghost
       }catch(e){ resetSourceUI(); }
     }
@@ -499,7 +501,11 @@ function sanitize(v){return !BAD.test(v)}
 function fmtDate(){const d=new Date();return String(d.getFullYear()).slice(-2)+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')}
 function fmtSize(b){if(b<1024)return b+' B';if(b<1048576)return (b/1024).toFixed(1)+' KB';return (b/1048576).toFixed(1)+' MB'}
 function delay(ms){return new Promise(r=>setTimeout(r,ms))}
-function isMacOSEntry(p){return p.split('/').some(s=>s==='__MACOSX'||s.startsWith('._'))}
+// Entrées poubelle de l'OS : jamais affichées ni restaurées, et surtout exclues
+// du calcul du dossier racine unique (un .DS_Store à la racine du ZIP faisait
+// sinon imbriquer tout le template d'un niveau supplémentaire).
+const JUNK_NAMES=new Set(['.DS_Store','Thumbs.db','desktop.ini','.localized','.Spotlight-V100','.Trashes','.fseventsd','.TemporaryItems','.AppleDouble']);
+function isMacOSEntry(p){return p.split('/').filter(Boolean).some(s=>s==='__MACOSX'||s.startsWith('._')||JUNK_NAMES.has(s))}
 function getStrip(entries){const top=new Set(entries.filter(e=>e.path.trim()).map(e=>e.path.split('/')[0]).filter(Boolean));return top.size===1?[...top][0]+'/':''}
 function stripEntries(entries,strip){return entries.map(e=>{let p=e.path;if(strip&&p.startsWith(strip))p=p.slice(strip.length);return {...e,path:p}}).filter(e=>e.path&&e.path!=='/')}
 
@@ -568,7 +574,8 @@ function renderTree(entries){
   if(!entries||!entries.length){tb.innerHTML='<div class="tree-empty">No source loaded</div>';return}
 
   let h='';
-  entries.slice(0,300).forEach(e=>{
+  const MAX_ROWS=1000; // au-delà, l'arbre n'est plus lisible et le rendu coûte cher
+  entries.slice(0,MAX_ROWS).forEach(e=>{
     const parts=e.path.replace(/\/$/,'').split('/');
     const depth=parts.length-1;
     const name=parts[parts.length-1]; if(!name)return;
@@ -595,7 +602,7 @@ function renderTree(entries){
       </div>`;
     }
   });
-  if(entries.length>300) h+=`<div class="tree-empty">… +${entries.length-300} more items</div>`;
+  if(entries.length>MAX_ROWS) h+=`<div class="tree-empty">… +${entries.length-MAX_ROWS} more items</div>`;
   tb.innerHTML=h;
   updateExclSummary();
 }
@@ -636,22 +643,51 @@ function ctxExclude(){if(ctxTargetPath){toggleExclusion(ctxTargetPath,true);}hid
 function ctxInclude(){if(ctxTargetPath){toggleExclusion(ctxTargetPath,false);}hideCtx()}
 
 // ── EXCLUSION LOGIC ───────────────────────────────────────────────────────
+// Tous les chemins stockés dans S.excluded sont normalisés avec un "/" final :
+// une seule forme = comparaisons fiables côté renderer ET côté main.
+function normDir(p){return p.endsWith('/')?p:p+'/'}
+
+// Supprime les exclusions redondantes (celles dont un parent est déjà exclu)
+function collapseExclusions(){
+  for(const a of [...S.excluded]){
+    for(const b of S.excluded){
+      if(a!==b && a.startsWith(b)){ S.excluded.delete(a); break; }
+    }
+  }
+}
+
+// Ré-inclure un dossier. S'il était exclu via un parent, on libère ce parent et
+// on ré-exclut ses autres branches — sinon le clic « Re-include » ne faisait rien.
+function reincludePath(norm){
+  S.excluded.delete(norm);
+  const ancestors=[...S.excluded].filter(ex=>norm!==ex && norm.startsWith(ex));
+  if(!ancestors.length) return;
+  const dirs=S.zipEntries.filter(e=>e.isDir).map(e=>normDir(e.path));
+  for(const ex of ancestors){
+    S.excluded.delete(ex);
+    for(const d of dirs){
+      if(d===ex || !d.startsWith(ex)) continue;
+      if(norm.startsWith(d) || d.startsWith(norm)) continue; // chaîne vers la cible + sous-arbre : réinclus
+      S.excluded.add(d);
+    }
+  }
+  collapseExclusions();
+}
+
 function toggleExclusion(path, forceState){
-  const norm=path.endsWith('/')?path:path+'/';
-  // If this path or norm is already excluded
-  const alreadyExcl=S.excluded.has(path)||S.excluded.has(norm);
+  const norm=normDir(path);
+  // "Déjà exclu" = par lui-même OU via un parent
+  const alreadyExcl=isExcluded(norm);
   const shouldExclude= forceState!==undefined ? forceState : !alreadyExcl;
 
   if(shouldExclude){
     // Remove any child exclusions subsumed by this one
     for(const ex of [...S.excluded]){
-      const exN=ex.endsWith('/')?ex:ex+'/';
-      if(exN.startsWith(norm)||norm.startsWith(exN)) S.excluded.delete(ex);
+      if(ex.startsWith(norm)||norm.startsWith(ex)) S.excluded.delete(ex);
     }
-    S.excluded.add(path);
+    S.excluded.add(norm);
   }else{
-    S.excluded.delete(path);
-    S.excluded.delete(norm);
+    reincludePath(norm);
   }
   renderTree(S.zipEntries);
   updateExclSummary();
@@ -760,7 +796,7 @@ async function selectOtherZip(zipPath){
     const result = await window.electronAPI.readFile(zipPath);
     if(!result || !result.ok){ showAlert('err','Read error','Could not read file — '+((result&&result.error)||'unknown error')+' ('+zipPath+')'); return; }
     if(!result.data || !result.data.byteLength){ showAlert('err','Read error','File is empty: '+zipPath); return; }
-    const buf = result.data.buffer || result.data;
+    const buf = result.data; // vue exacte (cf. commentaire dans loadPrefs)
     S.zipPath=zipPath; S.zipName=zipPath.split(/[\/\\]/).pop(); S.zipFile=null; S.excluded.clear();
     document.getElementById('dz-main').textContent=S.zipName;
     document.getElementById('dz-sub').textContent='Loaded · click to change';
@@ -935,8 +971,20 @@ async function askUpdateZip(excludedList){
 
     const r=await window.electronAPI.updateZip({zipPath:S.zipPath,excludedPaths:excludedList,mode,customName});
     if(r.success){
-      if(mode==='update'){ S.zipPath=r.path; S.zipName=r.path.split('/').pop(); savePrefs(); }
-      showAlert('ok','ZIP saved',null,`📦 ${esc(r.path.split('/').pop())}<br>Excluded paths removed.`);
+      const outName=r.path.split(/[\/\\]/).pop();
+      if(mode==='update'){
+        // Le template a été réécrit : on le recharge pour que l'arbre corresponde
+        // au fichier réel, et on repart sans exclusions (elles n'existent plus).
+        S.zipPath=r.path; S.zipName=outName; S.zipFile=null; S.excluded.clear();
+        try{
+          const rr=await window.electronAPI.readFile(r.path);
+          if(rr&&rr.ok&&rr.data&&rr.data.byteLength) await processZipBuffer(rr.data);
+        }catch(e){}
+        document.getElementById('dz-main').textContent=outName;
+        savePrefs(); refreshAll();
+      }
+      await refreshOtherZipsList();
+      showAlert('ok','ZIP saved',null,`📦 ${esc(outName)}<br>Excluded paths removed.`);
     }else{
       showAlert('err','ZIP update failed',r.error);
     }

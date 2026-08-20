@@ -70,6 +70,41 @@ function checkForUpdate() {
 
 let mainWindow;
 
+// ── Entrées "poubelle" créées par l'OS ────────────────────────────────────
+// Elles ne doivent jamais être restaurées, ET elles ne doivent pas fausser la
+// détection du dossier racine unique : un simple .DS_Store à la racine du ZIP
+// faisait auparavant imbriquer tout le template d'un niveau supplémentaire.
+const JUNK_NAMES = new Set([
+  '.DS_Store', 'Thumbs.db', 'desktop.ini', '.localized',
+  '.Spotlight-V100', '.Trashes', '.fseventsd', '.TemporaryItems', '.AppleDouble'
+]);
+function isJunkEntry(relPath) {
+  const parts = String(relPath).split('/').filter(Boolean);
+  return parts.some(p => p === '__MACOSX' || p.startsWith('._') || JUNK_NAMES.has(p));
+}
+// Chemin de ZIP interdit (traversée de répertoire / chemin absolu)
+function isUnsafeEntry(relPath) {
+  const parts = String(relPath).split('/');
+  return parts.some(p => p === '..') || relPath.startsWith('/') || /^[a-zA-Z]:/.test(relPath);
+}
+// Détecte le dossier racine unique à retirer (entrées poubelle déjà filtrées)
+function detectStripPrefix(allPaths) {
+  const top = new Set(
+    allPaths.filter(p => p.trim() !== '').map(p => p.split('/')[0]).filter(Boolean)
+  );
+  return top.size === 1 ? [...top][0] + '/' : '';
+}
+// Un chemin est-il exclu (lui-même ou via un parent) ?
+function pathIsExcluded(relPath, excludedPaths) {
+  if (!excludedPaths || !excludedPaths.length) return false;
+  return excludedPaths.some(excl => {
+    const n = excl.endsWith('/') ? excl : excl + '/';
+    return relPath === excl || relPath === n || relPath.startsWith(n);
+  });
+}
+// Noms réservés Windows — un dossier ainsi nommé est impossible à créer sous Windows
+const WIN_RESERVED = /^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$/i;
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 920,
@@ -78,6 +113,7 @@ function createWindow() {
     minHeight: 620,
     backgroundColor: '#0f0f10',
     titleBarStyle: 'hiddenInset',
+    autoHideMenuBar: true,   // Windows : barre de menu masquée (raccourcis conservés)
     trafficLightPosition: { x: 14, y: 12 },
     webPreferences: {
       nodeIntegration: false,
@@ -92,10 +128,30 @@ function createWindow() {
 }
 
 // ── IPC: ouvrir un lien externe + exposer la version de l'app ──────────
-ipcMain.handle('open-external', async (event, url) => { try { await shell.openExternal(url); } catch (e) {} });
+// L'URL de mise à jour vient d'un fichier distant (version.json) : on n'ouvre
+// que du http(s). Sans ce filtre, un version.json altéré pourrait faire ouvrir
+// un file:// ou un protocole applicatif au clic sur "Get it".
+ipcMain.handle('open-external', async (event, url) => {
+  try {
+    const u = new URL(String(url));
+    if (u.protocol !== 'https:' && u.protocol !== 'http:') return;
+    await shell.openExternal(u.toString());
+  } catch (e) {}
+});
 ipcMain.handle('get-version', () => app.getVersion());
 
-app.whenReady().then(createWindow);
+// Une seule instance : deux fenêtres écrivant au même endroit n'a aucun sens
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+} else {
+  app.on('second-instance', () => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  });
+  app.whenReady().then(createWindow);
+}
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
@@ -122,6 +178,11 @@ ipcMain.handle('fs:folderExists', async (event, folderPath) => {
 
 // ── IPC: Restore ZIP structure ────────────────────────────────────────
 ipcMain.handle('fs:restoreZip', async (event, { zipPath, destPath, folderName, excludedPaths = [] }) => {
+  // Garde-fou Windows : un dossier nommé CON, PRN, NUL… ne peut pas être créé
+  if (WIN_RESERVED.test(String(folderName).trim())) {
+    return { success: false, error: `"${folderName}" est un nom réservé par Windows — choisis un autre nom de projet.` };
+  }
+
   const targetRoot = path.join(destPath, folderName);
 
   if (fs.existsSync(targetRoot)) {
@@ -133,32 +194,15 @@ ipcMain.handle('fs:restoreZip', async (event, { zipPath, destPath, folderName, e
     const zipData = fs.readFileSync(zipPath);
     const zip = await JSZip.loadAsync(zipData);
 
-    // ── Collect all paths, ignoring __MACOSX, hidden dot-files and traversal ──
+    // ── Collect all paths, ignoring OS junk (__MACOSX, .DS_Store…) and traversal ──
     const allPaths = [];
     zip.forEach((relPath) => {
-      const parts = relPath.split('/');
-      // Ignore __MACOSX anywhere in path, and ._ prefixed files (macOS metadata)
-      const isMacOS = parts.some(p => p === '__MACOSX' || p.startsWith('._'));
-      // Zip Slip guard: reject any entry containing traversal or absolute segments
-      const isUnsafe = parts.some(p => p === '..') || relPath.startsWith('/') || /^[a-zA-Z]:/.test(relPath);
-      if (!isMacOS && !isUnsafe) allPaths.push(relPath);
+      if (!isJunkEntry(relPath) && !isUnsafeEntry(relPath)) allPaths.push(relPath);
     });
 
     // ── Detect single root folder to strip ──────────────────────────────
-    // A ZIP has a single root if ALL non-empty paths share the same first segment
-    let stripPrefix = '';
-    const topLevelItems = new Set(
-      allPaths
-        .filter(p => p.trim() !== '')
-        .map(p => p.split('/')[0])
-        .filter(Boolean)
-    );
-
-    if (topLevelItems.size === 1) {
-      // Every entry lives under a single root folder → strip it
-      stripPrefix = [...topLevelItems][0] + '/';
-    }
-    // If topLevelItems.size > 1 → multiple root items, restore as-is
+    // A ZIP has a single root if ALL non-junk paths share the same first segment
+    const stripPrefix = detectStripPrefix(allPaths);
 
     // ── Create target root ───────────────────────────────────────────────
     fs.mkdirSync(targetRoot, { recursive: true });
@@ -177,11 +221,7 @@ ipcMain.handle('fs:restoreZip', async (event, { zipPath, destPath, folderName, e
       if (!destRel || destRel === '/') continue; // skip root itself
 
       // Check if this path or any parent is excluded (compare against stripped path)
-      const isExcluded = excludedPaths.length > 0 && excludedPaths.some(excl => {
-        const exclNorm = excl.endsWith('/') ? excl : excl + '/';
-        return destRel === excl || destRel.startsWith(exclNorm);
-      });
-      if (isExcluded) continue;
+      if (pathIsExcluded(destRel, excludedPaths)) continue;
 
       const fullDest = path.join(targetRoot, destRel);
 
@@ -190,14 +230,20 @@ ipcMain.handle('fs:restoreZip', async (event, { zipPath, destPath, folderName, e
       const destResolved = path.resolve(fullDest);
       if (destResolved !== rootResolved && !destResolved.startsWith(rootResolved + path.sep)) continue;
 
-      if (entry.dir) {
-        fs.mkdirSync(fullDest, { recursive: true });
-        results.push({ type: 'dir', path: destRel });
-      } else {
-        fs.mkdirSync(path.dirname(fullDest), { recursive: true });
-        const content = await entry.async('nodebuffer');
-        fs.writeFileSync(fullDest, content);
-        results.push({ type: 'file', path: destRel });
+      // Une entrée en échec ne doit plus faire échouer toute la restauration :
+      // on la signale et on continue (le renderer affiche le compte d'erreurs).
+      try {
+        if (entry.dir) {
+          fs.mkdirSync(fullDest, { recursive: true });
+          results.push({ type: 'dir', path: destRel });
+        } else {
+          fs.mkdirSync(path.dirname(fullDest), { recursive: true });
+          const content = await entry.async('nodebuffer');
+          fs.writeFileSync(fullDest, content);
+          results.push({ type: 'file', path: destRel });
+        }
+      } catch (e) {
+        results.push({ type: entry.dir ? 'dir' : 'file', path: destRel, error: e.message });
       }
     }
 
@@ -231,17 +277,14 @@ ipcMain.handle('fs:updateZip', async (event, { zipPath, excludedPaths, mode, cus
     // Build new zip excluding the specified paths
     const newZip = new JSZip();
 
-    // Detect strip prefix (single root folder)
+    // Detect strip prefix (single root folder) — même règle que la restauration
     const allPaths = [];
-    zip.forEach((relPath) => { if (!relPath.includes('__MACOSX') && !relPath.split('/').some(s => s.startsWith('._'))) allPaths.push(relPath); });
-    const topLevel = new Set(allPaths.filter(p=>p.trim()).map(p=>p.split('/')[0]).filter(Boolean));
-    const stripPrefix = topLevel.size === 1 ? [...topLevel][0] + '/' : '';
-
-    const excluded = new Set(excludedPaths); // set of stripped paths to exclude
+    zip.forEach((relPath) => { if (!isJunkEntry(relPath) && !isUnsafeEntry(relPath)) allPaths.push(relPath); });
+    const stripPrefix = detectStripPrefix(allPaths);
 
     for (const [relPath, entry] of Object.entries(zip.files)) {
-      // Skip macOS metadata
-      if (relPath.includes('__MACOSX') || relPath.split('/').some(s => s.startsWith('._'))) continue;
+      // Skip OS junk (__MACOSX, ._*, .DS_Store, Thumbs.db…) and unsafe paths
+      if (isJunkEntry(relPath) || isUnsafeEntry(relPath)) continue;
 
       // Compute stripped path for exclusion check
       let strippedPath = relPath;
@@ -249,11 +292,7 @@ ipcMain.handle('fs:updateZip', async (event, { zipPath, excludedPaths, mode, cus
       if (!strippedPath) continue;
 
       // Check if this path or any parent is excluded
-      const isExcluded = excludedPaths.some(excl => {
-        const exclNorm = excl.endsWith('/') ? excl : excl + '/';
-        return strippedPath === excl || strippedPath.startsWith(exclNorm);
-      });
-      if (isExcluded) continue;
+      if (pathIsExcluded(strippedPath, excludedPaths)) continue;
 
       if (entry.dir) {
         newZip.folder(relPath.replace(/\/$/, ''));
@@ -269,8 +308,10 @@ ipcMain.handle('fs:updateZip', async (event, { zipPath, excludedPaths, mode, cus
     if (mode === 'new') {
       const dir = path.dirname(zipPath);
       if (customName) {
-        // Use the user-supplied name
-        outputPath = path.join(dir, customName.endsWith('.zip') ? customName : customName + '.zip');
+        // Nom fourni par l'utilisateur : on ne garde que le nom de fichier
+        // (pas de "../", pas de séparateur) pour rester dans le dossier du ZIP source
+        const safeName = path.basename(String(customName).replace(/[\\/]+/g, '_')).replace(/^\.+/, '') || 'template';
+        outputPath = path.join(dir, safeName.toLowerCase().endsWith('.zip') ? safeName : safeName + '.zip');
       } else {
         const ext = path.extname(zipPath);
         const base = zipPath.slice(0, -ext.length);
@@ -286,8 +327,19 @@ ipcMain.handle('fs:updateZip', async (event, { zipPath, excludedPaths, mode, cus
       }
     }
 
-    fs.writeFileSync(outputPath, newZipBuffer);
-    return { success: true, path: outputPath, mode };
+    // Écriture atomique : on écrit un fichier temporaire puis on le renomme.
+    // En mode "update" on écrase le template original — une coupure de courant
+    // ou un disque plein en pleine écriture le détruirait sinon.
+    const tmpPath = outputPath + '.tmp-' + process.pid;
+    try {
+      fs.writeFileSync(tmpPath, newZipBuffer);
+      fs.renameSync(tmpPath, outputPath);
+    } catch (e) {
+      try { if (fs.existsSync(tmpPath)) fs.unlinkSync(tmpPath); } catch (e2) {}
+      throw e;
+    }
+    // Toujours renvoyer des slashes — le renderer découpe le chemin sur "/"
+    return { success: true, path: outputPath.replace(/\\/g, '/'), mode };
   } catch (err) {
     return { success: false, error: err.message };
   }
