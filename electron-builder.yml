@@ -16,6 +16,20 @@ mac:
   gatekeeperAssess: false
   entitlements: build-resources/entitlements.mac.plist
   entitlementsInherit: build-resources/entitlements.mac.plist
+  # Notarisation : electron-builder la déclenche automatiquement dès que les
+  # variables d'environnement d'identification sont présentes. build-mac.command
+  # exporte APPLE_KEYCHAIN_PROFILE=projecto-notarization (profil notarytool
+  # stocké dans le trousseau — aucun secret dans le dépôt).
+  # Mettre `false` ici désactiverait la notarisation même avec les variables.
+  notarize: true
+  # Textes affichés par macOS quand l'app demande l'accès à un dossier protégé.
+  # Sans eux, la demande d'autorisation est muette et peut être refusée.
+  extendInfo:
+    NSDesktopFolderUsageDescription: "projecto needs access to your Desktop to create project folders there."
+    NSDocumentsFolderUsageDescription: "projecto needs access to your Documents folder to create project folders there."
+    NSDownloadsFolderUsageDescription: "projecto needs access to your Downloads folder to read ZIP templates and create project folders there."
+    NSRemovableVolumesUsageDescription: "projecto needs access to external drives to create project folders on them."
+    NSNetworkVolumesUsageDescription: "projecto needs access to network volumes to create project folders on your server or NAS."
   target:
     - target: dmg
       arch:
@@ -25,21 +39,22 @@ dmg:
   title: "projecto"
   writeUpdateInfo: false
   icon: null
+  # Le DMG est signé par scripts/build-mac.command, après sa fabrication et avant
+  # de l'envoyer à Apple (ordre imposé : signer → notariser → agrafer).
+  # On ne laisse pas electron-builder s'en charger : sa propre doc déconseille
+  # dmg.sign en présence de notarisation.
+  sign: false
   window:
     width: 540
-    height: 400
+    height: 380
   contents:
     - x: 150
-      y: 160
+      y: 180
       type: file
     - x: 390
-      y: 160
+      y: 180
       type: link
       path: /Applications
-    - x: 270
-      y: 320
-      type: file
-      path: "READ ME FIRST.txt"
 
 win:
   icon: build-resources/icon.ico

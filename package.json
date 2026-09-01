@@ -1,6 +1,6 @@
 {
   "name": "projecto",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "Project Structure Restorer",
   "license": "GPL-3.0-or-later",
   "repository": {
@@ -20,7 +20,8 @@
     "pack": "electron-builder --dir",
     "build:universal": "electron-builder --config electron-builder.yml --mac",
     "build:win": "electron-builder --config electron-builder.yml --win --x64",
-    "build:all": "electron-builder --config electron-builder.yml --mac --arm64 && electron-builder --config electron-builder.yml --win --x64"
+    "build:all": "electron-builder --config electron-builder.yml --mac --arm64 && electron-builder --config electron-builder.yml --win --x64",
+    "build:mac": "./scripts/build-mac.command"
   },
   "devDependencies": {
     "electron": "^43.1.1",

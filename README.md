@@ -8,14 +8,40 @@ Restore a full project folder structure from a ZIP template in seconds. Define y
 
 ---
 
-## Build — macOS
+## Build — macOS (signed & notarized)
+
+**Double-click `scripts/build-mac.command` in the Finder.** Or, from a terminal:
 
 ```bash
-chmod +x scripts/*.sh
-./scripts/build-mac.sh
+./scripts/build-mac.command
 ```
 
-Or with npm:
+First time after downloading the project, macOS may refuse to run the script
+("cannot verify the developer"): right-click it → **Open** → Open. Once per file.
+
+That's the whole build, for every release. The script checks the toolchain and
+your Developer ID certificate, signs the app, sends it to Apple for notarization,
+staples the ticket, builds the DMG, then **signs the DMG**, notarizes and staples
+it in turn — the order Apple requires — and verifies everything before declaring
+success. App and disk image are both signed and both carry a ticket, so Gatekeeper
+stays quiet even offline.
+
+On the **first run only**, it asks for your Apple ID, an app-specific password and
+your Team ID, and stores them in the macOS keychain under the profile
+`projecto-notarization`. Every later build reuses them silently.
+
+Notarization adds 2–10 minutes to the build. For a quick local test:
+
+```bash
+./scripts/build-mac.command --no-notarize   # signed only
+./scripts/build-mac.command --unsigned      # no signing at all
+```
+
+Requirements: an active Apple Developer account, a **Developer ID Application**
+certificate in the keychain (the script tells you how to create one if it's
+missing), and Xcode Command Line Tools (`xcode-select --install`).
+
+Raw electron-builder targets, without signing/notarization plumbing:
 
 ```bash
 npm run build              # Apple Silicon (arm64) DMG
@@ -28,7 +54,7 @@ npm run dev                # Dev preview, no build
 ## Build — Windows installer FROM macOS
 
 ```bash
-./scripts/build-win-from-mac.sh
+./scripts/build-win-from-mac.command
 ```
 
 electron-builder cross-compiles a 64-bit NSIS installer natively — no Docker, no Wine.
@@ -54,17 +80,16 @@ projecto/
 ├── electron-builder.yml      <- build configuration
 ├── package.json
 ├── scripts/
-│   ├── build-mac.sh          <- macOS DMG build
-│   ├── build-win-from-mac.sh <- Windows installer from macOS (native)
-│   ├── dev.sh                <- dev preview
-│   ├── make-icon.sh          <- regenerate icon.icns
-│   ├── make-icon-win.sh      <- regenerate icon.ico
+│   ├── build-mac.command          <- macOS DMG: sign, notarize, staple, verify
+│   ├── build-win-from-mac.command <- Windows installer from macOS (native)
+│   ├── dev.command                <- dev preview
+│   ├── make-icon.command          <- regenerate icon.icns
+│   ├── make-icon-win.command      <- regenerate icon.ico
 ├── build-resources/
 │   ├── icon.icns
 │   ├── icon.ico
-│   ├── entitlements.mac.plist
+│   ├── entitlements.mac.plist <- hardened runtime entitlements
 │   └── license.txt           <- GPL, shown in installer
-├── READ ME FIRST.txt         <- macOS first-launch note
 ├── version.json              <- update feed
 └── src/
     ├── main.js
@@ -103,6 +128,9 @@ in-app notice when a newer version is available. To publish an update:
 1. Bump `"version"` in `package.json` and build the new binaries.
 2. Create a GitHub release with the matching tag (e.g. `v1.5.2`) and attach the binaries.
 3. Edit `version.json` so `"version"` matches the new release, then commit to `main`.
+
+Order matters: publish the release **before** committing `version.json`, otherwise
+the app announces an update whose download link doesn't exist yet.
 
 Note: raw GitHub is CDN-cached (~5 min), so the notice may lag slightly after the commit.
 

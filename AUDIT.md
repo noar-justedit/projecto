@@ -145,10 +145,14 @@ dossier nommé `260819`. Volontaire ?
 
 ### 2.6 Signature / notarisation
 
-Le `READ ME FIRST.txt` (`xattr -cr`) est la conséquence directe de l'absence de signature Apple.
-Coût réel : 99 €/an (Apple Developer) pour supprimer le message « endommagée », et ~200-400 €/an pour
-un certificat Windows qui calme SmartScreen. Tant que tu diffuses en interne / à quelques personnes,
-la note explicative suffit.
+**macOS : réglé en 1.5.5.** L'app est signée avec un certificat Developer ID, notarisée par Apple et
+le ticket est agrafé à l'app *et* au DMG. Plus de message « endommagée », plus de `xattr -cr` :
+le `READ ME FIRST.txt` a été supprimé, il n'a plus lieu d'être.
+
+**Windows : toujours non signé.** SmartScreen affichera encore « Éditeur inconnu » →
+« Informations complémentaires » → « Exécuter quand même ». Un certificat Windows OV coûte
+~200-400 €/an, et depuis que la clé doit vivre sur un support matériel (HSM / token), la mise en
+place est plus lourde qu'avant. À arbitrer selon le nombre d'utilisateurs Windows.
 
 ---
 
