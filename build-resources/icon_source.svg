@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<defs>
+<linearGradient id="fr" gradientUnits="userSpaceOnUse" x1="0" y1="282" x2="0" y2="882">
+<stop offset="0.017" stop-color="#fee693"/><stop offset="0.097" stop-color="#fde083"/><stop offset="0.197" stop-color="#fbdb74"/><stop offset="0.297" stop-color="#f9d664"/><stop offset="0.397" stop-color="#f7d051"/><stop offset="0.497" stop-color="#f6cb42"/><stop offset="0.597" stop-color="#f0c338"/><stop offset="0.697" stop-color="#e8bc35"/><stop offset="0.797" stop-color="#e1b632"/><stop offset="0.897" stop-color="#dbb02f"/><stop offset="0.983" stop-color="#d8ad2e"/></linearGradient>
+<linearGradient id="fi" gradientUnits="userSpaceOnUse" x1="0" y1="442" x2="0" y2="724">
+<stop offset="0" stop-color="#6c4a00"/><stop offset="1" stop-color="#6d4c01"/></linearGradient>
+<filter id="sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity=".30"/></filter>
+</defs>
+<g transform="rotate(-2.6843 510.46 511.34)">
+<g filter="url(#sh)">
+<path d="M78 200 Q78 140 138 140 H336 Q356 140 372 154 L432 202 Q446 212 464 212 H878 Q944 212 944 278 V600 H78 Z" fill="#b18a1e"/>
+<rect x="120" y="274" width="782" height="16" rx="8" fill="#a9831a"/>
+<rect x="78" y="282" width="866" height="600" rx="48" fill="url(#fr)"/>
+</g>
+<rect x="124" y="284" width="774" height="5.0" rx="3.0" fill="#ffe89a" opacity=".7"/>
+<path d="M350 442 H672 Q704 442 704 474 V692 Q704 724 672 724 H350 Q318 724 318 692 V474 Q318 442 350 442 Z M356 464 h28 a18 18 0 0 1 0 36 h-28 a18 18 0 0 1 0 -36 Z M642 464 h28 a18 18 0 0 1 0 36 h-28 a18 18 0 0 1 0 -36 Z M356 515.0 h28 a18 18 0 0 1 0 36 h-28 a18 18 0 0 1 0 -36 Z M642 515.0 h28 a18 18 0 0 1 0 36 h-28 a18 18 0 0 1 0 -36 Z M356 565.0 h28 a18 18 0 0 1 0 36 h-28 a18 18 0 0 1 0 -36 Z M642 565.0 h28 a18 18 0 0 1 0 36 h-28 a18 18 0 0 1 0 -36 Z M356 617.0 h28 a18 18 0 0 1 0 36 h-28 a18 18 0 0 1 0 -36 Z M642 617.0 h28 a18 18 0 0 1 0 36 h-28 a18 18 0 0 1 0 -36 Z M356 670 h28 a18 18 0 0 1 0 36 h-28 a18 18 0 0 1 0 -36 Z M642 670 h28 a18 18 0 0 1 0 36 h-28 a18 18 0 0 1 0 -36 Z M423.0 570 h178 a13.0 13.0 0 0 1 0 26 h-178 a13.0 13.0 0 0 1 0 -26 Z" fill="url(#fi)" fill-rule="evenodd"/>
+</g></svg>

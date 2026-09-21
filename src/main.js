@@ -108,10 +108,10 @@ const WIN_RESERVED = /^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$/i;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 920,
-    height: 700,
+    height: 800,   // charte : la colonne Setup tient entière sans défiler
     minWidth: 800,
     minHeight: 620,
-    backgroundColor: '#0f0f10',
+    backgroundColor: '#0a0b0e',   // --page de la charte (pas de flash au lancement)
     titleBarStyle: 'hiddenInset',
     autoHideMenuBar: true,   // Windows : barre de menu masquée (raccourcis conservés)
     trafficLightPosition: { x: 14, y: 12 },
@@ -385,7 +385,7 @@ ipcMain.handle('dialog:showInputBox', async (event, { title, message, defaultVal
       maximizable: false,
       modal: true,
       parent: mainWindow,
-      backgroundColor: '#141416',
+      backgroundColor: '#14161c',
       titleBarStyle: 'hiddenInset',
       webPreferences: {
         nodeIntegration: false,
@@ -398,14 +398,19 @@ ipcMain.handle('dialog:showInputBox', async (event, { title, message, defaultVal
 <html><head><meta charset="UTF-8">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #141416; color: #f2f2f5; padding: 22px 16px 16px; -webkit-font-smoothing: antialiased; }
-.title { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; margin-bottom: 5px; }
-.msg { font-size: 12px; color: #78788e; margin-bottom: 12px; }
-input { width: 100%; background: #1c1c20; border: 1px solid rgba(0,230,118,0.35); border-radius: 5px; color: #f2f2f5; font-family: 'SF Mono','Fira Code',monospace; font-size: 12px; padding: 8px 10px; outline: none; }
-.btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
-button { font-family: inherit; font-size: 12px; padding: 7px 16px; border-radius: 5px; cursor: pointer; border: 1px solid; letter-spacing: 0.03em; }
-.ok { background: #00e676; color: #000; border-color: #00e676; font-weight: 600; }
-.cancel { background: transparent; color: #78788e; border-color: rgba(255,255,255,0.12); }
+/* Charte UI Noar : la fenêtre est une carte, le champ un creux, boutons pleine largeur en bas */
+body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif; background: #14161c; color: #e8eaf0; padding: 18px 16px 16px; -webkit-font-smoothing: antialiased; }
+.title { font-size: 14px; font-weight: 600; letter-spacing: -0.1px; margin-bottom: 3px; }
+.msg { font-size: 11.5px; color: #8b909b; margin-bottom: 12px; }
+input { width: 100%; background: #0e1014; border: none; border-radius: 8px; color: #e8eaf0; font-family: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace; font-size: 13px; padding: 9px 10px; outline: none; }
+input:focus { box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+input::placeholder { color: #6f757f; }
+.btns { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 14px; }
+button { font-family: inherit; font-size: 12px; font-weight: 600; padding: 9px 14px; border-radius: 9px; cursor: pointer; border: none; }
+.ok { background: #0f2c1d; color: #35c98b; font-weight: 700; }
+.ok:hover { background: #123524; }
+.cancel { background: #0e1014; color: #aeb3bd; }
+.cancel:hover { color: #e8eaf0; }
 </style></head>
 <body>
 <div class="title">${escHtml(title)}</div>

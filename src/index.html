@@ -21,7 +21,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:;">
 <title>projecto</title>
 <style>
 @font-face{font-family:'Poppins';font-style:normal;font-weight:600;src:url('data:font/truetype;base64,AAEAAAAMAIAAAwBAR1BPU0R2THUAACR4AAAAIEdTVUJsl3S2AAAkmAAAAPBPUy8yWkFffgAAIUwAAABgY21hcAAMANEAACGsAAAANGdseWay+xtwAAAAzAAAHXJoZWFkGoQkbgAAHzwAAAA2aGhlYQwwAgMAACEoAAAAJGhtdHjyPBW7AAAfdAAAAbJsb2NhhhWN7QAAHmAAAADcbWF4cADvASUAAB5AAAAAIG5hbWU8SlmNAAAh4AAAAnZwb3N0/7gAMgAAJFgAAAAgAAIAW//5AQcCxgADAA8AABMDIwMSJjU0NjMyFhUUBiP6EHYRKTExJiUwMCUCxv4dAeP9My8jIy8vIyMvAAIAJQJKAUcDHgADAAcAABMHIychByMnnQxfDQEiDV8NAx7U1NTUAAACABoAAANHAuQAGwAfAAABBzMVIwcjNyMHIzcjNTM3IzUzNzMHMzczBzMVISMHMwKsIX+aJIUktiSEJJeyIZaxI4QjtiOFI4D+4LYhtgHBmn2qqqqqfZp9pqampn2aAAADADX/qQI3AxQAIwAqADEAACQGBgcVIzUmJiczFhc1LgI1NDY3NTMVFhYXIyYmJxUeAhUAFhc1BgYVEjY1NCYnFQI3NWdGQGR6ApYGREhYQH1jQGBzB5cDIx1LV0D+kCgmJCq0KyonlVs7BVFSCWdYSA+/EiRQRVduCFFRCGRYHSsJvRMjT0UBEykNrQUsJf50MCIhKA2vAAUAJf/0AxgCyAALAA8AGAAkACwAABI2MzIWFRQGIyImNSUBIwEEFRQzMjY1NCMANjMyFhUUBiMiJjU2FRQzMjU0IyVZRkZZWUZGWQKC/neIAYj+bjcbHjkBGVlGRldXRkdYZTk4OAJyVlZMTVZWTZb9RAK8SE5PJyhO/nBVVU1NVlZNTk5PT04AAAIAI//0AwoCyQApADEAACEnBiMiJiY1NDY3JiY1NDY2MzIWFgcjNiYjIgYVFBYXFzY2NzczBwYHFyQ3JwYVFBYzAl5MYYxNdUBOTBsYMl0+P1osA4gBIh0cJR4isAICATmSRhQXqf5xP6xhRDhLVzVhQEVuIiE9IzBNLDBQMSEjIRoZMSSuAgQCX3snI6doOqorTy09AAEAJQJKAJ0DHgADAAATByMnnQxfDQMe1NQAAQBr/zsB0wOcAA8AABYCNTQSNzMVBgIVFBIXFSPWa3BrjW5zbWWNZwEkp6sBLWANaf7anJj+5WgOAAEAEv87AXoDnAAPAAAXNTYSNTQCJzUzFhIVFAIHIWVtc26Na3BrYcUOaAEbmJwBJmkNYP7Tq6f+3F4AAAEARAFoAcEC4gARAAABFwcXBycXIzcHJzcnNxcnMwcBjzKCgjRsF2gWazeCgTNvF2kYAq5aLy9dWYqKW2AvLVxYi4sAAQBSAGUCUAJjAAsAAAEjFSM1IzUzNTMVMwJQvYS9vYS9ASfCwnrCwgAAAQAP/3oA3gCTAAMAADcDIxPedVpBk/7nARkA//8ARwEqAe8BoAACAGAAAAABACz/+QDYAJ0ACwAAFiY1NDYzMhYVFAYjXTExJiUwMCUHLyMjLy8jIy8AAAEAJf9LAbwDswADAAABASMBAbz+8okBDgOz+5gEaAAAAgA1AAICUQLnAAsAGwAAEjYzMhYVFAYjIiY1JCYmIyIGBhUUFhYzMjY2NTV9kZF9fZGRfQGSEzk4ODkTEjo4ODoSAiPExK2uxsauSmVAQGVKTGc/P2dMAAEAJAAAARUC2QAFAAATNTMRIxEk8ZACWIH9JwJYAAEALAAKAhsC6QAZAAA3PgI1NCYjIgYHIzY2MzIWFRQGBgchFSE1YWByTDAyMjYBiASHaHJ6VGxXASf+Ep5Qa3Q4MzpDOnh8eWNOjmlKdGgAAQAt//sCHQLqACoAABI2MzIWFhUUBgcVFhYVFAYGIyImJzMWFjMyNjU0JiMjNTMyNTQmIyIGByM8g2tJaDVBLTpBN2tLcY4EiAI/NzM3TFAdHY4zMC8zBIkCfW0zVzc/Vw8EElxIPF41cm8xOzktPDRzXyswMycAAgAvAAACcQLQAAoADQAANzUBMxEzFSMVIzUTAzMvAUejWFiMCc3Njm4B1P44eo6OAaz+zgAAAQBPAAACTgLbAB8AAAEhFTY2MzIWFhUUBiMiJiczFhYzMjY1NCYjIgYHIxEhAh/+vBVOLFBmLoN5cogJiAk/MTs8PTsqOAyGAcQCYKsaIUZtPnOMclwoMEo9PkEqIwGsAAACAEX//gJGAuoAGwAnAAAAJiMiBgc2NjMyFhYVFAYGIyImJjU0NjMyFhcjBgYVFBYzMjY1NCYjAaUxLkVBARhcNkFkODluTGh3L36IaXQJgptIQz02Pz07Ak0qb30oLThrS0dvPlylebe7clW2Pjs7REI4OkQAAQAjAAACBQLXAAYAAAEBIwEhNSECBf72jgEM/qoB4gJv/ZECX3gAAAMAOv/wAkkC5wAaACYAMgAAEjU0NjYzMhYWFRQGBxYWFRQGBiMiJiY1NDY3JCYjIgYVFBYzMjY1BgYVFBYzMjY1NCYjSzdvUFBvNzYtNz5FeEtLd0U+NwEAOzMyOz0wMD6nR0U7O0RGOQG2bTZZNTVZNjdTFxhcP0RlNjZlRD9dF742NjItNjctyjo2Mj9AMTU7AAACAEH//wI6AuoAGwAnAAA2FjMyNjUGBiMiJiY1NDYzMhYVFAYGIyImJiczNjY1NCYjIgYVFBYz3zkwPjgXUzBAZzyEco51LW1eSmg3BIKePD82Nj89PaEvZ3ogJDVpS2+DtreCplY5XTi0QDY7QUM3NUMA//8ALP/5ANgCOwAiAA8AAAAHAA8AAAGe//8AKf96APgCNwAnAA8AGQGaAAIADRoAAAEATwCEAdkCRAAFAAAlJzczBxcBKdrasNrahODg4OAAAgBgAK8CgQIZAAMABwAAARUhNQUVITUCgf3fAiH93wIZenrwenoAAAEAWQCEAeQCRAAFAAATMxcHIzdZsdrasdsCRODg4AAAAgAi//kB7wLSABcAIwAAABYVFAYjByMnMzI2NTQmIyIGFSMmNjYzAiY1NDYzMhYVFAYjAXB/fmgEewUtV14zLC4zhAE2aUdnMTEmJTAwJQLScWNiZ02qLj0sNDIsPWA2/ScvIyMvLyMjLwAAAgBH/ysD0wKQADkARwAAABYWFRQGBiMiJicGBiMiJjU0NjYzMhc3MwMGFRQWMzI2NjU0JiMiBgYVFBYzMjcXBiMiJiY1NDY2MwI2NjU0JiMiBgYVFBYzAs6qWzlsSjRACR1cM0xWPm5FViAJdS8DFBgkMRmUh3O6aZOHYUoUX3RwqFyJ85dPPCMuKSU4HygoApBWnGZSklorKCctW09Lgk88NP7yExAYGERmM3mFb791fIYjXChVnGeT8Ir90SpGKCo0LUgoKTAAAAIAGgAAArMCuwAHAAoAACUhByMTMxMjJwMDAfH+6i6T+6P7lFRlZYWFArv9RfUBJP7cAAADAEUAAAJYAroAEAAZACIAAAAWFRQGBiMhESEyFhYVFAYHJTMyNjU0JiMjEjY1NCYjIxUzAgxMN2hH/tMBIEdnNUE2/wCAMjY2MoDAOTwzio0BW2A+OFUwArouUjQ9UhE0LSoqLv4pMCwtM7wAAAEAI//6As0CwwAdAAASNjYzMhYXIyYmIyIGBhUUFhYzMjY3MwYGIyImJjUjXaFkdbAjoRhXOT1fNTVfPTlXGKEjr3ZkoV0BxaNbeGoyMjloRkVpOTMya3dbomcAAgBFAAACqQK6AAoAEwAAABYWFRQGBiMjETMSNjU0JiMjETMBp6dbW6du9PRpeHhuY2MCulafaWmdVgK6/b14bW17/jMAAAEARQAAAdoCuwALAAATFTMVIxUhFSERIRXR6+sBCf5rAZUCSa9vuXICu3IAAQBFAAAB9AK6AAkAAAEVIRUzFSMRIxEB9P7d39+MArpxs2/+2QK6AAEAI//6At0CwwAhAAABJiYjIgYGFRQWFjMyNjcjNSEVDgIjIiYmNTQ2NjMyFhcCKxhUOD5gNjdiQVBmEPABeg5ckVplo11do2R2riEB6CwuOGhERmg4VUxrekl8S1uiZ2ejW3NoAAEARQAAAogCugALAAABESMRIREjETMRIRECiIz+1YyMASsCuv1GASn+1wK6/uEBHwAAAQBFAAAA0QK6AAMAABMRIxHRjAK6/UYCugABACT/+QHcAroADwAAAREUBiMiJjUzFhYzMjY1EQHcdmNke4wBKScmKAK6/hZmcXRoLTIwKgHqAAEARQAAAoACugAKAAAhAxEjETMREzMBAQHP/oyM/qn+4AEoATf+yQK6/scBOf6m/qAAAQBFAAABtwK6AAUAADczFSERM9Hm/o6Mb28CugAAAQBFAAADPgK6AAwAAAERIxEDIwMRIxEzExMDPoy7aryMn97eArr9RgHG/joBxv46Arr9+QIHAAABAEUAAAKaArsACQAAISMBESMRMwERMwKajP7DjIwBPYwB3/4hArv+IAHgAAIAI//5Au4CxAAPAB8AAAQmJjU0NjYzMhYWFRQGBiM+AjU0JiYjIgYGFRQWFjMBJ6RgYKRiY6NfX6RiP2A2NmA/P2E2NmE/B1yjZ2ajXFyjZmejXH05akZGaTg4aUZGajkAAgBFAAACQgK6AAwAFAAAAAYGIyMRIxEhMhYWFQY2NTQjIxUzAkI1cVZ1jAEBUXI5yDhyb28BqmI8/vQCujhiPmU1MGbLAAIAI/+FAvsCxAATACMAAAUnBiMiJiY1NDY2MzIWFhUUBgcXABYWMzI2NjU0JiYjIgYGFQJNaiwuYqRgYKRiY6NfT0Sg/bg2YT8/YDY2YD8/YTZ7fwtco2dmo1xco2ZdmTC0AZRqOTlqRkZpODhpRgACAEUAAAJPAroADgAXAAAhAyMRIxEhMhYWFRQGBxMBMzI2NTQmIyMBrZpCjAEGUXI5UE+n/oJ1OTg4OXUBEP7wAro5YTxFbxX+5QF5NzEwNQAAAQAz//kCLQLEACwAABYmJiczFhYzMjY1NCYmJy4CNTQ2NjMyFhcjJiYjIgYVFBYWFx4CFRQGBiPtdUQBlgM3MDE4JjkyRFU9PnBIbIcHmgI5LykxJTcyRFY+OnBNBzJeQCsyLyYfKBcOFCdPQj5cMWleJC8qKBwlFw8UKFBBOGA5AAEAIAAAAiACugAHAAABFSMRIxEjNQIguoy6Arpx/bcCSXEAAAEAQ//5AncCugATAAATERQWMzI2NREzERQGBiMiJiY1Ec9KQ0RKjU2BT05/SgK6/lBHS0tHAbD+UVl7Pj57WQGvAAEADgAAArgCugAGAAABASMBMxMTArj/AKr/AJbAvwK6/UYCuv3VAisAAAEAFv//A+oCugAMAAABAyMDAwcDMxMTMxMTA+rDpYOJpLyWe46chnwCuv1GAfH+DwECu/3iAh795QIbAAEAJgAAAogCugALAAAhJwcjEwMzFzczAxMB55eJntzfoZeIntvf6+sBYAFa6ur+of6lAAABAAsAAAJwAroACAAAAQMVIzUDMxMTAnDsjO2elpUCuv458/MBx/7BAT8AAAEAMgAAAg4CugAJAAA3IRUhNQEhNSEV1AE6/iQBOP7IAdx2dmwB2HZsAAEAh/87AYIDnAAHAAABFSMRMxUjEQGCd3f7A5xy/IV0BGEAAAEArf9LAlMDswADAAAFATMBAcr+44gBHrUEaPuYAAEAbv87AWkDnAAHAAAFIzUzESM1MwFp+3d3+8V0A3tyAAABACEApwKHArwABgAANyMTMxMjA7CP8IbwkKKnAhX96wFvAAABAGv/UwK2/9gAAwAABRUhNQK2/bUohYUAAAEACgJRAPADLAADAAATFSc18OYCtWRpcgAAAgAh//cCYgIzABIAIgAAEjY2MzIWFzUzESM1BgYjIiYmNSQmJiMiBgYVFBYWMzI2NjUhQ3NHPl0cjY0bXz5Gc0MBtChEJydCKSlDJidEKAFrgkYyJk/91lEnM0iDVTFJJyZJMjJLKCdJMwAAAgBF//cChQLkABIAIgAAEjYzMhYWFRQGBiMiJicVIxEzEQQmJiMiBgYVFBYWMzI2NjXsXz1Hc0NDc0c+XRyMjAElKUMnJkMpKUMmJ0MpAgEyRoFVVYNIMSdPAuT+9ZBJJidKMjJKJyhKMwAAAQAh//cCOAIzABoAABI2NjMyFhcjJiYjIgYVFBYzMjczBgYjIiYmNSFGfFBnhxeXDDkqPEZGPFUalxeIZlB8RgFrgUdnXSQpV1BPV0xaakeBVgAAAgAh//cCYgLkABIAIgAAEjY2MzIWFxEzESM1BgYjIiYmNSQmJiMiBgYVFBYWMzI2NjUhQ3RHNmIdjo4aXj5GdEMBtChEJydCKSlDJidEKAFrgkYvJwEH/RxSKTJIg1UxSScmSTIySygnSTMAAgAh//cCSAIzABcAHgAAAAchFhYzMjczBgYjIiYmNTQ2NjMyFhYVJyYmIyIGBwJIBP5rBUo2TiGXGIhjUH9HRn5ST31FkQFMNzRHCAEDGDxEQ1BnR4JVVoJGRH1RKDZBPzgAAAEAFQAAAUMDDAARAAABIxEjESM1MzU0NhcVJgYVFTMBQ2GOPz90dTMoYQG3/kkBt3McZmADdgEkLxcAAAIAIf7vAmICMwAfAC8AAAAWFzUzERQGBiMiJiczFhYzMjY1NQYGIyImJjU0NjYzFiYmIyIGBhUUFhYzMjY2NQFcXhuNPnxYdpcKiwtJND1MG189RnRDQ3NHtyhEJydCKSlDJidEKAIzMSdP/dJNeUduXyYtSUpWJzRIg1VUgkbrSScmSTIySygnSTMAAQBFAAACVQLkABQAAAAWFhURIxE0JiMiBhURIxEzFTY2MwG8YjeMQjk6Q4yMG1o3AjI3a0v+uwEyQkdHQv7OAuT/JCkAAAIANgAAAOIDEAALAA8AABImNTQ2MzIWFRQGIxcRIxFnMTElJTExJUWMAmwvIyMvLyMjL0L91gIqAAAC/+P++ADhAxAACwAXAAASJjU0NjMyFhUUBiMTFAYjIzUzMjY1ETNmMTEmJTAwJUVbVT4oIBqMAmwvIyMvLyMjL/05XFF3GRwChgAAAQBFAAACQwLkAAoAACEnFSMRMxE3MwMTAY28jIy6tvT27OwC5P5b6/7q/uwAAAEARQAAANEC5AADAAATESMR0YwC5P0cAuQAAQBFAAAD2AIyACIAAAAWFREjETQmIyIGFREjETQmIyIGFREjETMVNjYzMhYXNjYzA1t9jEI5OUOMQjk6Q4yMG1UzQWYcG2c8AjJ9cP67ATJBRUVB/s4BMkFFRUH+zgIqQyMoNzMwOgABAEUAAAJVAjIAEwAAABYVESMRNCYjIgYVESMRMxU2NjMB23qMQjk6Q4yMHFc0AjJ9cP67ATJCR0dC/s4CKkUkKQACACL/9wJcAjMADwAcAAAWJiY1NDY2MzIWFhUUBgYjPgI1NCYjIgYVFBYz64BJS4JQUIJLTYNRJkMoUzw8UU88CUeCVVWCR0eCVVWCR3olSjVPVVVPT1UAAgBF/vgChQIzABIAIgAAEjYzMhYWFRQGBiMiJicRIxEzFQQmJiMiBgYVFBYWMzI2NjXsXz1Hc0NDc0c9XR2MjAElKUMnJkMpKUMmJ0MpAgAzRoFVVYNIMib+qQMyUJFJJidKMjJKJyhKMwAAAgAh/vgCYgIyABIAIgAAEjY2MzIWFzUzESMRBgYjIiYmNSQmJiMiBgYVFBYWMzI2NjUhRXZHO1scjY0cXjtGdUQBtCpDJiVDKipDJSZDKgFpgUgtI0j8zgFUJDBJglMySiYmSTMzSyYmSjMAAQBFAAABewIyAAwAABI2MxUjIgYVESMRMxXsVzglQkOMjAIAMpM+Tf7sAipWAAEAJ//3AfMCMwAqAAAWJiYnMxYWMzI2NTQmJy4CNTQ2NjMyFhcjJiYjIgYVFBYXHgIXFAYGI9VsPwONBDcpKC03PD5POTVjQ2N2BoYDMSkmKTg7PE45ATVjQgkxVDMgKiAZGxsQDyBCOC5MLGNUISccGRwdDw8gQzcwTCsAAAEAGQAAAWQCswASAAATERQWMzMVIyI1ESM1MzUzFTMV6BsgQVixQkKNfAG3/vQcGXasAQtziYlzAAABAED/+QJQAioAFAAAAREjNQYGIyImJjURMxEUFjMyNjURAlCNG1czQWQ5jEI5OkICKv3WRiQpN2tKAUX+z0JHR0IBMQAAAQAKAAACTQIqAAYAACUTMwMjAzMBLIyVzarMloEBqf3WAioAAQAHAAADRQIqAAwAAAEDIwMDIwMzExMzExMDRaKXZWWYo45iapRoYgIq/dYBg/59Air+WgGm/lsBpQAAAQAIAAACFQIqAAsAACEnByMTAzMXNzMDEwF3cmWWtbeecWaWtrisrAEWARSrq/7s/uoAAAEABf76AlcCKgAHAAABASMTAzMTEwJX/qmVeN6dj5ECKvzQARQCHP59AYMAAQAmAAABvAIqAAkAADczFSE1EyM1IRXF9/5q8vEBknNzcQFGc3EAAAEAbv85AasDngAwAAATNjY1NCcmNTQ2MzMVIyIVFBcWFhUUBgcVFhYVFAYHBhUUFjMzFSMiJjU0NzY1NCYnbjAxCQpdTUUqPggBCDQ1NTQIAQgeICpFTV0KCTEwAaIELCUqT14rTld2OxxUCl0kNUYKAgtFNiJdDFQbHxx3V04sXk8pJSwEAAABAFT/hwDhAygAAwAAFyMRM+GNjXkDoQABAFH/OQGOA54AMAAAAAYVFBcWFRQGIyM1MzI2NTQnJiY1NDY3NSYmNTQ2NzY1NCMjNTMyFhUUBwYVFBYXFQFeMQkKXU1FKiAeCAEINDU1NAgBCD4qRU1dCgkxMAExLCUpT14sTld3HB8bVAxdIjZFCwIKRjUkXQpUHDt2V04rXk8qJSwEbQAAAQAgAN8CMAGdABkAABI2MzIWFxYWMzI2NzMGBiMiJicmJiMiBgcjMVxFHjEcFyESGiMEaBFdRR4vHRkfEhokBWYBQVwTEg4OICBhXBMSDg4hHwAAAQBHASoB7wGgAAMAAAEVITUB7/5YAaB2dgACAFgAAADvAscAAwAHAAATAyMDExUjNe8RdhCXlwLH/hwB5P3RmJgAAQAe/2QAtwB2AAwAADYVFAYjNTI2NTUjNTO3RkYcG0SDLzNJTz0eIhSBAAABAC8AAADGAJgAAwAANxUjNcaXmJiYAAACAEQAAADbAjQAAwAHAAATFSM1ExUjNduXl5cCNJiY/mSYmAACADT/ZADRAjAAAwAQAAATFSM1EhUUBiM1MjY1NSM1M8uXnUZGHBtEgwIwmJj9/zNJTz0eIhSBAAIAIgAAAe8C0gAXABsAAAAWFRQGIxUjNTMyNjU0JiMiBhUjJjY2MxMVIzUBcX5+aIQtWF0zLC00hAE3aUcPmALScGNjZ02qLj8sMjIsPWA2/caYmAAAAgAh//YCIgI0ABwAKAAAJAYjIiYmNTQ2MzMmJiMiBgcjPgIzMhYWFREjNSY2NjU1IyIGFRQWMwF9aDw0VDBzc40COTIsOgiMCkNtREZxQI5vQyyFMC8rJykzKkowTWI1Py8qPF81OmxJ/rtPGB48KQQmHx4kAAIAIf/4AqIC3gAoADQAACEnBgYjIiYmNTQ2NjcmJjU0NjYzMhYWFxYVFAcjNicmJiMiBhUUFhcBJDY1NCYjIgYVFBYzAgVMGmVAPmM4LlAxIB4uWT07Vy8EAgWHBwIBIhwaIg8TAWX+gjg4KCk3NyloMj44Yj04WzcGKEcmLU4vKkYoEAoUFhQUHCMjGRIjGf4hbDorKjk4Kys6AAEAMgAAAiEC1wAaAAATNjY1NCYjIgYHIz4CMzIWFhUUBgcHIRUhNfVPPzAyMDUCiAFBbURMazZLX3EBKv4SASJOYTAsM0I8UW81Nl89RIBdcHRmAAEAMf/7AisC1gAbAAAAFhUUBgYjIiYnMxYWMzI2NTQmIyM1NyE1IRUHAb9sPnJNbosEiwI8NjU9Qjllof7yAbetAbVzYEVpOXJvMTs+ODlAX6J2aqwAAgAx//cCLALWABMAHwAAABYWFRQGBiMiJiY1NDY3NzMDNjMSNjU0JiMiBhUUFjMBjmU5QXNISnRBKCuwmb0eHh5BQTo6Q0M6AdQ5aUVHcD9Ackc4cD///vYI/plFOjtFRTs6RQAAAgAk//wCIQLcABMAHwAAABYWFRQGBwcjEwYjIiYmNTQ2NjMCFjMyNjU0JiMiBhUBbHRBKCuwm70YH0NoOkJ0SHxCOjpCQjo6QgLcQHFIO3E+/QEFBzpqRkhxP/7NRkY8O0ZFPAAAAAABAAAAbQCQAAwAdAAGAAEAAgAeAAYAAABkAAAAAwACAAAAAAAAAB4AMgBiAK4A8wE+AUsBaAGGAagBvQHLAdMB6QH5AiUCNAJcApgCswLkAx8DMwN9A7cDwwPPA98D8wQDBDkEngS4BO8FHQVABVYFagWdBbYFwwXfBfgGBwYjBjkGagaNBsUG7gcvB0EHYgd3B5UHrwfFB9oH7Af7CAwIHggrCDgIbgikCM4JBAk2CVQJmgm9CdoKAAoXCiQKWAp5CqUK2wsRCygLZwuEC6cLuQvXC/EMBwwbDF8MawyvDNkM5gz6DRANHA0uDUoNdQ2wDf4OKA5TDoYOuQABAAAABAEG4lawcF8PPPUAAwPoAAAAANikqcUAAAAA2xY2zf3h/a8JzgRDAAAABwACAAAAAAAAAfQAAADuAAABYgBbAWwAJQN3ABoCjgA1Az0AJQMKACMAwwAlAeUAawHlABICBgBEAqIAUgD+AA8CRwBHAQQALAHmACUChgA1AWoAJAI+ACwCVwAtApUALwKEAE8CgABFAiQAIwKDADoCcgBBAQcALAFEACkCSABPAuIAYAI3AFkCGgAiBBsARwLMABoCgwBFAwAAIwLNAEUCFABFAhIARQMAACMCzQBFARYARQI6ACQClwBFAcsARQODAEUC3wBFAxEAIwJgAEUDEwAjAoEARQJhADMCQQAgArkAQwLHAA4EAAAWAq4AJgJ8AAsCQAAyAfEAhwL0AK0B8ABuAqgAIQMWAGsBDwAKAqYAIQKmAEUCWgAhAqYAIQJpACEBWQAVAqYAIQKVAEUBFgA2ARb/4wJIAEUBFgBFBBgARQKVAEUCfgAiAqYARQKmACEBlABFAiEAJwGEABkClQBAAlcACgNMAAcCHAAIAl0ABQHjACYB/ABuATUAVAH8AFECUAAgAjYARwFHAFgA4QAeAPUALwEkAEQBCgA0AhoAIgJnACECqwAhAlMAMgJjADECUgAxACQAAAABAAAEGv6iAGQJvP3h+TgJzgABAAAAAAAAAAAAAAAAAAAAbAAEA2ICWAAFAAACigJYAAAASwKKAlgAAAFeADIBTAAAAAAHAAAAAAAAAAAAAAEAAAAAAAAAAAAAAABJVEZPAMAAIAB+BBr+ogBkBG8CcwAAAAEAAAAAAioCvQAAACAABAAAAAIAAAADAAAAFAADAAEAAAAUAAQAIAAAAAQABAABAAAAfv//AAAAIP///+EAAQAAAAAAAAALAIoAAwABBAkAAACiAAAAAwABBAkAAQAgAKIAAwABBAkAAgAOAMIAAwABBAkAAwA+ANAAAwABBAkABAAgAKIAAwABBAkABQAKAQ4AAwABBAkABgAgARgAAwABBAkBAABAATgAAwABBAkBAQAeAXgAAwABBAkBAgAqAZYAAwABBAkBAwAsAcAAQwBvAHAAeQByAGkAZwBoAHQAIAAyADAAMgAwACAAVABoAGUAIABQAG8AcABwAGkAbgBzACAAUAByAG8AagBlAGMAdAAgAEEAdQB0AGgAbwByAHMAIAAoAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AaQB0AGYAbwB1AG4AZAByAHkALwBQAG8AcABwAGkAbgBzACkAUABvAHAAcABpAG4AcwAgAFMAZQBtAGkAQgBvAGwAZABSAGUAZwB1AGwAYQByAEkAVABGAE8AOwAgAFAAbwBwAHAAaQBuAHMAIABTAGUAbQBpAEIAbwBsAGQAOwAgADQALgAwADAANABiADgANAAuADAAMAA0AFAAbwBwAHAAaQBuAHMALQBTAGUAbQBpAEIAbwBsAGQAUwBxAHUAYQByAGUAIABkAG8AdABzACAAaQBuACAAcAB1AG4AYwB0AHUAYQB0AGkAbwBuACAAbQBhAHIAawBzAEQAbwB1AGIAbABlAC0AcwB0AG8AcgBlAHkAIABhAEEAbAB0AGUAcgBuAGEAdABpAHYAZQAgAGEAbQBwAGUAcgBzAGEAbgBkAEEAbAB0AGUAcgBuAGEAdABpAHYAZQAgADIALAAgADMALAAgADYALAAgADkAAAADAAAAAAAA/7UAMgAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAKABwAHgABREZMVAAIAAQAAAAA//8AAAAAAAAAAQAAAAoAMAByAANERkxUABRkZXYyABRkZXZhABQABAAAAAD//wAEAAAAAQACAAMABHNzMDEAGnNzMDIAJHNzMDMALnNzMDQAOAAGAAEAAAAAAQAABgABAAEAAAEBAAYAAQACAAABAgAGAAEAAwAAAQMABAAKADQASABcAAEAAAABAAgAAgASAAYAYQBiAGMAZABlAGYAAQAGAAIADQAPABsAHAAgAAEAAAABAAgAAQAGACUAAQABAEIAAQAAAAEACAABAAYAYQABAAEABwABAAAAAQAIAAIADgAEAGkAagBrAGwAAQAEABMAFAAXABo=') format('truetype');font-display:swap}
@@ -255,6 +255,247 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15
 #update-ov .upd-btn:hover{border-color:var(--border3);color:var(--text)}
 #update-ov .upd-btn.upd-go{background:var(--green);border-color:var(--green);color:#050506;font-weight:700}
 #update-ov .upd-btn.upd-go:hover{background:#5fffaa}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHARTE UI NOAR · portage projecto
+   Référence : charte-ui-noar.md + charte-ui-noar.html (arrêtée sur ingesto 2.7.0)
+
+   Bloc unique, posé à la fin de la feuille : il redéfinit par-dessus les règles
+   d'origine sans les réécrire. Le retirer rend l'interface d'avant.
+
+   La règle : le groupement est porté par le FOND, jamais par un trait.
+   Trois surfaces (page, carte, creux), aucune bordure sauf pour dire un état.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Jetons ─────────────────────────────────────────────────────────────── */
+:root{
+  --page:#0a0b0e; --card:#14161c; --ins:#0e1014; --raise:#1b1d24;
+  --text:#e8eaf0; --text2:#aeb3bd; --text3:#8b909b; --text4:#6f757f;
+  --green:#35c98b; --red:#f2555a; --blue:#4d90f0; --orange:#f2a03d;
+  /* Accent : la seule valeur propre à projecto, le jaune de son icône (dossier).
+     Logo uniquement, jamais un état. 12 ΔE de l'orange « à décider » : distincts. */
+  --accent:#f7d038;
+  --r-card:14px; --r-ins:11px; --r-field:8px; --r-badge:4px;
+  --font:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',system-ui,sans-serif;
+  --mono:ui-monospace,'SF Mono','JetBrains Mono',Menlo,monospace;
+  --scroll-thumb:#2a2d36;
+  /* Anciens jetons réalignés sur la charte, pour tout ce qui n'est pas repris plus bas */
+  --bg:var(--page); --bg2:var(--card); --bg3:var(--ins); --bg4:var(--scroll-thumb); --bg5:var(--scroll-thumb);
+  --border:transparent; --border2:transparent; --border3:transparent;
+  --gold:var(--orange); --gold-dim:#f2a03d26;
+  --green-d:#35c98b1a; --green-dim:#35c98b26; --green-dim2:#35c98b0f; --green-g:transparent;
+  --red-d:#f2555a1a; --red-dim:#f2555a26; --red-g:transparent; --red-border:transparent;
+}
+body{background:var(--page);color:var(--text);font-size:12.5px;line-height:1.45}
+::selection{background:#4d90f059;color:var(--text)}
+
+/* Ascenseurs fins, sans poignée décorative */
+.panel-scroll,.tree-body,.other-zips-list{scrollbar-width:thin;scrollbar-color:var(--scroll-thumb) transparent}
+.panel-scroll::-webkit-scrollbar,.tree-body::-webkit-scrollbar,.other-zips-list::-webkit-scrollbar{width:8px}
+.panel-scroll::-webkit-scrollbar-thumb,.tree-body::-webkit-scrollbar-thumb,.other-zips-list::-webkit-scrollbar-thumb{background:var(--scroll-thumb);border-radius:8px}
+.panel-scroll::-webkit-scrollbar-track,.tree-body::-webkit-scrollbar-track,.other-zips-list::-webkit-scrollbar-track{background:transparent}
+
+/* Étiquette de champ : capitales 10/700, hauteur FIXE de 12 px (alignement des colonnes) */
+.card-lbl,.card-lbl.red,.card-lbl.green,.field-lbl,.other-zips-lbl,.sr-lbl,.tree-head-lbl,.panel-hd h2,.t-tag{
+  display:flex;align-items:center;height:12px;line-height:12px;
+  font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text3)}
+
+/* Badge : un seul gabarit, la couleur porte le sens ({couleur}26 = 15 %) */
+.badge,.excl-badge{font-size:9px;font-weight:700;letter-spacing:.06em;line-height:1.5;
+  padding:2px 6px;border-radius:var(--r-badge);text-transform:uppercase}
+.badge-dim{color:var(--text3);background:#8b909b26}
+.badge-green{color:var(--green);background:#35c98b26}
+.badge-red{color:var(--red);background:#f2555a26}
+.badge-gold{color:var(--orange);background:#f2a03d26}
+
+/* ── 2. Structure : plus aucun filet entre zones ─────────────────────────── */
+.titlebar{border-bottom:none}
+.t-dot{background:var(--accent);box-shadow:none}
+.t-tag{color:var(--text4)}
+.main{gap:12px;padding:0 14px}
+.panel-left{border-right:none}
+.panel-hd{border-bottom:none;padding:2px 2px 9px}
+.panel-hd .p-dot{display:none}
+.panel-scroll{padding:0 0 14px;gap:12px}
+/* Les cartes gardent leur hauteur et c'est la colonne qui défile. Sans ça, la
+   colonne écrasait les cartes (overflow:hidden) et coupait « Output folder ». */
+.panel-scroll > .card{flex-shrink:0}
+.footer{border-top:none;background:transparent;height:30px;padding:0 16px}
+.footer-ver,.footer-link,.footer-right{font-size:11px;color:var(--text4)}
+.footer-link:hover{color:var(--text2)}
+
+/* ── 3. Cartes ─────────────────────────────────────────────────────────── */
+.card{background:var(--card);border:none;border-radius:var(--r-card)}
+.card-hd{padding:14px 16px 10px}
+.card-bd{padding:0 16px 16px;gap:12px}
+
+/* ── 4. Creux : ce qui se manipule ou se lit dans une carte ─────────────── */
+
+/* Source : la zone de dépôt est un creux. Seul le glisser-déposer trace un
+   contour, parce qu'il dit un état (rouge = source, sens commun aux applis). */
+.drop-zip{border:none;background:var(--ins);border-radius:var(--r-ins);padding:13px 14px;min-height:58px;gap:12px}
+.drop-zip:hover,.drop-zip.has-file:hover{background:var(--raise)}
+.drop-zip.has-file{border:none;background:var(--ins)}
+.drop-zip.over{border:none;background:var(--ins);box-shadow:inset 0 0 0 1px var(--red)}
+.drop-zip .dz-icon{color:var(--text3)}
+.drop-zip.has-file .dz-icon{color:var(--green)}
+.drop-zip.over .dz-icon{color:var(--red)}
+.dz-main{font-size:14px;color:var(--text)}
+.drop-zip.has-file .dz-main{color:var(--text);font-family:var(--mono);font-size:13px}
+.dz-sub{font-size:11.5px;color:var(--text3);margin-top:3px}
+
+/* Templates du dossier : liste de choix. L'actif est le SEUL posé sur un fond,
+   les autres restent à plat ; une coche verte le confirme, rien d'autre. */
+.other-zips-wrap.visible{margin-top:0}
+.other-zips-header{padding:0 0 6px;gap:4px}
+/* Deux rangées puis ascenseur, avec une lichette de la troisième qui dépasse.
+   Mesuré : rangée 31,4 px, écart 2 px → 2 × 31,4 + 2 + 18 = 82 px. La lichette
+   fait 18 px et non un tiers de rangée : les lignes inactives sont à plat, sans
+   fond, donc seul le haut du texte de la 3e ligne peut annoncer la suite. */
+.other-zips-list{gap:2px;overflow-y:auto;max-height:82px;margin-right:-4px;padding-right:4px}
+.other-zip-item{background:transparent;border:none;border-radius:var(--r-field);padding:7px 10px;gap:9px}
+.other-zip-item:hover{background:var(--raise);border:none}
+.other-zip-item.active{background:var(--ins);border:none}
+.other-zip-icon{display:none}
+.other-zip-name{font-size:12px;color:var(--text2)}
+.other-zip-item.active .other-zip-name{color:var(--text)}
+.other-zip-item.active::after{content:"";margin-left:auto;flex-shrink:0;width:13px;height:13px;background:var(--green);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat}
+
+/* Bouton à icône seule : carré de 28, rayon 8, sur la carte */
+.btn-mini{width:28px;height:28px;border:none;border-radius:8px;background:var(--card);color:var(--text3)}
+.btn-mini svg{width:13px;height:13px}
+.btn-mini:hover{color:var(--text);background:var(--ins);border:none}
+
+/* Destination : le chemin est un champ, la croix vit dans le même creux */
+.dest-row{gap:8px}
+.dest-path-box,.dest-path-box.active,.dest-path-box.session{background:var(--ins);border:none;border-radius:var(--r-field);padding:0 5px 0 10px;min-height:37px}
+.dest-path-text{font-size:12.5px;color:var(--text4)}
+.dest-path-box.active .dest-path-text{color:var(--text)}
+.dest-clear{width:26px;height:26px;border-radius:6px;color:var(--text4);font-size:16px}
+.dest-clear:hover{color:var(--text);background:var(--raise)}
+
+/* Bouton discret */
+.browse-btn,.excl-clear-all{background:var(--ins);border:none;border-radius:9px;padding:8px 14px;
+  font-size:12px;font-weight:600;color:var(--text2);font-family:var(--font)}
+.browse-btn:hover,.excl-clear-all:hover{color:var(--text);background:var(--ins);border:none}
+
+/* Champs */
+.row2{gap:12px}
+.field{gap:0}
+.field-lbl{margin-bottom:6px}
+.field-inp{background:var(--ins);border:none;border-radius:var(--r-field);padding:9px 10px;font-size:14px;color:var(--text)}
+.field-inp:focus{border:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.field-inp::placeholder{color:var(--text4)}
+.field-inp.err{border:none;box-shadow:inset 0 0 0 1px var(--red)}
+.err-msg{font-size:11.5px;margin-top:5px}
+
+/* Séparateur : liste de choix, l'actif seul sur un fond */
+.chips{gap:4px}
+.chip{border:none;background:transparent;border-radius:var(--r-field);padding:5px 15px;font-size:14px;color:var(--text3)}
+.chip:hover{border:none;color:var(--text)}
+.sep-opt.active{border:none;background:var(--ins);color:var(--text)}
+
+/* Interrupteurs : 34 × 20, pastille de 14, posés à gauche de leur libellé */
+.opts{gap:2px}
+.toggle-item{gap:10px;padding:5px 0}
+.toggle-track{order:-1;margin-left:0;width:34px;height:20px;border:none;border-radius:20px;
+  background:var(--ins);box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+.toggle-thumb{top:3px;left:3px;width:14px;height:14px;background:#5c6270}
+.toggle-item.on .toggle-track{background:var(--green);border:none;box-shadow:none}
+.toggle-item.on .toggle-thumb{transform:translateX(14px);background:var(--text)}
+.toggle-lbl{font-size:12.5px;color:var(--text2)}
+.toggle-item.on .toggle-lbl{color:var(--text)}
+.toggle-hint{font-size:10px;color:var(--text4)}
+
+/* Nom du dossier produit : une tuile creuse, en chasse fixe */
+.srow{background:var(--ins);border-radius:var(--r-ins);padding:12px 13px}
+.folder-preview{font-size:15px;font-weight:600;color:var(--text);margin-top:7px}
+.folder-preview.empty{color:var(--text4);font-weight:400;font-size:13px}
+
+/* ── 5. Colonne de droite ──────────────────────────────────────────────── */
+
+/* Fil d'état Source → Dest → Folder : une carte, plus un bandeau à filet */
+.crumb{background:var(--card);border:none;border-radius:var(--r-card);padding:11px 16px;margin-bottom:12px;gap:8px 10px}
+.stat-dot{background:var(--scroll-thumb)}
+.stat-dot.ok{background:var(--green)}.stat-dot.warn{background:var(--orange)}.stat-dot.err{background:var(--red)}
+.cstat-l{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--text3)}
+.cstat-v{font-size:11.5px;color:var(--text2)}
+.cstat-v.cur{color:var(--text)}
+.csep{color:var(--text4);opacity:1}
+.right-body{padding:0;gap:12px}
+
+/* Alertes : fond teinté de la couleur d'état, sans contour */
+.alert,.alert-ok,.alert-err,.alert-warn{border:none;border-radius:var(--r-ins);padding:12px 14px;font-size:12.5px;gap:10px;color:var(--text2)}
+.alert-ok{background:#35c98b14}.alert-err{background:#f2555a14}.alert-warn{background:#f2a03d14}
+.alert-ok .alert-ico{color:var(--green)}.alert-err .alert-ico{color:var(--red)}.alert-warn .alert-ico{color:var(--orange)}
+.alert-txt strong{color:var(--text);font-weight:600}
+.alert-detail{font-size:11px;color:var(--text3);line-height:1.75;margin-top:6px}
+
+/* Exclusions : orange, « à décider » (la restauration proposera de mettre le ZIP à jour) */
+.excl-summary{background:#f2a03d14;border:none;border-radius:var(--r-ins);padding:7px 7px 7px 14px;font-size:12.5px;color:var(--orange)}
+
+/* Arborescence : une carte, en-tête et pied fixes, le corps défile seul */
+.tree-box{background:var(--card);border:none;border-radius:var(--r-card)}
+.tree-box:focus{outline:none;border:none}
+.tree-box:focus-visible{box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.tree-head{border-bottom:none;padding:14px 16px 8px;gap:9px}
+.tree-hint{font-size:11.5px;color:var(--text4)}
+.tree-body{padding:0 8px 8px}
+.tree-empty{color:var(--text4);font-size:12.5px}
+.tree-row{border-radius:var(--r-field);padding:4px 8px}
+.tree-row:hover{background:var(--raise)}
+.tree-row.selected{background:var(--ins)}
+.tree-row.selected .tree-name{color:var(--text)}
+.tree-row.excluded{opacity:.5}
+.tree-ind{color:var(--scroll-thumb)}
+.tree-icon,.tree-icon.dir{color:var(--text4)}
+.tree-name{font-size:12.5px}
+.tree-name.dir{color:var(--text2)}
+.tree-name.file{color:var(--text4)}
+.excl-badge{color:var(--orange);background:#f2a03d26;margin-left:8px}
+
+/* Compteurs : tuiles creuses en pied de carte, valeur puis étiquette */
+.info-g{gap:9px;padding:4px 16px 16px}
+.info-c{background:var(--ins);border-radius:var(--r-ins);padding:11px 12px;display:flex;flex-direction:column-reverse}
+.info-c-val{font-size:15px;font-weight:600;color:var(--text);margin-top:0}
+.info-c-lbl{font-size:9px;font-weight:700;letter-spacing:.13em;color:var(--text3);margin-top:5px}
+
+/* ── 6. Action principale : pleine largeur, teintée de sa couleur d'état ── */
+.prog-bar-wrap{height:2px;background:transparent;margin:0 2px}
+.prog-fill{background:var(--green);box-shadow:none;border-radius:2px}
+.launch{border-top:none;padding:10px 0 12px;gap:12px}
+.btn-go{border-radius:var(--r-card);background:#0f2c1d;color:var(--green);box-shadow:none;
+  padding:16px;font-size:15px;font-weight:700;letter-spacing:.08em}
+.btn-go::before{content:none}
+.btn-go:hover:not(:disabled){background:#123524;transform:none}
+.btn-go:disabled{background:var(--card);color:var(--text4)}
+.btn-go.danger:not(:disabled){background:#f2555a24;color:var(--red);box-shadow:none}
+.btn-reset{width:52px;border:none;border-radius:var(--r-card);background:var(--card);color:var(--text3)}
+.btn-reset:hover{border:none;color:var(--text);background:var(--raise)}
+
+/* ── 7. Ce qui flotte : menu contextuel ────────────────────────────────── */
+.ctx-menu{background:var(--raise);border:none;border-radius:12px;padding:6px;min-width:200px;box-shadow:0 18px 44px rgba(0,0,0,.6)}
+.ctx-item{border-radius:7px;padding:7px 10px;font-size:12.5px;color:var(--text)}
+.ctx-item:hover{background:rgba(255,255,255,.06);color:var(--text)}
+.ctx-item.danger:hover{background:#f2a03d1f;color:var(--orange)}
+.ctx-item span:first-child{color:var(--text3)}
+.ctx-sep{height:0;background:none;margin:3px 0}
+
+/* ── 8. Fenêtres : carte sur voile noir, boutons pleine largeur en bas ──── */
+#update-ov{background:rgba(0,0,0,.7)}
+#update-ov .upd-card{background:var(--card);border:none;border-radius:18px;padding:20px;
+  width:calc(100% - 40px);max-width:380px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+#update-ov .upd-h{font-size:18px;font-weight:600;letter-spacing:-.3px;margin-bottom:4px}
+#update-ov .upd-sub{font-size:12.5px;color:var(--text3);margin-bottom:16px}
+#update-ov .upd-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+#update-ov .upd-btn{border:none;background:var(--ins);border-radius:var(--r-card);padding:12px 14px;
+  font-size:12px;font-weight:600;color:var(--text2)}
+#update-ov .upd-btn:hover{border:none;color:var(--text)}
+/* Télécharger une mise à jour : information neutre, donc bleu */
+#update-ov .upd-btn.upd-go{background:#10233f;color:var(--blue);font-weight:700}
+#update-ov .upd-btn.upd-go:hover{background:#142c4f}
 </style>
 </head>
 <body>
@@ -292,10 +533,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15
         <div class="other-zips-wrap" id="other-zips-wrap">
           <div class="other-zips-header">
             <span class="other-zips-lbl">Templates in folder</span>
-            <button class="btn-mini" onclick="refreshOtherZipsList()" title="Refresh list">
+            <button class="btn-mini" onclick="refreshOtherZipsList()" aria-label="Refresh list" title="Refresh list">
               <svg viewBox="0 0 9 9" fill="none"><path d="M1.3 4.5A3.2 3.2 0 1 0 4.5 1.3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M4.5 0.2L4.5 2.2L2.6 1.3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <button class="btn-mini" onclick="openSourceInFinder()" title="Show folder in Finder">
+            <button class="btn-mini" onclick="openSourceInFinder()" aria-label="Show folder in Finder" title="Show folder in Finder">
               <svg viewBox="0 0 9 9" fill="none"><rect x="0.5" y="2" width="8" height="6.5" rx="0.7" stroke="currentColor" stroke-width="1"/><path d="M0.5 3.2H3.3L4.1 2H8.5" stroke="currentColor" stroke-width="1"/></svg>
             </button>
           </div>
@@ -311,7 +552,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15
         <div class="dest-row">
           <div class="dest-path-box" id="dest-path-box">
             <span class="dest-path-text" id="dest-path-text">Not set</span>
-            <button class="dest-clear" id="dest-clear" onclick="clearDest()">×</button>
+            <button class="dest-clear" id="dest-clear" onclick="clearDest()" aria-label="Clear destination" title="Clear destination">×</button>
           </div>
           <button class="browse-btn" onclick="browseDest()">Browse</button>
         </div>
@@ -392,18 +633,18 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15
         <span class="tree-hint">Space / right-click to exclude</span>
       </div>
       <div class="tree-body" id="tree-body"><div class="tree-empty">No source loaded</div></div>
+      <div class="info-g" id="info-g" style="display:none">
+        <div class="info-c"><div class="info-c-lbl">Folders</div><div class="info-c-val" id="cnt-dirs">0</div></div>
+        <div class="info-c"><div class="info-c-lbl">Files</div><div class="info-c-val" id="cnt-files">0</div></div>
+      </div>
     </div>
 
-    <div class="info-g" id="info-g" style="display:none">
-      <div class="info-c"><div class="info-c-lbl">Folders</div><div class="info-c-val" id="cnt-dirs">0</div></div>
-      <div class="info-c"><div class="info-c-lbl">Files</div><div class="info-c-val" id="cnt-files">0</div></div>
-    </div>
   </div>
 
   <div class="prog-bar-wrap"><div class="prog-fill" id="prog-fill"></div></div>
   <div class="launch">
     <button class="btn-go" id="btn-go" onclick="doRestore()" disabled>Restore structure</button>
-    <button class="btn-reset" onclick="doReset()" title="Reset">
+    <button class="btn-reset" onclick="doReset()" aria-label="Reset" title="Reset">
       <svg viewBox="0 0 13 13" fill="none">
         <path d="M2 6.5A4.5 4.5 0 1 0 6.5 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
         <path d="M6.5 2L4.5 4M6.5 2L4.5 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -549,7 +790,7 @@ function setDestDisplay(path,fromSession){
   box.className='dest-path-box active'+(fromSession?' session':'');
   document.getElementById('dest-clear').style.display='block';
   document.getElementById('dest-badge').textContent=fromSession?'LAST SESSION':'SET';
-  document.getElementById('dest-badge').className=fromSession?'badge badge-dim':'badge badge-red';
+  document.getElementById('dest-badge').className=fromSession?'badge badge-gold':'badge badge-green';
   document.getElementById('d-dest').className='stat-dot ok';
   document.getElementById('l-dest').textContent=path;
 }
@@ -638,6 +879,13 @@ function showCtx(e,el){
   m.style.top=Math.min(e.clientY, window.innerHeight-100)+'px';
 }
 function hideCtx(){document.getElementById('ctx-menu').style.display='none';ctxTargetPath=null}
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  const m=document.getElementById('ctx-menu');
+  if(m&&m.style.display!=='none'){hideCtx();return;}
+  const ov=document.getElementById('update-ov');
+  if(ov)ov.remove();
+});
 document.addEventListener('mousedown',e=>{if(!document.getElementById('ctx-menu').contains(e.target))hideCtx()});
 function ctxExclude(){if(ctxTargetPath){toggleExclusion(ctxTargetPath,true);}hideCtx()}
 function ctxInclude(){if(ctxTargetPath){toggleExclusion(ctxTargetPath,false);}hideCtx()}
@@ -994,6 +1242,7 @@ async function askUpdateZip(excludedList){
 // ── RESET ─────────────────────────────────────────────────────────────────
 function doReset(){
   S.zipFile=null;S.zipPath=null;S.zipName=null;S.zipEntries=[];S.restoring=false;S.excluded.clear();S.selectedPath=null;
+  refreshOtherZipsList(); // plus de source → la liste des templates du dossier se masque (elle restait affichée, cochée)
   document.getElementById('dz-main').textContent='Drop a ZIP file here';
   document.getElementById('dz-sub').textContent='or click to browse · .zip only';
   document.getElementById('drop-zip').classList.remove('has-file');
