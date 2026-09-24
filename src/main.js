@@ -21,6 +21,16 @@ const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
+const { execFile } = require('child_process');
+const folderIcons = require('./folder-icons');
+
+// execFile en promesse, avec garde-fous : ces appels ne doivent jamais bloquer
+// ni faire échouer une restauration qui, elle, a réussi.
+function execFileAsync(cmd, args) {
+  return new Promise((resolve, reject) => {
+    execFile(cmd, args, { timeout: 60000, windowsHide: true }, (err, stdout) => err ? reject(err) : resolve(stdout));
+  });
+}
 
 // ── Vérification de mise à jour — lit un version.json dédié, hébergé sur GitHub ──
 // Fichier propre à projecto (raw du dépôt). Ne bloque jamais le lancement,
@@ -75,22 +85,34 @@ let mainWindow;
 // détection du dossier racine unique : un simple .DS_Store à la racine du ZIP
 // faisait auparavant imbriquer tout le template d'un niveau supplémentaire.
 const JUNK_NAMES = new Set([
-  '.DS_Store', 'Thumbs.db', 'desktop.ini', '.localized',
+  '.DS_Store', 'Thumbs.db', '.localized',
   '.Spotlight-V100', '.Trashes', '.fseventsd', '.TemporaryItems', '.AppleDouble'
 ]);
 function isJunkEntry(relPath) {
   const parts = String(relPath).split('/').filter(Boolean);
   return parts.some(p => p === '__MACOSX' || p.startsWith('._') || JUNK_NAMES.has(p));
 }
+// desktop.ini n'est PAS une poubelle : c'est lui qui porte l'icône personnalisée
+// d'un dossier Windows. Il est restauré, mais il ne compte pas comme un contenu :
+// il n'entre pas dans la détection du dossier racine unique.
+function isMetaFile(relPath) {
+  return path.basename(String(relPath)).toLowerCase() === 'desktop.ini';
+}
 // Chemin de ZIP interdit (traversée de répertoire / chemin absolu)
 function isUnsafeEntry(relPath) {
   const parts = String(relPath).split('/');
   return parts.some(p => p === '..') || relPath.startsWith('/') || /^[a-zA-Z]:/.test(relPath);
 }
-// Détecte le dossier racine unique à retirer (entrées poubelle déjà filtrées)
+// Détecte le dossier racine unique à retirer (entrées poubelle déjà filtrées).
+// Un desktop.ini posé à la racine du ZIP ne compte pas comme un deuxième élément :
+// sinon le template entier se retrouverait imbriqué d'un niveau de trop.
 function detectStripPrefix(allPaths) {
   const top = new Set(
-    allPaths.filter(p => p.trim() !== '').map(p => p.split('/')[0]).filter(Boolean)
+    allPaths
+      .filter(p => p.trim() !== '')
+      .filter(p => !(isMetaFile(p) && p.split('/').filter(Boolean).length === 1))
+      .map(p => p.split('/')[0])
+      .filter(Boolean)
   );
   return top.size === 1 ? [...top][0] + '/' : '';
 }
@@ -208,6 +230,7 @@ ipcMain.handle('fs:restoreZip', async (event, { zipPath, destPath, folderName, e
     fs.mkdirSync(targetRoot, { recursive: true });
 
     const results = [];
+    const restored = [];   // pour les marques de fichiers (icônes de dossiers)
 
     for (const relPath of allPaths) {
       const entry = zip.files[relPath];
@@ -242,12 +265,29 @@ ipcMain.handle('fs:restoreZip', async (event, { zipPath, destPath, folderName, e
           fs.writeFileSync(fullDest, content);
           results.push({ type: 'file', path: destRel });
         }
+        // Les attributs voyagent dans le ZIP : caché + système sur desktop.ini,
+        // lecture seule sur le dossier personnalisé. On les rejoue plus bas.
+        restored.push({ fullPath: fullDest, isDir: !!entry.dir, dos: entry.dosPermissions, relPath: destRel });
       } catch (e) {
         results.push({ type: entry.dir ? 'dir' : 'file', path: destRel, error: e.message });
       }
     }
 
-    return { success: true, path: targetRoot, results };
+    // ── Icônes de dossiers Windows ────────────────────────────────────────
+    // Le dossier de projet lui-même peut recevoir le desktop.ini du template.
+    restored.push({ fullPath: targetRoot, isDir: true, dos: 0, relPath: '' });
+    const icons = results.filter(r => !r.error && r.type === 'file' && folderIcons.isDesktopIni(r.path)).length;
+    let iconsApplied = null;
+    try {
+      const attrs = folderIcons.buildAttrList(restored);
+      const win = await folderIcons.applyAttributes(attrs, { run: execFileAsync });
+      const mac = await folderIcons.hideOnMac(restored.map(r => r.fullPath), { run: execFileAsync });
+      iconsApplied = { icons, win, mac };
+    } catch (e) {
+      iconsApplied = { icons, error: e.message };
+    }
+
+    return { success: true, path: targetRoot, results, icons, iconsApplied };
   } catch (err) {
     return { success: false, error: err.message };
   }
@@ -296,9 +336,13 @@ ipcMain.handle('fs:updateZip', async (event, { zipPath, excludedPaths, mode, cus
 
       if (entry.dir) {
         newZip.folder(relPath.replace(/\/$/, ''));
+        // Sans ça, le template réécrit perdrait la marque « dossier personnalisé »
+        // et les icônes ne reviendraient plus jamais.
+        const f = newZip.files[relPath];
+        if (f && entry.dosPermissions != null) f.dosPermissions = entry.dosPermissions;
       } else {
         const content = await entry.async('nodebuffer');
-        newZip.file(relPath, content);
+        newZip.file(relPath, content, { dosPermissions: entry.dosPermissions, date: entry.date });
       }
     }
 

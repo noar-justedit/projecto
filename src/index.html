@@ -302,11 +302,12 @@ body{background:var(--page);color:var(--text);font-size:12.5px;line-height:1.45}
 
 /* Badge : un seul gabarit, la couleur porte le sens ({couleur}26 = 15 %) */
 .badge,.excl-badge{font-size:9px;font-weight:700;letter-spacing:.06em;line-height:1.5;
-  padding:2px 6px;border-radius:var(--r-badge);text-transform:uppercase}
+  padding:2px 6px;border-radius:var(--r-badge);text-transform:uppercase;white-space:nowrap;flex-shrink:0}
 .badge-dim{color:var(--text3);background:#8b909b26}
 .badge-green{color:var(--green);background:#35c98b26}
 .badge-red{color:var(--red);background:#f2555a26}
 .badge-gold{color:var(--orange);background:#f2a03d26}
+.badge-blue{color:var(--blue);background:#4d90f026}
 
 /* ── 2. Structure : plus aucun filet entre zones ─────────────────────────── */
 .titlebar{border-bottom:none}
@@ -435,12 +436,17 @@ body{background:var(--page);color:var(--text);font-size:12.5px;line-height:1.45}
 
 /* Exclusions : orange, « à décider » (la restauration proposera de mettre le ZIP à jour) */
 .excl-summary{background:#f2a03d14;border:none;border-radius:var(--r-ins);padding:7px 7px 7px 14px;font-size:12.5px;color:var(--orange)}
+/* Rien d'exclu : même bandeau, en gris. Il est visible dès le départ pour que
+   l'arborescence ne saute pas au premier dossier exclu. */
+.excl-summary.none{background:#8b909b14;color:var(--text3)}
 
 /* Arborescence : une carte, en-tête et pied fixes, le corps défile seul */
 .tree-box{background:var(--card);border:none;border-radius:var(--r-card)}
 .tree-box:focus{outline:none;border:none}
 .tree-box:focus-visible{box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
-.tree-head{border-bottom:none;padding:14px 16px 8px;gap:9px}
+.tree-head{border-bottom:none;padding:14px 16px 8px;gap:9px;flex-wrap:nowrap}
+.tree-head-lbl{flex-shrink:0}
+.tree-hint{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .tree-hint{font-size:11.5px;color:var(--text4)}
 .tree-body{padding:0 8px 8px}
 .tree-empty{color:var(--text4);font-size:12.5px}
@@ -630,6 +636,7 @@ body{background:var(--page);color:var(--text);font-size:12.5px;line-height:1.45}
       <div class="tree-head">
         <span class="tree-head-lbl">ZIP contents</span>
         <span class="badge badge-dim" id="tree-count">0 items</span>
+        <span class="badge badge-blue" id="icon-count" style="display:none"></span>
         <span class="tree-hint">Space / right-click to exclude</span>
       </div>
       <div class="tree-body" id="tree-body"><div class="tree-empty">No source loaded</div></div>
@@ -734,6 +741,7 @@ const S={
   restoring:false,
   sep:'_',useDate:true,useCaps:false,
   excluded:new Set(),   // set of stripped paths (dirs only) that are excluded
+  iconCount:0,          // desktop.ini vus dans le ZIP (icônes de dossiers Windows)
   selectedPath:null,    // currently highlighted tree row path
 };
 
@@ -745,7 +753,8 @@ function delay(ms){return new Promise(r=>setTimeout(r,ms))}
 // Entrées poubelle de l'OS : jamais affichées ni restaurées, et surtout exclues
 // du calcul du dossier racine unique (un .DS_Store à la racine du ZIP faisait
 // sinon imbriquer tout le template d'un niveau supplémentaire).
-const JUNK_NAMES=new Set(['.DS_Store','Thumbs.db','desktop.ini','.localized','.Spotlight-V100','.Trashes','.fseventsd','.TemporaryItems','.AppleDouble']);
+const JUNK_NAMES=new Set(['.DS_Store','Thumbs.db','.localized','.Spotlight-V100','.Trashes','.fseventsd','.TemporaryItems','.AppleDouble']);
+function isDesktopIni(p){return p.split('/').pop().toLowerCase()==='desktop.ini'}
 function isMacOSEntry(p){return p.split('/').filter(Boolean).some(s=>s==='__MACOSX'||s.startsWith('._')||JUNK_NAMES.has(s))}
 function getStrip(entries){const top=new Set(entries.filter(e=>e.path.trim()).map(e=>e.path.split('/')[0]).filter(Boolean));return top.size===1?[...top][0]+'/':''}
 function stripEntries(entries,strip){return entries.map(e=>{let p=e.path;if(strip&&p.startsWith(strip))p=p.slice(strip.length);return {...e,path:p}}).filter(e=>e.path&&e.path!=='/')}
@@ -946,12 +955,14 @@ function clearAllExclusions(){S.excluded.clear();renderTree(S.zipEntries);update
 function updateExclSummary(){
   const bar=document.getElementById('excl-summary');
   const n=S.excluded.size;
-  if(n>0){
-    bar.classList.add('visible');
-    document.getElementById('excl-count-label').textContent=`${n} folder${n>1?'s':''} excluded from restore`;
-  }else{
-    bar.classList.remove('visible');
-  }
+  bar.classList.add('visible');
+  bar.classList.toggle('none',n===0);
+  document.getElementById('excl-count-label').textContent =
+    n>0 ? `${n} folder${n>1?'s':''} excluded from restore` : 'No folder excluded';
+  // visibility et non display : le bouton garde sa place, donc la hauteur du
+  // bandeau ne change pas et l'arborescence ne saute pas.
+  const clr=bar.querySelector('.excl-clear-all');
+  if(clr) clr.style.visibility = n>0 ? 'visible' : 'hidden';
   // Recompute active (non-excluded) counts
   const allDirs  = S.zipEntries.filter(e=>e.isDir);
   const allFiles = S.zipEntries.filter(e=>!e.isDir);
@@ -1059,7 +1070,13 @@ async function selectOtherZip(zipPath){
 async function processZipBuffer(buf){
   const zip=await JSZip.loadAsync(buf);
   const entries=[];
-  zip.forEach((p,e)=>{if(!isMacOSEntry(p))entries.push({path:p,isDir:e.dir})});
+  let icons=0;
+  zip.forEach((p,e)=>{
+    if(isMacOSEntry(p))return;
+    if(!e.dir&&isDesktopIni(p)){icons++;return;}   // icône de dossier Windows : restaurée, jamais listée
+    entries.push({path:p,isDir:e.dir});
+  });
+  S.iconCount=icons;
   entries.sort((a,b)=>a.path.localeCompare(b.path));
   const strip=getStrip(entries);
   const display=stripEntries(entries,strip);
@@ -1071,6 +1088,8 @@ async function processZipBuffer(buf){
   document.getElementById('cnt-dirs').textContent=dirs;
   document.getElementById('cnt-files').textContent=files;
   document.getElementById('info-g').style.display='grid';
+  const ib=document.getElementById('icon-count');
+  if(S.iconCount){ib.style.display='';ib.textContent=S.iconCount+' icons';ib.title=S.iconCount+' Windows folder icons (desktop.ini) will be restored';}else{ib.style.display='none';}
   document.getElementById('src-badge').textContent='LOADED';
   document.getElementById('src-badge').className='badge badge-green';
 }
@@ -1149,7 +1168,7 @@ async function doRestore(){
   setProgress(30);
 
   const excludedList=[...S.excluded];
-  let dirs=0,files=0,errors=[];
+  let dirs=0,files=0,icons=0,errors=[];
 
   if(S.zipPath){
     let result;
@@ -1157,7 +1176,8 @@ async function doRestore(){
     catch(e){result={success:false,error:e.message}}
     if(!result.success){showAlert('err','Restore failed',result.error||'Unknown error');playSound('error');S.restoring=false;checkReady();setProgress(0);return}
     dirs=result.results.filter(r=>r.type==='dir').length;
-    files=result.results.filter(r=>r.type==='file').length;
+    files=result.results.filter(r=>r.type==='file'&&!isDesktopIni(r.path)).length;
+    icons=result.icons||0;
     errors=result.results.filter(r=>r.error).map(r=>esc(r.path)+': '+esc(r.error));
   }else{
     showAlert('err','Restore failed','The ZIP file path is unavailable. Reload the ZIP and try again.');
@@ -1174,6 +1194,7 @@ async function doRestore(){
     `📍 ${esc(dest)}`,
     `📂 ${dirs} folders · 📄 ${files} files`,
     S.useDate?`📅 ${fmtDate()}`:'',
+    icons?`🎨 ${icons} folder icon${icons>1?'s':''} kept`:'',
     errors.length?`⚠ ${errors.length} error(s)`:'✓ No errors',
     exclNote,
   ].filter(Boolean).join('<br>');
@@ -1251,7 +1272,7 @@ function doReset(){
   document.getElementById('tree-body').innerHTML='<div class="tree-empty">No source loaded</div>';
   document.getElementById('tree-count').textContent='0 items';document.getElementById('tree-count').className='badge badge-dim';
   document.getElementById('info-g').style.display='none';
-  document.getElementById('excl-summary').classList.remove('visible');
+  updateExclSummary();
   document.querySelectorAll('.err-msg').forEach(e=>e.classList.remove('on'));
   document.querySelectorAll('.field-inp').forEach(e=>e.classList.remove('err'));
   clearAlert();setProgress(0);
