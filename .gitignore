@@ -1,0 +1,18 @@
+# Dépendances et produits de build
+node_modules/
+dist/
+out/
+
+# macOS
+.DS_Store
+.AppleDouble
+Icon?
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Journaux et fichiers temporaires
+*.log
+*.tmp
+.env
