@@ -6,6 +6,8 @@ Restore a full project folder structure from a ZIP template in seconds. Define y
 
 **Project Structure Restorer.** Folder naming: `YYMMDD_Project_Client`
 
+Runs on **macOS 13 (Ventura) or later** (Apple Silicon) and **Windows 10 / 11** (64-bit).
+
 ---
 
 ## Build — macOS (signed & notarized)

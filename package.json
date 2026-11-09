@@ -1,6 +1,6 @@
 {
   "name": "projecto",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "Project Structure Restorer",
   "license": "GPL-3.0-or-later",
   "repository": {
@@ -24,7 +24,7 @@
     "build:mac": "./scripts/build-mac.command"
   },
   "devDependencies": {
-    "electron": "^43.1.1",
+    "electron": "^44.10.2",
     "electron-builder": "^26.0.0"
   },
   "dependencies": {
